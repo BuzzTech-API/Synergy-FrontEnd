@@ -2,13 +2,13 @@
 FROM node:20-alpine as frontend
 
 WORKDIR /code
-COPY ./next/package.json /code
-COPY ./next/package-lock.json /code
+COPY ./next/package.json ./next/package-lock.json /code/
 RUN npm install
 ENV PATH /code/node_modules/.bin:$PATH
 RUN mkdir -p node_modules/.cache && chmod -R 777 node_modules/.cache
+
 WORKDIR /code/next/
-COPY . /code/next/
+COPY ./next ./
 # Exponha a porta em que o aplicativo React será executado
 EXPOSE 3000
 
