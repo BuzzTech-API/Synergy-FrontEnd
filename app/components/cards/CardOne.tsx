@@ -1,6 +1,7 @@
-import { defineStyleConfig } from "@chakra-ui/react";
+'use client'
+import { Box, defineStyleConfig, useStyleConfig } from "@chakra-ui/react";
 
-const Card = defineStyleConfig({
+const CardNewStyles = defineStyleConfig({
 	// The styles all Cards have in common
 	baseStyle: {
 		display: 'flex',
@@ -8,14 +9,16 @@ const Card = defineStyleConfig({
 		background: '#F6F6F6',
 		alignItems: 'center',
 		borderRadius: '1.25em',
+		padding: '1em',
 		gap: 6,
+		boxShadow: "0.1em 0.1em 0.1em 0.1em black",
+		w: "19em",
+		h: "27em",
 	},
 	// Two variants: rounded and smooth
 	variants: {
 		rounded: {
 			padding: 8,
-			borderRadius: 'xl',
-			boxShadow: 'xl',
 		},
 		smooth: {
 			padding: 6,
@@ -24,8 +27,16 @@ const Card = defineStyleConfig({
 	},
 	// The default variant value
 	defaultProps: {
-		variant: 'smooth',
+		variant: 'rounded',
 	},
 })
 
-export default Card
+export function Card(props: any) {
+	const { variant, ...rest } = props
+	const styles = useStyleConfig('Card', { variant })
+
+	return <Box __css={styles} {...rest} />
+
+}
+
+export default CardNewStyles; 

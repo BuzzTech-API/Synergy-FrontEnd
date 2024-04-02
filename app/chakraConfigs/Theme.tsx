@@ -1,6 +1,7 @@
+'use client'
 import { extendTheme } from "@chakra-ui/react";
-import Card from "../components/cards/CardOne";
 import { SwitchStyle } from "../components/switch/SwitchStyle";
+import CardNewStyles from "../components/cards/CardOne";
 
 const theme = extendTheme({
   styles: {
@@ -12,8 +13,9 @@ const theme = extendTheme({
     }
   },
   components: {
-    Card,
+    Card: CardNewStyles,
     Switch: SwitchStyle
+
   }
 })
 

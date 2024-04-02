@@ -1,6 +1,9 @@
 
-import { Navbar } from "./components/Navbar/Navbar";
 
+'use client'
+import { Flex } from "@chakra-ui/react";
+import { Navbar } from "./components/Navbar/Navbar";
+import { Card } from "./components/cards/CardOne";
 
 export default function Home() {
 
@@ -11,6 +14,11 @@ export default function Home() {
         <Navbar.Perfil user='JP' />
       </Navbar.Root>
 
+      <Flex alignSelf={'center'} justifySelf={'center'} justify={"center"} width={'100%'} align={'center'}>
+        <Card>
+          qualquer coisa
+        </Card>
+      </Flex>
     </main>
   );
 }
