@@ -6,6 +6,7 @@ const theme = extendTheme({
     global: {
       'html, body': {
         backgroundColor: '#E7E7E7',
+        fontSize: '61.5%'
       }
     }
   },

@@ -1,13 +1,9 @@
-import { Card } from "@chakra-ui/react";
-import Image from "next/image";
+import NavbarRoot from "./components/cards/Navbar/NavbarRoot";
 
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Card>
-        qualquer coisa
-      </Card>
-
+      <NavbarRoot />
     </main>
   );
 }
