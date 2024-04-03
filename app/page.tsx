@@ -4,7 +4,6 @@
 import { Flex } from "@chakra-ui/react";
 import { Navbar } from "./components/Navbar/Navbar";
 import { Cards } from "./components/cards";
-
 import { SwitchPV } from "./components/switch/Switch";
 
 export default function Home() {
