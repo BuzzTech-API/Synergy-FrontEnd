@@ -1,19 +1,16 @@
-'use client'
-import { InputPV } from "./components/inputs";
-import { SwitchPV } from "./components/switch/Switch";
+
+import { Navbar } from "./components/Navbar/Navbar";
 
 
 export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div>
+      <Navbar.Root>
+        <Navbar.Menu />
+        <Navbar.Perfil user='JP' />
+      </Navbar.Root>
 
-        {/* Teste Switch */}
-       <SwitchPV/>
-       <InputPV variant={'error'} />
-
-      </div>
     </main>
   );
 }
