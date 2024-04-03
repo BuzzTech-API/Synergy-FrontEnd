@@ -1,7 +1,7 @@
 import { IconButton } from "@chakra-ui/react";
 import { GiHamburgerMenu } from "react-icons/gi";
 
-export default function () {
+export default function NavbarMenu() {
     return (
         <>
             <IconButton
