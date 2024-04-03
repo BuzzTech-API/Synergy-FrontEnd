@@ -15,7 +15,6 @@ const theme = extendTheme({
   components: {
     Card: CardNewStyles,
     Switch: SwitchStyle
-
   }
 })
 

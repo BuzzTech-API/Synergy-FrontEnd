@@ -5,6 +5,8 @@ import { Flex } from "@chakra-ui/react";
 import { Navbar } from "./components/Navbar/Navbar";
 import { Cards } from "./components/cards";
 
+import { SwitchPV } from "./components/switch/Switch";
+
 export default function Home() {
 
   return (
@@ -19,6 +21,12 @@ export default function Home() {
           <Cards.Header>Sala 1</Cards.Header>
         </Cards.Root>
       </Flex>
+      <div>
+
+        {/* Teste Switch */}
+        <SwitchPV />
+
+      </div>
     </main>
   );
 }
