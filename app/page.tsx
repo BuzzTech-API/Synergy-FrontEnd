@@ -1,4 +1,5 @@
-
+'use client'
+import { InputPV } from "./components/inputs";
 import { SwitchPV } from "./components/switch/Switch";
 
 
@@ -10,6 +11,7 @@ export default function Home() {
 
         {/* Teste Switch */}
        <SwitchPV/>
+       <InputPV variant={'error'} />
 
       </div>
     </main>
