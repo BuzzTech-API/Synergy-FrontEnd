@@ -1,13 +1,17 @@
-import { Card } from "@chakra-ui/react";
-import Image from "next/image";
+
+import { SwitchPV } from "./components/switch/Switch";
+
 
 export default function Home() {
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Card>
-        qualquer coisa
-      </Card>
+      <div>
 
+        {/* Teste Switch */}
+       <SwitchPV/>
+
+      </div>
     </main>
   );
 }
