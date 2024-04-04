@@ -5,9 +5,9 @@ const Card = defineStyleConfig({
 	baseStyle: {
 		display: 'flex',
 		flexDirection: 'column',
-		background: '#F6F6F6',
+		background: '#36D334',
 		alignItems: 'center',
-		borderRadius: '1.25em',
+		borderRadius: 'full',
 		gap: 6,
 	},
 	// Two variants: rounded and smooth
