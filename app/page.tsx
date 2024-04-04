@@ -3,7 +3,7 @@
 'use client'
 import { Flex } from "@chakra-ui/react";
 import { Navbar } from "./components/Navbar/Navbar";
-import { Card } from "./components/cards/CardOne";
+import { Cards } from "./components/cards";
 
 export default function Home() {
 
@@ -14,10 +14,10 @@ export default function Home() {
         <Navbar.Perfil user='JP' />
       </Navbar.Root>
 
-      <Flex alignSelf={'center'} justifySelf={'center'} justify={"center"} width={'100%'} align={'center'}>
-        <Card>
-          qualquer coisa
-        </Card>
+      <Flex alignSelf={'center'} justifySelf={'center'} justify={"center"} gap={'5px'} width={'100%'} align={'center'} pt={'1em'}>
+        <Cards.Root variant="">
+          <Cards.Header>Sala 1</Cards.Header>
+        </Cards.Root>
       </Flex>
     </main>
   );
