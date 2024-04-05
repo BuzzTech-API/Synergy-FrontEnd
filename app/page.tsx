@@ -2,6 +2,7 @@
 import { Flex } from "@chakra-ui/react";
 import { Navbar } from "./components/navbar/Navbar";
 import TabUsuarios from "./components/tabela/TabUsuarios";
+import { Cards } from "./components/cards";
 
 export default function Home() {
 
@@ -12,8 +13,14 @@ export default function Home() {
         <Navbar.Perfil user='JP' />
       </Navbar.Root>
 
-      <Flex alignSelf={'center'} justifySelf={'center'} justify={"center"} direction={"column"} gap={'5px'} width={'100%'} align={'center'} pt={'15em'} pb='20em'>
+      <Flex alignSelf={'center'} justifySelf={'center'} justify={"center"} direction={"column"} gap={'5px'} width={'100%'} align={'center'} pt={'8em'} pb='20em'>
           <TabUsuarios/>
+          {/* <Cards.Root>
+            <Cards.Header>
+              Teste
+            </Cards.Header>
+            <Cards.BodySala/>
+          </Cards.Root> */}
       </Flex>
       <div>
 

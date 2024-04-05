@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Text, Flex, Heading, IconButton, Input, InputGroup, InputRightElement, Grid, GridItem, HStack } from "@chakra-ui/react";
+import { Box, Flex, Heading, IconButton, Input, InputGroup, InputRightElement, Grid, GridItem, HStack } from "@chakra-ui/react";
 import { ImSearch } from "react-icons/im";
 import TabBarUsuario from "./TabBarUsuario";
 
@@ -9,17 +9,14 @@ export default function TabUsuarios() {
     return (
 
         <Box
-            w='180rem'
+            w='100rem'
             h='100rem'>
-
             <Flex
-                border='1px solid black'
                 h='10%'>
                 <HStack
                     gap='2rem'>
                     <Heading
-                        as='h2'
-                        fontSize='2.5rem'>
+                        variant='big'>
                         Pesquisar
                     </Heading>
                     <Flex
@@ -41,7 +38,7 @@ export default function TabUsuarios() {
                 h='90%'>
                 <Grid
                     bg='#13ACEE'
-                    h='8%'
+                    h='5%'
                     borderRadius='5px'
                     templateColumns='repeat(6, 1fr)'
                     gap={6}>
@@ -50,9 +47,9 @@ export default function TabUsuarios() {
                             alignItems='center'
                             justifyContent='center'
                             h='100%'>
-                            <Text color='white' fontSize='2rem'>
+                            <Heading color='white'>
                                 Nome
-                            </Text>
+                            </Heading>
                         </Flex>
                     </GridItem>
                     <GridItem colSpan={1}>
@@ -60,9 +57,9 @@ export default function TabUsuarios() {
                             alignItems='center'
                             justifyContent='center'
                             h='100%'>
-                            <Text color='white' fontSize='2rem'>
+                            <Heading color='white' >
                                 Email
-                            </Text>
+                            </Heading>
                         </Flex>
                     </GridItem>
                     <GridItem colSpan={1}>
@@ -70,9 +67,9 @@ export default function TabUsuarios() {
                             alignItems='center'
                             justifyContent='center'
                             h='100%'>
-                            <Text color='white' fontSize='2rem'>
+                            <Heading color='white' >
                                 Cargo
-                            </Text>
+                            </Heading>
                         </Flex>
                     </GridItem>
                     <GridItem colSpan={1}>
@@ -80,9 +77,9 @@ export default function TabUsuarios() {
                             alignItems='center'
                             justifyContent='center'
                             h='100%'>
-                            <Text color='white' fontSize='2rem'>
+                            <Heading color='white' >
                                 Nivel De Permissão
-                            </Text>
+                            </Heading>
                         </Flex>
                     </GridItem>
                     <GridItem colSpan={2}>
@@ -90,15 +87,15 @@ export default function TabUsuarios() {
                             alignItems='center'
                             justifyContent='center'
                             h='100%'>
-                            <Text color='white' fontSize='2rem'>
+                            <Heading color='white'>
                                 Ações
-                            </Text>
+                            </Heading>
                         </Flex>
                     </GridItem>
                 </Grid>
 
                 <Box
-                    h='92%'
+                    h='95%'
                     overflowY='auto'>
                     <TabBarUsuario nome="Marilene" cargo="Engenheiro" email="marilene@gmail.com" nivel={3} tipo="administrador" />
                     <TabBarUsuario nome="Isadora Leite" cargo="RH" email="isadora@gmail.com" nivel={2} tipo="comum" />

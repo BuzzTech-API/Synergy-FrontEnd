@@ -35,7 +35,7 @@ export default function TabBarUsuario({ nome, email, cargo, nivel, tipo }: TabBa
 
         <Grid
             bg='white'
-            h='10%'
+            h='90px'
             borderRadius='22px'
             templateColumns='repeat(6, 1fr)'
             gap={6}
@@ -46,7 +46,7 @@ export default function TabBarUsuario({ nome, email, cargo, nivel, tipo }: TabBa
                     alignItems='center'
                     justifyContent='center'
                     h='100%'>
-                    <Text color='black' fontSize='2rem'>
+                    <Text color='black' fontSize='1rem'>
                         {nome}
                     </Text>
                 </Flex>
@@ -56,7 +56,7 @@ export default function TabBarUsuario({ nome, email, cargo, nivel, tipo }: TabBa
                     alignItems='center'
                     justifyContent='center'
                     h='100%'>
-                    <Text color='black' fontSize='2rem'>
+                    <Text color='black' fontSize='1rem'>
                         {email}
                     </Text>
                 </Flex>
@@ -66,7 +66,7 @@ export default function TabBarUsuario({ nome, email, cargo, nivel, tipo }: TabBa
                     alignItems='center'
                     justifyContent='center'
                     h='100%'>
-                    <Text color='black' fontSize='2rem'>
+                    <Text color='black' fontSize='1rem'>
                         {cargo}
                     </Text>
                 </Flex>
@@ -76,7 +76,7 @@ export default function TabBarUsuario({ nome, email, cargo, nivel, tipo }: TabBa
                     alignItems='center'
                     justifyContent='center'
                     h='100%'>
-                    <Text color='black' fontSize='2rem'>
+                    <Text color='black' fontSize='1rem'>
                         {nivel.toString()}
                     </Text>
                 </Flex>
