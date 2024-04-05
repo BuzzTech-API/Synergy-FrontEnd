@@ -8,7 +8,6 @@ export default function Home() {
 
   return (
     <main className="flex flex-col items-center">
-
       <Navbar.Root>
         <Navbar.Menu user='administrador' />
         <Navbar.Perfil user='JP' />
