@@ -12,7 +12,7 @@ export default function NavbarRoot({ children }: NavbarRootProps) {
         <Flex
             zIndex='999'
             w='100vw'
-            h='10rem'
+            h='7rem'
             bg='white'
             alignItems='center'
             boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"

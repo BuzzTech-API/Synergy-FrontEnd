@@ -16,7 +16,7 @@ export default function NavbarPerfil({ user }: NavbarPerfilProps) {
             alignItems='center'
             justifyContent='center'>
             <Text
-                fontSize='18px'
+                fontSize='1.3rem'
                 color='white'>
                 {user}
             </Text>
