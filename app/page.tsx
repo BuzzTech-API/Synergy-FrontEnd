@@ -1,5 +1,4 @@
 
-
 'use client'
 import { Button, Flex } from "@chakra-ui/react";
 import { Navbar } from "./components/Navbar/Navbar";
@@ -9,8 +8,9 @@ export default function Home() {
 
   return (
     <main className="flex flex-col items-center">
+
       <Navbar.Root>
-        <Navbar.Menu />
+        <Navbar.Menu user='administrador' />
         <Navbar.Perfil user='JP' />
       </Navbar.Root>
 
