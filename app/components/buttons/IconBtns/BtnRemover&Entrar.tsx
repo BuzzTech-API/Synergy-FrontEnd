@@ -1,8 +1,8 @@
 'use client'
 
 import { Box, Button,Icon,Text, useStyleConfig } from "@chakra-ui/react"
-import icons8_lixo from "./icons/icons8-lixo 1"
-import icons8_entrar from "./icons/icons8-entrar"
+import icons8_lixo from "../icons/icons8-lixo 1"
+import icons8_entrar from "../icons/icons8-entrar"
 
 
 export function BtnRemover(props: any) {

@@ -1,8 +1,9 @@
 import { extendTheme } from "@chakra-ui/react";
 import Card from "../components/cards/CardOne";
-import { IconsBtns } from "../components/buttons/BtnsComIcones";
-import { TextBtns } from "../components/buttons/TextBtns";
-import { BoxBtns } from "../components/buttons/BoxBtns";
+import { IconsBtns } from "../components/buttons/BtnStyles/BtnsComIcones";
+import { TextBtns } from "../components/buttons/BtnStyles/TextBtns";
+import { BoxBtns } from "../components/buttons/BtnStyles/BoxBtns";
+import { BigBtns } from "../components/buttons/BtnStyles/BigBtns";
 
 const theme = extendTheme({
   styles: {
@@ -14,9 +15,10 @@ const theme = extendTheme({
   },
   components: {
     Card,
-    Button: IconsBtns,
-    Text: TextBtns,
-    Box: BoxBtns
+    Button: IconsBtns,  // Style para botões com ícone
+    Button2: BigBtns,  // Style para botões grandes
+    Text: TextBtns,  // Style para texto do botão
+    Box: BoxBtns,  // Style para box que comporta ícone
 
   }
 })

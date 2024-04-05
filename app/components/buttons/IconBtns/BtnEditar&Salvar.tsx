@@ -1,39 +1,41 @@
 'use client'
 
 import { Box,Text, Button, Icon, useStyleConfig } from "@chakra-ui/react"
-import icons8_auditorio from "./icons/icons8-auditorio"
-import icons8_usuario from "./icons/icons8-usuario"
+import icons8_editar from "../icons/icons8-editar"
+import Save from "../icons/Save"
 
-export function BtnCriarSala(props: any) {
+
+export function BtnEditar(props: any) {
     const { variant, ...rest } = props
     const styles = useStyleConfig('Button', { variant })
     const styles2 = useStyleConfig('Text', { variant } )
     const styles3 = useStyleConfig('Box', { variant } )
 
     return (
-        <Button __css={styles}  {...rest} bg='#078E05' padding={"initial"}>
+        <Button __css={styles}  {...rest} bg='#FC6A00' padding={"initial"}>
             <Box __css={styles3} {...rest}>
-                <Icon as={icons8_auditorio} h='100%' />
+                <Icon as={icons8_editar} h='100%' />
             </Box>
-            <Text __css={styles2} {...rest}>Criar Sala</Text>
+            <Text __css={styles2} {...rest}>Editar</Text>
         </Button>
         
     )
 }
 
 
-export function BtnCriarUsuario(props: any) {
+
+export function BtnSalvar(props: any) {
     const { variant, ...rest } = props
     const styles = useStyleConfig('Button', { variant })
     const styles2 = useStyleConfig('Text', { variant } )
     const styles3 = useStyleConfig('Box', { variant } )
 
     return (
-        <Button __css={styles}  {...rest} bg='#078E05' padding={"initial"}>
+        <Button __css={styles}  {...rest} bg='#81BD41' padding={"initial"}>
             <Box __css={styles3} {...rest}>
-                <Icon as={icons8_usuario} h='100%' />
+                <Icon as={Save} h='100%' />
             </Box>
-            <Text __css={styles2} {...rest}>Criar Usuário</Text>
+            <Text __css={styles2} {...rest}>Salvar Alterações</Text>
         </Button>
         
     )

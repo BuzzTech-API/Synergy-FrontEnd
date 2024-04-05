@@ -4,7 +4,7 @@ export const IconsBtns = defineStyleConfig({
   // The styles all button have in common
   baseStyle: {
     borderRadius: '1.25rem',
-    w:"190px",
+    w:"185px",
     h:"40px",
     display: 'flex',
     alignItems: 'center',

@@ -1,8 +1,9 @@
 'use client'
 
 import { Box, Button,Icon,Text, useStyleConfig } from "@chakra-ui/react"
-import Schedule from "./icons/Shedule"
-import CalendarPlus from "./icons/Agendar"
+import CalendarPlus from "../icons/Agendar"
+import Schedule from "../icons/Shedule"
+
 
 
 export function BtnAgendar(props: any) {
