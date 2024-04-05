@@ -1,4 +1,3 @@
-
 'use client'
 import { Button, Flex } from "@chakra-ui/react";
 import { Navbar } from "./components/Navbar/Navbar";
