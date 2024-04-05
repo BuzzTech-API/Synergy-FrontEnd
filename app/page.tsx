@@ -1,6 +1,6 @@
 'use client'
 import { Flex } from "@chakra-ui/react";
-import { Navbar } from "./components/navbar/Navbar";
+import { Navbar } from "./components/Navbar/Navbar";
 import TabUsuarios from "./components/tabela/TabUsuarios";
 import { Cards } from "./components/cards";
 
@@ -14,8 +14,8 @@ export default function Home() {
       </Navbar.Root>
 
       <Flex alignSelf={'center'} justifySelf={'center'} justify={"center"} direction={"column"} gap={'5px'} width={'100%'} align={'center'} pt={'8em'} pb='20em'>
-          <TabUsuarios/>
-          {/* <Cards.Root>
+        <TabUsuarios />
+        {/* <Cards.Root>
             <Cards.Header>
               Teste
             </Cards.Header>
