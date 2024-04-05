@@ -14,6 +14,7 @@ const baseStyle = definePartsStyle({
         borderRadius: '0.313rem',
         border: "0.125rem solid",
         borderColor: 'blackAlpha.400',
+        boxShadow: '0rem 0.188rem 0.188rem rgba(0, 0, 0, 0.4)',
         _hover: {
             borderColor: 'blackAlpha.600'
 
