@@ -1,3 +1,5 @@
+'use client'
+
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import { ReactNode } from "react";
 
@@ -8,6 +10,7 @@ interface NavbarRootProps {
 export default function NavbarRoot({ children }: NavbarRootProps) {
     return (
         <Flex
+            zIndex='999'
             w='100vw'
             h='10rem'
             bg='white'
@@ -36,7 +39,7 @@ export default function NavbarRoot({ children }: NavbarRootProps) {
                 justifyContent='space-between'
                 alignItems='center'
                 px='24'
-                zIndex='999'>
+                zIndex='15'>
                 {children}
             </Flex>
 
