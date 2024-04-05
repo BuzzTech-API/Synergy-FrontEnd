@@ -27,6 +27,7 @@ export default function CardRoot({ variant, children }: props) {
 				position={'absolute'}
 				left={-91}
 				bottom={-10}
+				display={variant === 'deitado' ? 'none' : ''}
 				zIndex={0}
 				viewBox="0 0 301 267"
 			>
@@ -36,6 +37,6 @@ export default function CardRoot({ variant, children }: props) {
 					clipRule="evenodd"
 				></path>
 			</Icon>
-		</Card>
+		</Card >
 	)
 }

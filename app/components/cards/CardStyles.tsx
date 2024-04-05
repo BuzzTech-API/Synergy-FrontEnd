@@ -26,11 +26,13 @@ const baseStyle = definePartsStyle({
 		boxShadow: "0.1rem 0.1rem 0.1rem 0.1rem rgba(0 ,0 ,0, 25%)",
 		minW: "19rem",
 		minH: "27rem",
+		maxW: "19rem",
+		maxH: "27rem",
 		overflow: "hidden",
 	},
 	header: {
 		paddingBottom: '2px',
-		justifyContent: 'center',
+		justifyContent: 'start',
 		alignContent: "center",
 		textAlign: 'center',
 		fontSize: "2rem",
@@ -45,7 +47,7 @@ const baseStyle = definePartsStyle({
 		bgColor: "#36FA25"
 	},
 	body: {
-		paddingTop: '2px',
+		alignContent: "start",
 	},
 	footer: {
 		paddingTop: '2px',
@@ -74,6 +76,14 @@ const variants = {
 			minH: "3.75rem",
 			alignItems: 'flex-start',
 			alignContent: 'center',
+			flexDirection: 'row',
+		},
+		body: {
+			p: "0.3rem 0.9rem",
+			alignItems: 'center',
+			alignContent: 'center',
+			justifyContent: 'center',
+			flexDirection: 'row',
 		}
 	}
 };
