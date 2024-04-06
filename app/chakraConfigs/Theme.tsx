@@ -1,5 +1,9 @@
 'use client'
 import { extendTheme } from "@chakra-ui/react";
+import { IconsBtns } from "../components/buttons/BtnStyles/BtnsComIcones";
+import { TextBtns } from "../components/buttons/BtnStyles/TextBtns";
+import { BoxBtns } from "../components/buttons/BtnStyles/BoxBtns";
+import { BigBtns } from "../components/buttons/BtnStyles/BigBtns";
 import { SwitchStyle } from "../components/switch/SwitchStyle";
 import CardNewStyles from "../components/cards/CardStyles";
 import { BadgeStyle } from "../components/badge/BadgeStyles";
@@ -17,6 +21,10 @@ const theme = extendTheme({
     }
   },
   components: {
+    Button: IconsBtns,  // Style para botões com ícone
+    Button2: BigBtns,  // Style para botões grandes
+    Text: TextBtns,  // Style para texto do botão
+    Box: BoxBtns,  // Style para box que comporta ícone
     Card: CardNewStyles,
     Switch: SwitchStyle,
     Badge: BadgeStyle,

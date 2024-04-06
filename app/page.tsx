@@ -1,8 +1,19 @@
 'use client'
-import { Flex } from "@chakra-ui/react";
+import { BigBtnAgendar } from "./components/buttons/BigBtns/BigBtnAgendar";
+import { BigBtnAgendamentos } from "./components/buttons/BigBtns/BigBtnAgendamentos";
+import { BigBtnCadSalas } from "./components/buttons/BigBtns/BigBtnCadSalas";
+import { BigBtnCadUsuario } from "./components/buttons/BigBtns/BigBtnCadUsuario";
+import { BigBtnVisuSalas } from "./components/buttons/BigBtns/BigBtnVisuSalas";
+import { BigBtnVisuUsuarios } from "./components/buttons/BigBtns/BigBtnVisuUsuarios";
+import { BtnAdicionar2 } from "./components/buttons/BtnAdicionar2";
+import { BtnCancelar } from "./components/buttons/IconBtns/BtnDesmarcar&Cancelar";
+import { BtnEditar } from "./components/buttons/IconBtns/BtnEditar&Salvar";
 import { Navbar } from "./components/Navbar/Navbar";
+import { Flex } from "@chakra-ui/react";
 import TabUsuarios from "./components/tabela/TabUsuarios";
 import { Cards } from "./components/cards";
+
+
 
 export default function Home() {
 
@@ -24,6 +35,10 @@ export default function Home() {
       </Flex>
       <div>
 
+        <>
+          <BtnEditar />
+          <BtnCancelar />
+        </>
       </div>
     </main>
   );
