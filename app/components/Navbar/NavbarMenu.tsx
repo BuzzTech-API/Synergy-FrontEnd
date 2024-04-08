@@ -3,6 +3,7 @@
 import { IconButton, Menu, MenuButton, MenuList } from "@chakra-ui/react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import NavbarOptionsMenu from "./NavbarOptionsMenu";
+import Link from "next/link";
 
 interface NavbarMenuProps {
     user: String
@@ -17,14 +18,14 @@ export default function NavbarMenu({ user }: NavbarMenuProps) {
                     <NavbarOptionsMenu hasCorFundo={false} texto='Agendar' />
                     <NavbarOptionsMenu hasCorFundo={true} texto='Meus Agendamentos' />
                     <NavbarOptionsMenu hasCorFundo={false} texto='Cadastrar Sala' />
-                    <NavbarOptionsMenu hasCorFundo={true} texto='Cadastrar Usuário' />
+                    <Link href={'/cadastrarUsuario'}><NavbarOptionsMenu hasCorFundo={true} texto='Cadastrar Usuário' /></Link>
                     <NavbarOptionsMenu hasCorFundo={false} texto='Visualizar Salas' />
                     <NavbarOptionsMenu hasCorFundo={true} texto='Visualizar Usuários' />
                     <NavbarOptionsMenu hasCorFundo={false} texto='Editar Perfil' />
                     <NavbarOptionsMenu hasCorFundo={true} texto='Sair' />
                 </>
             );
-        } else if(user === 'comum') {
+        } else if (user === 'comum') {
             return (
                 <>
                     <NavbarOptionsMenu hasCorFundo={false} texto='Agendar' />
