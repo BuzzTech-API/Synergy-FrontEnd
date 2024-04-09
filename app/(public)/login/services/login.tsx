@@ -9,6 +9,9 @@ export default async function logar(body: { user_email: string, user_password: s
 		body: JSON.stringify(body)
 	})
 	const response = await requisition
+	if(!response.ok){
+		throw new Error
+	}
 	return { status: response.status, resposta: await response.json() }
 }
 

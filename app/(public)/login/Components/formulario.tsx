@@ -1,6 +1,6 @@
 'use client'
 import { BtnEntrar } from "@/app/components/buttons/IconBtns/BtnRemover&Entrar";
-import { Center, Flex, FormControl, FormLabel, Heading, Input } from "@chakra-ui/react";
+import { Center, Flex, FormControl, FormLabel, Heading, Input, useToast } from "@chakra-ui/react";
 import { ChangeEvent, useState } from "react";
 import logar from "../services/login";
 
@@ -10,6 +10,7 @@ export default function FormularioLogin() {
 		email: "",
 		senha: ""
 	})
+	const toast = useToast()
 
 
 	const onSubmit = (e: any) => {
@@ -19,6 +20,26 @@ export default function FormularioLogin() {
 			user_password: input.senha
 		}
 		const resposta = logar(body)
+
+		resposta.then(() => {
+			toast({
+				title: "Logando...",
+				description: "Por favor, espere um momento.",
+				status: "info",
+				duration: 2000,
+				position: 'top-right',
+				isClosable: true,
+			})
+			}).catch(() => {
+				toast({
+					title: "Erro.",
+					description: "Erro ao logar no sistema.",
+					status: "error",
+					duration: 2000,
+					position: 'top-right',
+					isClosable: true
+				})
+			})
 	}
 	return (
 		<form onSubmit={onSubmit}>
