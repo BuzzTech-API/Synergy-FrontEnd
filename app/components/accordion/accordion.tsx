@@ -1,82 +1,88 @@
-import React, { useState } from 'react';
-import { Accordion as ChakraAccordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Box, Center } from '@chakra-ui/react';
+import React from 'react';
+import { Accordion as ChakraAccordion, AccordionItem as ChakraAccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Box, Image, Flex, Badge } from '@chakra-ui/react';
 
-// definição da interface para os itens do accordion
-interface AccordionProps {
-  items: { title: string; content: React.ReactNode }[]; // Cada item tem um título e um conteúdo
-}
-
-// componente de Accordion
-const Accordion: React.FC<AccordionProps> = ({ items }) => {
-  // estado para controlar o índice do item selecionado
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-
-  // função para lidar com o clique em um item do accordion
-  const handleItemClick = (index: number) => {
-    // se o índice selecionado for o mesmo do índice clicado, deselecione, caso contrário, selecione
-    setSelectedIndex(selectedIndex === index ? null : index);
-  };
-
+//header do accordion
+const AccordionHeader: React.FC<{ item: { avatar: string; title: string; } }> = ({ item }) => {
   return (
-    <Center>
-      {/* box*/}
-      <Box maxWidth="600px" width="100%" boxShadow="md" border="2px solid" borderColor="blue.500">
-        {/* componente permitindo a alternância de itens */}
-        <ChakraAccordion allowToggle>
-          {/* mapeando os itens do accordion */}
-          {items.map((item, index) => (
-            <AccordionItem key={index} _expanded={{ backgroundColor: 'blue.100', color: 'black' }}>
-              {/* header do item do accordion */}
-              <h2>
-                {/* botão para controlar a abertura e fechamento do item */}
-                <AccordionButton _expanded={{ backgroundColor: 'blue.200', color: 'blue.900' }} onClick={() => handleItemClick(index)}>
-                  {/* título do item */}
-                  <p>{item.title}</p>
-                  {/* icone de seta para indicar o estado do item (aberto ou fechado) */}
-                  <AccordionIcon color="blue.500" />
-                </AccordionButton>
-              </h2>
-              {/* conteúdo do item do accordion */}
-              <AccordionPanel pb={4} _expanded={{ backgroundColor: 'blue.200', color: 'black' }}>
-                {item.content}
-              </AccordionPanel>
-            </AccordionItem>
-          ))}
-        </ChakraAccordion>
+    <AccordionButton
+      display="flex"
+      justifyContent="space-between"
+      alignItems="center"
+      width="100%"
+      bg="purple.200"
+      color="white"
+      _hover={{ bg: 'purple.300' }}
+      borderRadius="md"
+      borderBottomRadius="0"
+      p={2}
+      fontSize="lg"
+    >
+      <Flex alignItems="center">
+        <Image src={item.avatar} boxSize="30px" borderRadius="full" mr={2} />
+        <span>{item.title}</span>
+      </Flex>
+      <Box flexShrink={0}>
+        <AccordionIcon color="white" />
       </Box>
-    </Center>
+    </AccordionButton>
+  );
+};
+
+// painel do accordion
+const AccordionItemPanel: React.FC<{ badges: string[] }> = ({ badges }) => {
+  return (
+    <AccordionPanel
+      bg="gray.200"
+      p={4}
+      borderRadius="md"
+      borderTopRadius="0"
+      display="flex"
+      justifyContent="center"
+    >
+      <Flex flexWrap="wrap" justifyContent="center" flexDirection="column" alignItems="center" width="100%">
+        {badges.map((badge, index) => (
+          <Badge key={index} colorScheme="purple" mb={2} borderRadius="md" fontSize="sm" maxWidth="100%">
+            {badge}
+          </Badge>
+        ))}
+      </Flex>
+    </AccordionPanel>
+  );
+};
+
+// Componente para cada item do accordion, combinando o header e o painel
+const AccordionItem: React.FC<{ item: { avatar: string; title: string; badges: string[]; } }> = ({ item }) => {
+  return (
+    <ChakraAccordionItem>
+      <AccordionHeader item={item} />
+      <AccordionItemPanel badges={item.badges} />
+    </ChakraAccordionItem>
+  );
+};
+
+// Componente de nível superior para o acordeão, renderizando todos os itens
+const Accordion: React.FC<{ items: { avatar: string; title: string; badges: string[]; }[] }> = ({ items }) => {
+  return (
+    <ChakraAccordion allowToggle width="450px">
+      {items.map((item, index) => (
+        <AccordionItem key={item.title} item={item} />
+      ))}
+    </ChakraAccordion>
   );
 };
 
 export default Accordion;
 
-//EXEMPLO
-// import React from 'react';
-// import { ChakraProvider } from '@chakra-ui/react';
-// import Accordion from './Accordion'; // Importa o componente Accordion
 
-// const App: React.FC = () => {
-//   // Array de itens para o Accordion, cada objeto contém um título e um conteúdo
+// import { ChakraProvider } from '@chakra-ui/react';
+// import Accordion from './Accordion';
+
+// const App = () => {
 //   const accordionItems = [
 //     {
-//       title: 'Section 1',
-//       content: '',
-//     },
-//     {
-//       title: 'Section 2',
-//       content: 'conteudo 2',
-//     },
-//     {
-//       title: 'Section 3',
-//       content: 'conteudo 3',
-//     },
-//     {
-//       title: 'Section 4',
-//       content: 'conteudo 4',
-//     },
-//     {
-//       title: 'Section 5',
-//       content: 'conteudo 5',
+//       title: 'Joaquim Pereira',
+//       avatar: '/images/avatar.jpg',
+//       badges: ['Compromisso na data de realização das 18:00 ás 20:00', 'Compromisso na data de realização das 20:00 ás 21:00'] // Adicionando distintivos ao item do Accordion
 //     },
 //   ];
 
