@@ -8,6 +8,11 @@ import { cadastrarUsuario } from "./services/cadastrarUsuario";
 
 
 export default function CadastrarUsuario() {
+  // useState para controlar a validade dos campos
+  const [nameValid, setNameValid] = useState(false)
+  const [emailValid, setEmailValid] = useState(false)
+  const [passwordValid, setPasswordValid] = useState(false)
+  const [boardValid, setBoardValid] = useState(false)
 
   // Objeto para criar o usuário
   const [user, setUser] = useState({
@@ -19,23 +24,44 @@ export default function CadastrarUsuario() {
   })
   const toast = useToast()
 
+  // verifica se todos os campos estão preenchido
+  const isFormValid = nameValid && emailValid && passwordValid && boardValid && (user.permissionLevel !== 0)
+
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>, setIsError: Dispatch<SetStateAction<boolean>>) => {
-    // função para lidar com as alterações do formulário e quando o usuário fizer algo errado mostrar erro no campo
-    if (e.target.value !== '') {
+    const { id, value } = e.target
+    let isValid = true
+
+    if (id === 'name') {
+      // Verifica se o valor não começa com espaço e não excede 150 caracteres
+      isValid = value.trim() !== '' && value.length <= 150 && !value.startsWith(' ')
       setIsError(false)
+    } else if (id === 'board') {
+      // Verifica se o valor não começa com espaço e não excede 80 caracteres
+      isValid = value.trim() !== '' && value.length <= 80 && !value.startsWith(' ')
+      setIsError(false)
+    } else {
+      // Validação genérica para outros campos (não vazios)
+      isValid = value.trim() !== ''
     }
-    else {
-      setIsError(true)
-    }
-    if (e.target.id === 'name') {
-      setUser({ ...user, name: e.target.value })
-    } else if (e.target.id === 'email') {
-      setUser({ ...user, email: e.target.value })
-    } else if (e.target.id === 'password') {
-      setUser({ ...user, password: e.target.value })
-    } else if (e.target.id === 'board') {
-      setUser({ ...user, board: e.target.value })
+
+    // função para lidar com as alterações do formulário e quando o usuário fizer algo errado mostrar erro no campo
+    setIsError(!isValid)
+
+    setUser(prevState => ({
+      ...prevState,
+      [id]: value
+    }))
+
+    // Atualiza o estado de validade do campo
+    if (id === 'name') {
+      setNameValid(isValid)
+    } else if (id === 'email') {
+      setEmailValid(isValid)
+    } else if (id === 'password') {
+      setPasswordValid(isValid)
+    } else if (id === 'board') {
+      setBoardValid(isValid)
     }
   }
 
@@ -55,10 +81,28 @@ export default function CadastrarUsuario() {
 
     // Notificação de Sucesso
     toast.promise(request, {
-      success: { title: 'Usuário Criado', description: 'com sucesso.' },
-      error: { title: 'Erro', description: 'Erro ao criar o Usuário.' },
-      loading: { title: 'Criando Usuário', description: 'Por favor, espere um momento.' },
+      success: { 
+        title: 'Usuário Criado', 
+        description: 'com sucesso.',
+        position: 'top',
+        isClosable: true,
+       },
+
+      error: { 
+        title: 'Erro', 
+        description: 'Erro ao criar o Usuário.',
+        position: 'top',
+        isClosable: true,
+      },
+      
+      loading: { 
+        title: 'Criando Usuário', 
+        description: 'Por favor, espere um momento.', 
+        position: 'top',
+        isClosable: true,
+      },
     })
+
     setUser({
       name: '',
       email: '',
@@ -66,12 +110,15 @@ export default function CadastrarUsuario() {
       board: '',
       permissionLevel: 0
     })
-
+    setNameValid(false)
+    setBoardValid(false)
+    setEmailValid(false)
+    setPasswordValid(false)
   }
 
 
-
   return (
+
     <main>
       <Flex>
         <Navbar.Root>
@@ -98,7 +145,7 @@ export default function CadastrarUsuario() {
               </Select>
             </Flex>
             <Text color={'black'} textAlign={'center'}>By proceeding you agree with our <span>Terms of Service</span> & <span>Privacy Policy</span></Text>
-            <BtnCriarUsuario type={'submit'} />
+            <BtnCriarUsuario type={'submit'} isDisabled={!isFormValid} />
           </Center>
         </Center>
       </form>

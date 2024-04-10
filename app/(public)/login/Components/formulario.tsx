@@ -26,8 +26,8 @@ export default function FormularioLogin() {
 				title: "Logando...",
 				description: "Por favor, espere um momento.",
 				status: "info",
-				duration: 2000,
-				position: 'top-right',
+				duration: 3000,
+				position: 'top',
 				isClosable: true,
 			})
 			}).catch(() => {
@@ -35,8 +35,8 @@ export default function FormularioLogin() {
 					title: "Erro.",
 					description: "Erro ao logar no sistema.",
 					status: "error",
-					duration: 2000,
-					position: 'top-right',
+					duration: 3000,
+					position: 'top',
 					isClosable: true
 				})
 			})
