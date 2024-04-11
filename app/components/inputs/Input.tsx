@@ -43,44 +43,53 @@ const variantDefault = definePartsStyle((props) => {
     }
 })
 
+const variantSearch = definePartsStyle((props) => {
+    return {
+        element: {
+            color: 'blackAlpha.400',
+        }
+    }
+})
+
 const variantError = definePartsStyle((props) => {
     return {
-      field: {
-        borderColor: 'red.200',
-        _hover: {
-            borderColor: 'red.400'
+        field: {
+            borderColor: 'red.200',
+            _hover: {
+                borderColor: 'red.400'
+            },
+            _focus: {
+                borderColor: '#FF0000',
+            }
         },
-        _focus: {
-            borderColor: '#FF0000',
-        }
-      },
     }
-  })
+})
 
-  const variantValid = definePartsStyle((props) => {
+const variantValid = definePartsStyle((props) => {
     return {
-      field: {
-        borderColor: 'green.200',
-        _hover: {
-            borderColor: 'green.400'
+        field: {
+            borderColor: 'green.200',
+            _hover: {
+                borderColor: 'green.400'
+            },
+            _focus: {
+                borderColor: '#17A100'
+            }
         },
-        _focus: {
-            borderColor: '#17A100'
-        }
-      },
     }
-  })
+})
 
 const variants = {
     default: variantDefault,
     error: variantError,
-    valid: variantValid
+    valid: variantValid,
+    search: variantSearch
 }
 
-const InputNewStyles = defineMultiStyleConfig({  
-    baseStyle, 
-    sizes, 
-    variants, 
+const InputNewStyles = defineMultiStyleConfig({
+    baseStyle,
+    sizes,
+    variants,
     defaultProps: {
         variant: "default"
     }
