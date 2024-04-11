@@ -1,11 +1,12 @@
 import { MenuItem } from "@chakra-ui/react";
 
-interface NavbarOptionsMenuProps{
+interface NavbarOptionsMenuProps {
     hasCorFundo: boolean,
+    onClick?: () => void,
     texto: string
 }
 
-export default function NavbarOptionsMenu({hasCorFundo, texto}: NavbarOptionsMenuProps) {
+export default function NavbarOptionsMenu({ hasCorFundo, texto, onClick }: NavbarOptionsMenuProps) {
     return (
 
         <MenuItem
@@ -14,9 +15,11 @@ export default function NavbarOptionsMenu({hasCorFundo, texto}: NavbarOptionsMen
             alignItems='center'
             justifyContent='center'
             fontSize='1rem'
-            _hover={{ fontWeight: 'bold' }}>
+            _hover={{ fontWeight: 'bold' }}
+            onClick={onClick}
+        >
             {texto}
         </MenuItem>
-        
+
     );
 }

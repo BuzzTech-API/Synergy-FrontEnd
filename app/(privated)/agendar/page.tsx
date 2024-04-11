@@ -1,7 +1,7 @@
 'use client'
 import { Center, Heading, Radio, RadioGroup, Stack } from "@chakra-ui/react"
 import React from "react"
-import { Navbar } from "../components/Navbar/Navbar"
+import { Navbar } from "../../components/Navbar/Navbar"
 import FormularioPresencial from "./components/formularioPresencial"
 
 
@@ -11,8 +11,8 @@ export default function AgendarPage() {
   return (
     <main>
       <Navbar.Root>
-        <Navbar.Menu user='administrador' />
-        <Navbar.Perfil user='JP' />
+        <Navbar.Menu />
+        <Navbar.Perfil />
       </Navbar.Root>
       <Center pt={'6.5rem'} flexDir={'column'} gap={'1rem'}>
         <Heading>Tipo de Reunião</Heading>
