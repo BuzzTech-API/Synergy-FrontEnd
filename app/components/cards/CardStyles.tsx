@@ -62,9 +62,15 @@ const variants = {
 	// Aqui você define as variações bases de css dele
 	reuniao: definePartsStyle({
 		container: {
-			height: '23rem',
-			minHeight: '23rem',
-			maxHeight: '23rem',
+			height: '22rem',
+			gap: "1rem",
+			minHeight: '22rem',
+			maxHeight: '22rem',
+		},
+		header: {
+			maxH: "3.9625rem",
+			minH: "3.9625rem",
+			padding: "0.5rem"
 		}
 	}),
 	virtual: definePartsStyle({

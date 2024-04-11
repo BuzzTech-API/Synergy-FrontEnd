@@ -1,9 +1,9 @@
 'use client'
 import { Center, Flex, Heading, Select, Text, useToast } from "@chakra-ui/react";
-import { Navbar } from "../components/Navbar/Navbar";
+import { Navbar } from "../../components/Navbar/Navbar";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
-import { FormControlInput } from "../components/FormControlInput/FormControlInput";
-import { BtnCriarUsuario } from "../components/buttons/IconBtns/BtnCriarSala&Usuario";
+import { FormControlInput } from "../../components/FormControlInput/FormControlInput";
+import { BtnCriarUsuario } from "../../components/buttons/IconBtns/BtnCriarSala&Usuario";
 import { cadastrarUsuario } from "./services/cadastrarUsuario";
 
 
@@ -66,7 +66,7 @@ export default function CadastrarUsuario() {
   }
 
 
-  const submit = (e: any) => {
+  const submit = async (e: any) => {
     // função que envia os dados do formulário para o backend
     e.preventDefault()
 
@@ -81,23 +81,23 @@ export default function CadastrarUsuario() {
 
     // Notificação de Sucesso
     toast.promise(request, {
-      success: { 
-        title: 'Usuário Criado', 
+      success: {
+        title: 'Usuário Criado',
         description: 'com sucesso.',
         position: 'top',
         isClosable: true,
-       },
+      },
 
-      error: { 
-        title: 'Erro', 
+      error: {
+        title: 'Erro',
         description: 'Erro ao criar o Usuário.',
         position: 'top',
         isClosable: true,
       },
-      
-      loading: { 
-        title: 'Criando Usuário', 
-        description: 'Por favor, espere um momento.', 
+
+      loading: {
+        title: 'Criando Usuário',
+        description: 'Por favor, espere um momento.',
         position: 'top',
         isClosable: true,
       },
@@ -122,8 +122,8 @@ export default function CadastrarUsuario() {
     <main>
       <Flex>
         <Navbar.Root>
-          <Navbar.Menu user={'administrador'} />
-          <Navbar.Perfil user={'Carlos'} />
+          <Navbar.Menu />
+          <Navbar.Perfil />
         </Navbar.Root>
       </Flex>
       <form method="POST" onSubmit={submit}>

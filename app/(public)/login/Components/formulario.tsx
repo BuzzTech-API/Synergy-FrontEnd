@@ -3,6 +3,8 @@ import { BtnEntrar } from "@/app/components/buttons/IconBtns/BtnRemover&Entrar";
 import { Center, Flex, FormControl, FormLabel, Heading, Input, useToast } from "@chakra-ui/react";
 import { ChangeEvent, useState } from "react";
 import logar from "../services/login";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function FormularioLogin() {
 
@@ -12,34 +14,22 @@ export default function FormularioLogin() {
 	})
 	const toast = useToast()
 
+	const router = useRouter();
 
-	const onSubmit = (e: any) => {
+	async function onSubmit(e: any) {
 		e.preventDefault()
-		const body = {
-			user_email: input.email,
-			user_password: input.senha
-		}
-		const resposta = logar(body)
 
-		resposta.then(() => {
-			toast({
-				title: "Logando...",
-				description: "Por favor, espere um momento.",
-				status: "info",
-				duration: 3000,
-				position: 'top',
-				isClosable: true,
-			})
-			}).catch(() => {
-				toast({
-					title: "Erro.",
-					description: "Erro ao logar no sistema.",
-					status: "error",
-					duration: 3000,
-					position: 'top',
-					isClosable: true
-				})
-			})
+		const resposta = await signIn('credentials', {
+			email: input.email,
+			password: input.senha,
+			redirect: false,
+		})
+
+		if (resposta?.error) {
+			console.log(resposta);
+			return
+		}
+		router.replace('/')
 	}
 	return (
 		<form onSubmit={onSubmit}>
@@ -60,6 +50,7 @@ export default function FormularioLogin() {
 						<Input
 							variant={'default'}
 							type={'text'}
+
 							value={input.email}
 							onChange={
 								(e: ChangeEvent<HTMLInputElement>) => {
@@ -77,7 +68,7 @@ export default function FormularioLogin() {
 					<Flex pl={'1rem'}>
 						<Input
 							variant={'default'}
-							type={'text'}
+							type={'password'}
 							value={input.senha}
 							onChange={
 								(e: ChangeEvent<HTMLInputElement>) => {
