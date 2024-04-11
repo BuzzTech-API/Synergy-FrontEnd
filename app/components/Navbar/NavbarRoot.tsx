@@ -3,6 +3,7 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import Logo from "../../../public/logo.png"
+import Link from "next/link";
 
 interface NavbarRootProps {
     children: ReactNode
@@ -13,7 +14,7 @@ export default function NavbarRoot({ children }: NavbarRootProps) {
         <Flex
             zIndex='999'
             w='100vw'
-            h='6rem'
+            h='5rem'
             bg='white'
             alignItems='center'
             boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
@@ -29,7 +30,8 @@ export default function NavbarRoot({ children }: NavbarRootProps) {
 
             <Box
                 position='absolute'
-                zIndex='-1'
+                zIndex='3'
+                top={'-1rem'}
                 pl='13rem'>
                 <Image src={Logo.src} width="15rem" />
             </Box>

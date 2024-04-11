@@ -15,23 +15,25 @@ export default function NavbarMenu({ user }: NavbarMenuProps) {
         if (user === 'administrador') {
             return (
                 <>
-                    <NavbarOptionsMenu hasCorFundo={false} texto='Agendar' />
-                    <NavbarOptionsMenu hasCorFundo={true} texto='Meus Agendamentos' />
-                    <NavbarOptionsMenu hasCorFundo={false} texto='Cadastrar Sala' />
+                    <Link href={'/'}><NavbarOptionsMenu hasCorFundo={true} texto='Tela Inicial' /></Link>
+                    <Link href={'/agendar'}><NavbarOptionsMenu hasCorFundo={false} texto='Agendar' /></Link>
+                    <Link href={'/meusAgendamentos'} > <NavbarOptionsMenu hasCorFundo={true} texto='Meus Agendamentos' /></Link>
+                    <Link href={''} > <NavbarOptionsMenu hasCorFundo={false} texto='Cadastrar Sala' /></Link>
                     <Link href={'/cadastrarUsuario'}><NavbarOptionsMenu hasCorFundo={true} texto='Cadastrar Usuário' /></Link>
-                    <NavbarOptionsMenu hasCorFundo={false} texto='Visualizar Salas' />
-                    <NavbarOptionsMenu hasCorFundo={true} texto='Visualizar Usuários' />
-                    <NavbarOptionsMenu hasCorFundo={false} texto='Editar Perfil' />
-                    <NavbarOptionsMenu hasCorFundo={true} texto='Sair' />
+                    <Link href={''} ><NavbarOptionsMenu hasCorFundo={false} texto='Visualizar Salas' /></Link>
+                    <Link href={''} ><NavbarOptionsMenu hasCorFundo={true} texto='Visualizar Usuários' /></Link>
+                    <Link href={''} > <NavbarOptionsMenu hasCorFundo={false} texto='Editar Perfil' /></Link>
+                    <Link href={''} > <NavbarOptionsMenu hasCorFundo={true} texto='Sair' /></Link>
                 </>
             );
         } else if (user === 'comum') {
             return (
                 <>
-                    <NavbarOptionsMenu hasCorFundo={false} texto='Agendar' />
-                    <NavbarOptionsMenu hasCorFundo={true} texto='Meus Agendamentos' />
-                    <NavbarOptionsMenu hasCorFundo={false} texto='Editar Perfil' />
-                    <NavbarOptionsMenu hasCorFundo={true} texto='Sair' />
+                    <Link href={'/'}><NavbarOptionsMenu hasCorFundo={true} texto='Tela Inicial' /></Link>
+                    <Link href={'/agendar'} > <NavbarOptionsMenu hasCorFundo={false} texto='Agendar' /></Link>
+                    <Link href={'/meusAgendamentos'} > <NavbarOptionsMenu hasCorFundo={true} texto='Meus Agendamentos' /></Link>
+                    <Link href={''} > <NavbarOptionsMenu hasCorFundo={false} texto='Editar Perfil' /></Link>
+                    <Link href={''} > <NavbarOptionsMenu hasCorFundo={true} texto='Sair' /></Link>
                 </>
             );
         }

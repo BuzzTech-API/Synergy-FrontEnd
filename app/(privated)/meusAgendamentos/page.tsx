@@ -3,11 +3,16 @@ import { Flex, Heading } from "@chakra-ui/react";
 import { Cards } from "../components/cards";
 import { BtnCancelar, BtnDesmarcar } from "../components/buttons/IconBtns/BtnDesmarcar&Cancelar";
 import { BtnReagendar } from "../components/buttons/IconBtns/BtnAgendar&Reagendar";
+import { Navbar } from "../components/Navbar/Navbar";
 
 export default function MeusAgendamentos() {
   return (
     <main>
-      <Flex flexDir={'column'} p={'1rem'} gap={'1rem'}>
+      <Navbar.Root>
+        <Navbar.Menu user='administrador' />
+        <Navbar.Perfil user='JP' />
+      </Navbar.Root>
+      <Flex flexDir={'column'} p={'1rem'} pt={'5rem'} gap={'0.7rem'}>
         <Heading>Reuniões Marcadas</Heading>
         <Flex
           overflowY={'auto'}
