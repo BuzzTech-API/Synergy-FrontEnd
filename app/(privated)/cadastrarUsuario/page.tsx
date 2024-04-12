@@ -35,18 +35,16 @@ export default function CadastrarUsuario() {
     if (id === 'name') {
       // Verifica se o valor não começa com espaço e não excede 150 caracteres
       isValid = value.trim() !== '' && value.length <= 150 && !value.startsWith(' ')
-      setIsError(false)
+      setIsError(!isValid)
     } else if (id === 'board') {
       // Verifica se o valor não começa com espaço e não excede 80 caracteres
       isValid = value.trim() !== '' && value.length <= 80 && !value.startsWith(' ')
-      setIsError(false)
+      setIsError(!isValid)
     } else {
       // Validação genérica para outros campos (não vazios)
       isValid = value.trim() !== ''
+      setIsError(!isValid)
     }
-
-    // função para lidar com as alterações do formulário e quando o usuário fizer algo errado mostrar erro no campo
-    setIsError(!isValid)
 
     setUser(prevState => ({
       ...prevState,
