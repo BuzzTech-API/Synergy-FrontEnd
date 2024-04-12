@@ -1,6 +1,24 @@
 import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { JWT } from "next-auth/jwt"
+import { BACKEND_URL } from "@/app/constants";
+
+async function refreshToken(token: JWT): Promise<JWT> {
+	const res = await fetch(BACKEND_URL + "/auth/refresh",
+		{
+			method: "POST",
+			headers: {
+				authorization: `Bearer ${token.backendTokens.refresh_token}`,
+			}
+		});
+	const response = await res.json()
+
+	return {
+		...token,
+		backendTokens: response,
+	};
+}
 
 export const authOptions: NextAuthOptions = {
 	providers: [
@@ -25,8 +43,7 @@ export const authOptions: NextAuthOptions = {
 
 				try {
 
-					// const response = await fetch('http://localhost:5000/auth/login', { //Para pessoas rodando sem docker
-					const response = await fetch('http://backend:5000/auth/login', {
+					const response = await fetch(BACKEND_URL + '/auth/login', {
 						method: "POST",
 						body: JSON.stringify(body),
 						headers: {
@@ -38,6 +55,7 @@ export const authOptions: NextAuthOptions = {
 						return null;
 					}
 					const user = await response.json()
+
 					return user;
 
 
@@ -54,7 +72,12 @@ export const authOptions: NextAuthOptions = {
 	callbacks: {
 		async jwt({ token, user }) {
 			if (user) return { ...token, ...user }
-			return token;
+			if (new Date().getTime() < token.backendTokens.expiresIn) {
+				console.log('access token ainda é valido');
+
+				return token;
+			}
+			return await refreshToken(token)
 		},
 
 		async session({ token, session }) {
