@@ -5,12 +5,17 @@ import { JWT } from "next-auth/jwt"
 import { BACKEND_URL } from "@/app/constants";
 
 async function refreshToken(token: JWT): Promise<JWT> {
+	const body = JSON.stringify({
+		refresh: token.backendTokens.refresh_token
+	})
 	const res = await fetch(BACKEND_URL + "/auth/refresh",
 		{
 			method: "POST",
 			headers: {
-				authorization: `Bearer ${token.backendTokens.refresh_token}`,
-			}
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: body
 		});
 	const response = await res.json()
 
@@ -74,8 +79,7 @@ export const authOptions: NextAuthOptions = {
 			if (user) return { ...token, ...user }
 			if (new Date().getTime() < token.backendTokens.expiresIn) {
 				console.log('access token ainda é valido');
-
-				return token;
+				return { ...token };
 			}
 			return await refreshToken(token)
 		},
