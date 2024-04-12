@@ -13,11 +13,10 @@ type props = {
 export function FormControlInput({ handleInputChange, input, campo, id, type }: props) {
 	// Input com indentifcação visual de erro, caso queria utilizar
 	// use de exemplo a tela de cadastro de usuário para reproduzir
-	const [isError, setIsError] = useState(input === '')
-
+	const [isError, setIsError] = useState(false)
 
 	return (
-
+		
 		<FormControl isInvalid={isError}>
 			<FormLabel><Heading fontWeight={'normal'}>{campo}</Heading></FormLabel>
 			<Flex pl={'1rem'}>
