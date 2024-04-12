@@ -51,9 +51,9 @@ export default function CadastrarSalaPresencial() {
     e.preventDefault()
 
     const body = {
-      "room_name": room.name,
-      "romm_capacity": room.capacity,
-      "romm_permission_level": room.permissionLevel,
+      "physical_room_name": room.name,
+      "physical_room_vacancies": room.capacity,
+      "physical_room_permission_level": room.permissionLevel,
     }
     
     const request = cadastrarSala(body)
