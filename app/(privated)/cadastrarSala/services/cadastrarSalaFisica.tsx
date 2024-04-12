@@ -7,19 +7,19 @@ import { getServerSession } from "next-auth"
  *
  * */
 export async function cadastrarSala(body: {}) {
+  const session = await getServerSession(authOptions)
 
-  const session = await getServerSession(authOptions);
-  
   const request = await fetch(BACKEND_URL + '/physicalrooms', {
     method: 'POST',
     headers: {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json',
-			authorization: `Bearer ` + session?.backendTokens.access_token
-		},
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ` + session?.backendTokens.access_token
+    },
     body: JSON.stringify(body)
   })
+
+
   const response = request
-  if(!response.ok) throw new Error
+  if (!response.ok) throw new Error(await response.text())
   return response.json()
 }

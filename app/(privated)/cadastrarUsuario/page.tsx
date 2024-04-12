@@ -40,6 +40,11 @@ export default function CadastrarUsuario() {
       // Verifica se o valor não começa com espaço e não excede 80 caracteres
       isValid = value.trim() !== '' && value.length <= 80 && !value.startsWith(' ')
       setIsError(!isValid)
+    } else if (id === 'email') {
+      // Verifica se o valor não começa com espaço e não excede 80 caracteres
+      const emailRegex = /^[\w-\.]+@[\w-]+\.[\w-\.]{2,}$/
+      isValid = emailRegex.test(value.trim())
+      setIsError(!isValid)
     } else {
       // Validação genérica para outros campos (não vazios)
       isValid = value.trim() !== ''
