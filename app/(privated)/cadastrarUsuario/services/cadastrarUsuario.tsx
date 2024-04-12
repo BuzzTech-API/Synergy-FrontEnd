@@ -10,7 +10,6 @@ import { getServerSession } from "next-auth"
 export async function cadastrarUsuario(body: {}) {
 	const session = await getServerSession(authOptions);
 
-	console.log("aaaaaaaaaaaa\n"+JSON.stringify(session))
 	const request = await fetch(BACKEND_URL + '/users/', {
 		method: 'POST',
 		headers: {
