@@ -14,5 +14,6 @@ export async function cadastrarSala(body: {}) {
       body: JSON.stringify(body)
     })
     const response = await request
+    if(!response.ok) throw new Error
     return response.json()
   }
