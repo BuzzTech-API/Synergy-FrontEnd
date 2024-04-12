@@ -32,7 +32,7 @@ export function FormControlInput({ handleInputChange, input, campo, id, type }: 
 			</Flex>
 			{!isError ? (<></>
 			) : (
-				<FormErrorMessage>Este campo é obrigatório.</FormErrorMessage>
+				<FormErrorMessage>Entrada inválida.</FormErrorMessage>
 			)}
 		</FormControl>
 	)

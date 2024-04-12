@@ -20,8 +20,6 @@ export async function cadastrarUsuario(body: {}) {
 		body: JSON.stringify(body)
 	})
 	const response = request
-	if (!response.ok) {
-		throw new Error
-	}
+	if (!response.ok) throw new Error(await response.text())
 	return response.json()
 }
