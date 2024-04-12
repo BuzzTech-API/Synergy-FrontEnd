@@ -9,7 +9,6 @@ import { getServerSession } from "next-auth"
 export async function cadastrarSala(body: {}) {
 
   const session = await getServerSession(authOptions);
-  console.log(JSON.stringify(body))
   
   const request = await fetch(BACKEND_URL + '/physicalrooms', {
     method: 'POST',
