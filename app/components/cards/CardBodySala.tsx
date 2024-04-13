@@ -3,9 +3,28 @@ import { Badge, CardBody, Flex, Text } from "@chakra-ui/react";
 
 type props = {
 	capacidade?: number,
+	reservation: PhysicalRoomReservation
 }
 
-export function CardBodySala({ capacidade = 0 }: props) {
+interface PhysicalRoomReservation {
+	physical_room_id: number;
+	physical_room_name: string;
+	physical_room_permission_level: number;
+	physical_room_vacancies: number;
+	is_active: boolean;
+	reservation: Array<Reserve>
+}
+
+interface Reserve {
+	reserve_date: Date;
+	reserve_start: Date;
+	reserve_end: Date;
+	reserve_id: number;
+}
+
+export function CardBodySala({ capacidade, reservation }: props) {
+
+
 
 
 	return (
@@ -29,10 +48,11 @@ export function CardBodySala({ capacidade = 0 }: props) {
 				overflowY={'auto'}
 			>
 				<Text fontWeight={'bold'}>Ocupado nos Horários</Text>
-				<Badge>18:00 até 22:00</Badge>
-				<Badge>18:00 até 22:00</Badge>
-				<Badge>18:00 até 22:00</Badge>
-				<Badge>18:00 até 22:00</Badge>
+				{reservation.reservation.map((reserva, index) =>
+					<Badge key={index}>
+						{`${new Date(reserva.reserve_start).toLocaleTimeString()} até ${new Date(reserva.reserve_end).toLocaleTimeString()}`}
+					</Badge>
+				)}
 			</Flex>
 		</CardBody>
 	)

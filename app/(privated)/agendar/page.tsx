@@ -3,6 +3,7 @@ import { Center, Heading, Radio, RadioGroup, Stack } from "@chakra-ui/react"
 import React from "react"
 import { Navbar } from "../../components/Navbar/Navbar"
 import FormularioPresencial from "./components/formularioPresencial"
+import Salas from "./components/Salas/Salas"
 
 
 export default function AgendarPage() {
