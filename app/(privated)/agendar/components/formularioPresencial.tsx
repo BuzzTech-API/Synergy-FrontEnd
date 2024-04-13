@@ -11,6 +11,7 @@ import { BtnAdicionar } from "@/app/components/buttons/BtnsAdicionar";
 import { BtnAdicionar2 } from "@/app/components/buttons/BtnAdicionar2";
 import { Cards } from "@/app/components/cards";
 import { BtnAgendar } from "@/app/components/buttons/IconBtns/BtnAgendar&Reagendar";
+import Salas from "./Salas/Salas";
 
 type participanteDeFora = {
   participante_nome: string,
@@ -138,9 +139,8 @@ export default function FormularioPresencial() {
             })
           }
         </Flex>
-        // Aqui entrar a função das salas
-        //
-        //
+        
+        <Salas tipo={"Presencial"} dataRealizacaoReuniao={new Date} />
 
         <Heading>Horário de Realização</Heading>
         <Flex gap={'12rem'}>
