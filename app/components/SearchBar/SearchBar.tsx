@@ -1,38 +1,30 @@
 import { Box, Input, InputGroup, InputRightElement } from "@chakra-ui/react"
-import { SetStateAction, useEffect, useState } from "react"
+import React, { SetStateAction, useEffect, useState } from "react"
 import { User } from "@/app/type/user"
 import { Search2Icon } from '@chakra-ui/icons'
+import { getAllUsers } from "@/app/(privated)/agendar/service/getUsers"
 
 
 type SearchBarProps = {
     setSearchResults: React.Dispatch<SetStateAction<User[]>>
+    input: string
+    setInput: React.Dispatch<SetStateAction<string>>
 }
 
-export const SearchBar = ({ setSearchResults }: SearchBarProps) => {
+export const SearchBar = ({ setSearchResults, input, setInput }: SearchBarProps) => {
+
     useEffect(() => {
-        const fetchUsers = async () => { // useEffect para buscar usuários ao carregar o componente
-            try {
-                const response = await fetch('http://localhost:5000/users/', {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                })
-                if (!response.ok) {
-                    throw new Error("Erro na requisição")
-                }
-                const json = await response.json()
-                setUsers(json) // Atualiza o estado 'users' com os usuários recebidos da API
-            } catch (error) {
-                alert("Erro ao carregar usuários\nComponente:\n- SearchBarUsers/SearchBar diz: coloca o refresh token na rota aqui isaque")
-            }
+
+        const getAllUsersEffect = async () => {
+            const usersList: User[] = await getAllUsers();
+            setUsers(usersList)
+
         }
-        fetchUsers()
-    }, [])
+        getAllUsersEffect()
+    }
+        , [])
 
     const [users, setUsers] = useState<User[]>([]) // Estado para armazenar a lista de usuários
-    const [input, setInput] = useState("") // Estado para armazenar o valor do input de pesquisa
 
     const filterUsers = (value: SetStateAction<string>) => { // Função para filtrar os usuários com base no valor do input
         const results = users.filter((user: User) =>
