@@ -9,7 +9,6 @@ import AddVirtual from "../icons/AddVirtual"
 export function BtnAddPresencial(props: any) {
     const { variant, ...rest } = props
     const styles = useStyleConfig('Button', { variant })
-    const styles2 = useStyleConfig('Text', { variant } )
     const styles3 = useStyleConfig('Box', { variant } )
 
     return (
@@ -17,7 +16,11 @@ export function BtnAddPresencial(props: any) {
             <Box __css={styles3} {...rest}>
                 <Icon as={Plus} h='100%'/>
             </Box>
-            <Text __css={styles2} {...rest}>Adicionar Presencial</Text>
+            <Text color='#FFFFFF' 
+        whiteSpace="nowrap"
+        fontSize='13'
+        width="75%"
+        paddingLeft='5px'>Adicionar Presencial</Text>
         </Button>
         
     )
@@ -27,7 +30,6 @@ export function BtnAddPresencial(props: any) {
 export function BtnAddVirtual(props: any) {
     const { variant, ...rest } = props
     const styles = useStyleConfig('Button', { variant })
-    const styles2 = useStyleConfig('Text', { variant } )
     const styles3 = useStyleConfig('Box', { variant } )
 
     return (
@@ -35,7 +37,11 @@ export function BtnAddVirtual(props: any) {
             <Box __css={styles3} {...rest}>
                 <Icon as={AddVirtual} h='100%' />
             </Box>
-            <Text __css={styles2} {...rest}>Adicionar Virtual</Text>
+            <Text color='#FFFFFF' 
+        whiteSpace="nowrap"
+        fontSize='13'
+        width="75%"
+        paddingLeft='5px'>Adicionar Virtual</Text>
         </Button>
         
     )
