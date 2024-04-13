@@ -8,7 +8,6 @@ import icons8_entrar from "../icons/icons8-entrar"
 export function BtnRemover(props: any) {
     const { variant, ...rest } = props
     const styles = useStyleConfig('Button', { variant })
-    const styles2 = useStyleConfig('Text', { variant } )
     const styles3 = useStyleConfig('Box', { variant } )
 
     return (
@@ -16,7 +15,11 @@ export function BtnRemover(props: any) {
             <Box __css={styles3} {...rest}>
                 <Icon as={icons8_lixo} h='100%' />
             </Box>
-            <Text __css={styles2} {...rest}>Remover</Text>
+            <Text color='#FFFFFF' 
+        whiteSpace="nowrap"
+        fontSize='13'
+        width="75%"
+        paddingLeft='5px'>Remover</Text>
         </Button>
         
     )
@@ -28,7 +31,6 @@ export function BtnRemover(props: any) {
 export function BtnEntrar(props: any) {
     const { variant, ...rest } = props
     const styles = useStyleConfig('Button', { variant })
-    const styles2 = useStyleConfig('Text', { variant } )
     const styles3 = useStyleConfig('Box', { variant } )
 
     return (
@@ -36,7 +38,11 @@ export function BtnEntrar(props: any) {
             <Box __css={styles3} {...rest}>
                 <Icon as={icons8_entrar} h='100%' />
             </Box>
-            <Text __css={styles2} {...rest}>Entrar</Text>
+            <Text color='#FFFFFF' 
+        whiteSpace="nowrap"
+        fontSize='13'
+        width="75%"
+        paddingLeft='5px'>Entrar</Text>
         </Button>
         
     )

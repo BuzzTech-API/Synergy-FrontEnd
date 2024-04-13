@@ -11,7 +11,8 @@ export const IconsBtns = defineStyleConfig({
     whiteSpace:"nowrap", 
     fontSize:'11',
     overflow:'hidden',
-    boxShadow: 'inset 0px -2px 5px 0px rgba(0,0,0,0.75)'
+    boxShadow: 'inset 0px -2px 5px 0px rgba(0,0,0,0.75)',
+    
   },
   // Two variants: outline and solid
   variants: {

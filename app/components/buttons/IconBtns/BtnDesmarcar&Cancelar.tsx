@@ -9,7 +9,6 @@ import Cancel from "../icons/Cancel"
 export function BtnDesmarcar(props: any) {
     const { variant, ...rest } = props
     const styles = useStyleConfig('Button', { variant })
-    const styles2 = useStyleConfig('Text', { variant } )
     const styles3 = useStyleConfig('Box', { variant } )
 
     return (
@@ -17,7 +16,11 @@ export function BtnDesmarcar(props: any) {
             <Box __css={styles3} {...rest}>
                 <Icon as={CalendarMinus} h='100%' />
             </Box>
-            <Text __css={styles2} {...rest}>Desmarcar</Text>
+            <Text color='#FFFFFF' 
+        whiteSpace="nowrap"
+        fontSize='13'
+        width="75%"
+        paddingLeft='5px'>Desmarcar</Text>
         </Button>
         
     )
@@ -27,7 +30,6 @@ export function BtnDesmarcar(props: any) {
 export function BtnCancelar(props: any) {
     const { variant, ...rest } = props
     const styles = useStyleConfig('Button', { variant })
-    const styles2 = useStyleConfig('Text', { variant } )
     const styles3 = useStyleConfig('Box', { variant } )
 
     return (
@@ -35,7 +37,11 @@ export function BtnCancelar(props: any) {
             <Box __css={styles3} {...rest}>
                 <Icon as={Cancel} h='100%' />
             </Box>
-            <Text __css={styles2} {...rest}>Cancelar</Text>
+            <Text color='#FFFFFF' 
+        whiteSpace="nowrap"
+        fontSize='13'
+        width="75%"
+        paddingLeft='5px'>Cancelar</Text>
         </Button>
         
     )
