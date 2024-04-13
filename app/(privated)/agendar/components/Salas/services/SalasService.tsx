@@ -3,10 +3,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import { BACKEND_URL } from "@/app/constants";
 import { getServerSession } from "next-auth"
 
-/*
- * envia o body para cadastro do usuário no backend
- *
- * */
+
 export async function GetSalasService() {
 	const session = await getServerSession(authOptions);
 
