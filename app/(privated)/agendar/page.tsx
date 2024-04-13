@@ -3,6 +3,7 @@ import { Center, Heading, Radio, RadioGroup, Stack } from "@chakra-ui/react"
 import React from "react"
 import { Navbar } from "../../components/Navbar/Navbar"
 import FormularioPresencial from "./components/formularioPresencial"
+import Salas from "./components/Salas/Salas"
 
 
 export default function AgendarPage() {
@@ -15,7 +16,7 @@ export default function AgendarPage() {
         <Navbar.Perfil />
       </Navbar.Root>
       <Center pt={'6.5rem'} flexDir={'column'} gap={'1rem'}>
-        <Heading>Tipo de Reunião</Heading>
+        {/* <Heading>Tipo de Reunião</Heading>
         <RadioGroup onChange={setRadioTipo} value={radioTipo}>
           <Stack direction='row'>
             <Radio value='grupo' colorScheme={'orange'} bgColor={"gray"} borderColor={'gray'} >Grupo</Radio>
@@ -31,7 +32,8 @@ export default function AgendarPage() {
               <Radio value='Virtual' colorScheme={'orange'} bgColor={"gray"} borderColor={'gray'} >Virtual</Radio>
             </Stack>
           </RadioGroup></>)}
-        {radioModo === 'Presencial' && (<FormularioPresencial />)}
+        {radioModo === 'Presencial' && (<FormularioPresencial />)} */}
+        <Salas tipo={"Presencial"} dataRealizacaoReuniao={new Date}/>
       </Center>
     </main>
   )
