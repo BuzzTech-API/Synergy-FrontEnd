@@ -9,7 +9,6 @@ import Schedule from "../icons/Shedule"
 export function BtnAgendar(props: any) {
     const { variant, ...rest } = props
     const styles = useStyleConfig('Button', { variant })
-    const styles2 = useStyleConfig('Text', { variant } )
     const styles3 = useStyleConfig('Box', { variant } )
 
     return (
@@ -17,7 +16,11 @@ export function BtnAgendar(props: any) {
             <Box __css={styles3} {...rest}>
                 <Icon as={CalendarPlus} h='100%' />
             </Box>
-            <Text __css={styles2} {...rest}>Agendar</Text>
+            <Text color='#FFFFFF' 
+        whiteSpace="nowrap"
+        fontSize='13'
+        width="75%"
+        paddingLeft='5px'>Agendar</Text>
         </Button>
         
     )
@@ -26,7 +29,6 @@ export function BtnAgendar(props: any) {
 export function BtnReagendar(props: any) {
     const { variant, ...rest } = props
     const styles = useStyleConfig('Button', { variant })
-    const styles2 = useStyleConfig('Text', { variant } )
     const styles3 = useStyleConfig('Box', { variant } )
 
     return (
@@ -34,7 +36,11 @@ export function BtnReagendar(props: any) {
             <Box __css={styles3} {...rest}>
                 <Icon as={Schedule} h='100%' />
             </Box>
-            <Text __css={styles2} {...rest}>Reagendar</Text>
+            <Text color='#FFFFFF' 
+        whiteSpace="nowrap"
+        fontSize='13'
+        width="75%"
+        paddingLeft='5px'>Reagendar</Text>
         </Button>
         
     )

@@ -1,9 +1,10 @@
 'use client'
 import { Flex, Heading } from "@chakra-ui/react";
 import { Cards } from "../../components/cards";
-import { BtnCancelar, BtnDesmarcar } from "../../components/buttons/IconBtns/BtnDesmarcar&Cancelar";
+import { BtnDesmarcar } from "../../components/buttons/IconBtns/BtnDesmarcar&Cancelar";
 import { BtnReagendar } from "../../components/buttons/IconBtns/BtnAgendar&Reagendar";
 import { Navbar } from "../../components/Navbar/Navbar";
+
 
 export default function MeusAgendamentos() {
   return (
@@ -24,7 +25,6 @@ export default function MeusAgendamentos() {
             <Cards.Header>Reunião</Cards.Header>
             <Cards.BodyReuniao tituloReuniao="Lorem Impsum Dolor" data="../../12/2024" horaInicio="18:00" horaFim="20:00">
               <BtnReagendar />
-              <BtnCancelar />
             </Cards.BodyReuniao>
           </Cards.Root>
         </Flex>

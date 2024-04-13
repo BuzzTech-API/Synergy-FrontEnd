@@ -52,7 +52,7 @@ export default function CadastrarSalaPresencial() {
 
     const body = {
       "physical_room_name": room.name,
-      "physical_room_vacancies": room.capacity,
+      "physical_room_vacancies": Number.parseInt(room.capacity),
       "physical_room_permission_level": room.permissionLevel,
     }
     
@@ -101,7 +101,7 @@ export default function CadastrarSalaPresencial() {
           <Center flexDir={'column'} p={"2rem"} gap={'1.0rem'} width={'37.5rem'} bg={"#FFF"} borderRadius={'0.625rem'} marginTop={'3rem'}>
             <Heading color={"#007ABE"} variant={'big'} fontWeight={'normal'}>Cadastro de Sala Presencial</Heading>
             <FormControlInput id='name' input={room.name} handleInputChange={handleInputChange} campo="Nome" type="" />
-            <FormControlInput id='capacity' input={room.capacity} handleInputChange={handleInputChange} campo="Capacidade" type="" />
+            <FormControlInput id='capacity' input={room.capacity} handleInputChange={handleInputChange} campo="Capacidade" type="number" />
             <Flex w='100%' gap="1rem"><Heading fontWeight={'normal'} whiteSpace={'nowrap'}>Nível de Permissão</Heading>
               <Select placeholder='Escolha o Nível de Permissão' value={room.permissionLevel} onChange={(e: ChangeEvent<HTMLSelectElement>) => setRoom({
                 ...room, permissionLevel: Number.parseInt(e.target.value)

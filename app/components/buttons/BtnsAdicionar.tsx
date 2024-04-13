@@ -6,7 +6,6 @@ import Plus from "./icons/Plus"
 export function BtnAdicionar(props: any) {
     const { variant, ...rest } = props
     const styles = useStyleConfig('Button', { variant } )
-    const styles2 = useStyleConfig('Text', { variant } )
     const styles3 = useStyleConfig('Box', { variant } )
 
     return (
@@ -14,7 +13,11 @@ export function BtnAdicionar(props: any) {
             <Box __css={styles3} {...rest}>
                 <Icon as={Plus} h='100%' />
             </Box>
-            <Text __css={styles2} {...rest}>Adicionar</Text>
+            <Text color='#FFFFFF' 
+        whiteSpace="nowrap"
+        fontSize='13'
+        width="75%"
+        paddingLeft='5px'>Adicionar</Text>
         </Button>
         
     )
