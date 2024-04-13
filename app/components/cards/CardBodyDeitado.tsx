@@ -13,7 +13,7 @@ type props = {
 export function CardBodyDeitado({ nome, email, variant = 'presencial' }: props) {
 	const [hybrid, setHybrido] = useState(variant === 'presencial' ? false : true)
 	let color = ''
-	if (hybrid)
+	if (!hybrid)
 		color = '#FFA800';
 	else
 		color = '#13ACEE'

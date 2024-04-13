@@ -50,13 +50,15 @@ export default function NavbarMenu() {
                 <MenuButton
                     as={IconButton}
                     aria-label='menu'
-                    icon={<GiHamburgerMenu size='3rem' />}
-                    _hover={{ bg: 'white', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}
-                    _expanded={{ bg: 'white', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}
-                    border='none'
+                    boxShadow={'none'}
+                    icon={<GiHamburgerMenu size='2.0rem' />}
+                    _hover={{ boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}
+                    _expanded={{ bg: 'blue.300', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}
+                    border='1px solid black'
+                    borderRadius={'0.2rem'}
                     bg='none'
-                    h='35px'
-                    w='35px'
+                    h='3.0rem'
+                    w='3.0rem'
                 />
                 <MenuList p='0' boxShadow="0px 1px 2px rgba(0, 0, 0, 0.25)">
                     {renderMenuItems()}

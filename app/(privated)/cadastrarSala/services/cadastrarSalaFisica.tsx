@@ -1,6 +1,6 @@
 'use server'
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import { BACKEND_URL } from "@/app/constants";
+import { authOptions } from "@/app/utils/authOptions";
 import { getServerSession } from "next-auth"
 /*
  * envia o body para cadastro do usuário no backend
