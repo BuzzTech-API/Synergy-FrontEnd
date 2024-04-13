@@ -12,7 +12,7 @@ interface NavbarRootProps {
 export default function NavbarRoot({ children }: NavbarRootProps) {
     return (
         <Flex
-            zIndex='999'
+            zIndex='10'
             w='100vw'
             h='5rem'
             bg='white'
@@ -28,14 +28,17 @@ export default function NavbarRoot({ children }: NavbarRootProps) {
                 zIndex='-2'
                 h='100%' />
 
-            <Box
-                position='absolute'
-                zIndex='3'
-                top={'-1rem'}
-                pl='13rem'>
-                <Image src={Logo.src} width="15rem" />
-            </Box>
-
+            <Link href={'/'}>
+                <Box
+                    position='absolute'
+                    zIndex='23'
+                    top={'-1rem'}
+                    left={'13rem'}
+                    height={'5rem'}
+                >
+                    <Image zIndex={23} src={Logo.src} width="15rem" />
+                </Box>
+            </Link>
             <Flex
                 w='100%'
                 h='100%'
