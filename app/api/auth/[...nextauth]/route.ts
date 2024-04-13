@@ -6,31 +6,6 @@ import { BACKEND_URL } from "@/app/constants";
 
 
 async function refreshToken(token: JWT): Promise<JWT> {
-<<<<<<< HEAD
-	const body = JSON.stringify({
-		refresh: token.backendTokens.refresh_token
-	})
-
-	const res = await fetch(BACKEND_URL + "/auth/refresh",
-		{
-			method: "POST",
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json',
-			},
-			body: body
-		})
-	const response = await res.json()
-	return {
-		...token,
-		backendTokens: {
-			...token.backendTokens,
-			access_token: response.access_token
-		},
-		access_token: response.access_token
-		
-	};
-=======
 	try {
 		const body = {refresh: token.backendTokens.refresh_token}
 		
@@ -56,7 +31,6 @@ async function refreshToken(token: JWT): Promise<JWT> {
 	} finally {
 		return { ...token }
 	}
->>>>>>> 07cd217b55e6d110d0accd7a16252f0a4f82db01
 }
 
 export const authOptions: NextAuthOptions = {
@@ -112,11 +86,7 @@ export const authOptions: NextAuthOptions = {
 			if (user) return { ...token, ...user }
 			if (new Date().getTime() < token.backendTokens.expiresIn) {
 				console.log('access token ainda é valido');
-<<<<<<< HEAD
-				return token
-=======
 				return token;
->>>>>>> 07cd217b55e6d110d0accd7a16252f0a4f82db01
 			}
 			
 			return await refreshToken(token)

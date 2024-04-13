@@ -16,7 +16,7 @@ export default function AgendarPage() {
         <Navbar.Perfil />
       </Navbar.Root>
       <Center pt={'6.5rem'} flexDir={'column'} gap={'1rem'}>
-        {/* <Heading>Tipo de Reunião</Heading>
+        <Heading>Tipo de Reunião</Heading>
         <RadioGroup onChange={setRadioTipo} value={radioTipo}>
           <Stack direction='row'>
             <Radio value='grupo' colorScheme={'orange'} bgColor={"gray"} borderColor={'gray'} >Grupo</Radio>
@@ -32,8 +32,7 @@ export default function AgendarPage() {
               <Radio value='Virtual' colorScheme={'orange'} bgColor={"gray"} borderColor={'gray'} >Virtual</Radio>
             </Stack>
           </RadioGroup></>)}
-        {radioModo === 'Presencial' && (<FormularioPresencial />)} */}
-        <Salas tipo={"Presencial"} dataRealizacaoReuniao={new Date}/>
+        {radioModo === 'Presencial' && (<FormularioPresencial />)}
       </Center>
     </main>
   )
