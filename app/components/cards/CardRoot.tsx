@@ -7,9 +7,10 @@ type props = {
 	variant?: string,
 	children: ReactNode,
 	onclick?: () => void,
+	selected?: boolean
 }
 
-export default function CardRoot({ variant, children, onclick }: props) {
+export default function CardRoot({ variant, children, onclick, selected }: props) {
 	let color = 'rgba(54, 250, 37, 47%)'
 	if (variant === 'presencial') {
 		color = 'rgba(255, 203, 102, 76%)'
@@ -20,7 +21,9 @@ export default function CardRoot({ variant, children, onclick }: props) {
 	}
 
 	return (
-		<Card variant={variant}>
+		<Card variant={variant}
+			boxShadow={selected ? '0.3rem 0.3rem 0.3rem 0.3rem rgba(7, 142,5, 30%)' : "0.1rem 0.1rem 0.1rem 0.1rem rgba(0 ,0 ,0, 25%)"}
+		>
 			{children}
 			<Icon
 				color={color}

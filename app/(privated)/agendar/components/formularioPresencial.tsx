@@ -9,6 +9,12 @@ import { BtnAdicionar2 } from "@/app/components/buttons/BtnAdicionar2";
 import { Cards } from "@/app/components/cards";
 import { BtnAgendar } from "@/app/components/buttons/IconBtns/BtnAgendar&Reagendar";
 import Salas from "./Salas/Salas";
+import { createReservation } from "../service/postReservation";
+import { useSession } from "next-auth/react";
+import { createMeeting } from "../service/createMeeting";
+import { createGuest, createGuests } from "../service/createGuests";
+import { createMeetingGuest } from "../service/createMeetingGuest";
+import { createMeetingUsers } from "../service/createMeetingUsers";
 
 type participanteDeFora = {
   participante_nome: string,
@@ -17,6 +23,7 @@ type participanteDeFora = {
 
 export default function FormularioPresencial() {
 
+  const session = useSession()
   // useState para controlar a validade dos campos
   const [nameValid, setNameValid] = useState(false)
   const [emailValid, setEmailValid] = useState(false)
@@ -31,7 +38,6 @@ export default function FormularioPresencial() {
   // Objeto para criar o agendamento e a reunião
   const [agendamento, setAgendamento] = useState({
     meeting_title: '',
-    meeting_subject: '',
     reserve_date: formatData(new Date()),
     physical_room_id: 0,
     participante_nome: '',
@@ -118,10 +124,40 @@ export default function FormularioPresencial() {
     }))
 
   }
+  const onSubmit = async (e: any) => {
+    e.preventDefault()
+
+
+    const reserve = await createReservation({
+      "reserve_date": agendamento.reserve_date,
+      "reserve_start": agendamento.reserve_date + "T" + agendamento.inicio + ":00",
+      "reserve_end": agendamento.reserve_date + "T" + agendamento.fim + ":00",
+      "physical_room_id": agendamento.physical_room_id,
+    })
+
+    const meeting = await createMeeting({
+      "meeting_title": agendamento.meeting_title,
+      "meeting_subject": agendamento.assuntoReuniao,
+      "meeting_type": "Presencial",
+      "reserve_id": reserve.reserve_id,
+    })
+    const participantes = await createGuests(participantesFora)
+    const meetGuests = await createMeetingGuest({
+      "meeting_id": meeting.meeting_id,
+      "guests_list": participantes.map((participante) => { return participante.guest_id })
+    })
+    const meetUsers = await createMeetingUsers({
+      "meeting_id": meeting.meeting_id,
+      "users_list": selectedUser.map((participante) => { return participante.user_id })
+    })
+
+
+
+  }
 
 
   return (
-    <form>
+    <form onSubmit={onSubmit}>
       <Center flexDir={'column'} gap={'1rem'} p={'2rem'}>
 
         {/* Input do titulo */}

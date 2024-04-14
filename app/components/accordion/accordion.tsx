@@ -91,7 +91,7 @@ type AccordionProps = {
 // Componente de nível superior para o acordeão, renderizando todos os itens
 const Accordion: React.FC<AccordionProps> = ({ users, setUsers }) => {
   return (
-    <ChakraAccordion allowToggle
+    <ChakraAccordion
       allowMultiple
       width="450px"
       gap={'2rem'}
