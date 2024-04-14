@@ -27,11 +27,10 @@ interface PhysicalRoomReservation {
 }
 
 interface Reserve {
-	reserve_date: Date;
-	reserve_start: Date;
-	reserve_end: Date;
-	reserve_id: number;
-
+    reserve_date: Date;
+    reserve_start: Date;
+    reserve_end: Date;
+    reserve_id: number;
 }
 
 
@@ -68,12 +67,10 @@ export default function Salas({ tipo, dataRealizacaoReuniao, onclick }: SalasPro
         if (!salas || !reservas) {
             return null;
         }
-       
+
         return salas.map((sala, index) => {
             const reserva: PhysicalRoomReservation | undefined = reservas.find(reserva => reserva.physical_room_id === sala.physical_room_id);
-            console.log(reserva)
-            return (
-            
+            return (            
                 <Cards.Root onclick={()=>{
                     onclick(sala.physical_room_id)
                 }} variant='presencial' key={index}>
@@ -86,7 +83,7 @@ export default function Salas({ tipo, dataRealizacaoReuniao, onclick }: SalasPro
                 </Cards.Root>
             );
         });
-    } 
+    }
 
 
     return (
