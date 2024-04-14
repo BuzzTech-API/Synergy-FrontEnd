@@ -4,6 +4,7 @@ import { Badge, CardBody, Flex, Text } from "@chakra-ui/react";
 type props = {
 	capacidade?: number,
 	reservation: PhysicalRoomReservation
+	onclick?: () => void,
 }
 
 interface PhysicalRoomReservation {
@@ -22,13 +23,13 @@ interface Reserve {
 	reserve_id: number;
 }
 
-export function CardBodySala({ capacidade, reservation }: props) {
+export function CardBodySala({ capacidade, reservation, onclick}: props) {
 
 
 
 
 	return (
-		<CardBody>
+		<CardBody onClick={onclick}>
 			{capacidade !== 0 &&
 				<Text
 					textAlign={"center"}

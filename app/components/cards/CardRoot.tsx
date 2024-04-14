@@ -6,8 +6,10 @@ import { ReactNode } from "react"
 type props = {
 	variant?: string,
 	children: ReactNode,
+	onclick?: () => void,
 }
-export default function CardRoot({ variant, children }: props) {
+
+export default function CardRoot({ variant, children, onclick }: props) {
 	let color = 'rgba(54, 250, 37, 47%)'
 	if (variant === 'presencial') {
 		color = 'rgba(255, 203, 102, 76%)'

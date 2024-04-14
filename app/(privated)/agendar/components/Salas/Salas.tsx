@@ -5,7 +5,8 @@ import { Cards } from "@/app/components/cards";
 
 interface SalasProps {
     tipo: string,
-    dataRealizacaoReuniao: Date
+    dataRealizacaoReuniao: Date,
+    onclick: (id:number) => void,
 }
 
 interface PhysicalRoom {
@@ -34,7 +35,7 @@ interface Reserve {
 
 
 
-export default function Salas({ tipo, dataRealizacaoReuniao }: SalasProps) {
+export default function Salas({ tipo, dataRealizacaoReuniao, onclick }: SalasProps) {
 
     const [salasPresenciais, setSalasPresenciais] = useState<PhysicalRoom[]>(new Array<PhysicalRoom>());
     const [reservas, setReservas] = useState<PhysicalRoomReservation[]>(new Array<PhysicalRoomReservation>());
@@ -69,11 +70,16 @@ export default function Salas({ tipo, dataRealizacaoReuniao }: SalasProps) {
 
         return salas.map((sala, index) => {
             const reserva: PhysicalRoomReservation | undefined = reservas.find(reserva => reserva.physical_room_id === sala.physical_room_id);
-            return (
-
-                <Cards.Root variant='presencial' key={index}>
-                    <Cards.Header fontSize={'1.5rem'}>{sala.physical_room_name}</Cards.Header>
-                    {reserva && <Cards.BodySala reservation={reserva} capacidade={sala.physical_room_vacancies} />}
+            return (            
+                <Cards.Root onclick={()=>{
+                    onclick(sala.physical_room_id)
+                }} variant='presencial' key={index}>
+                    <Cards.Header onClick={()=>{
+                    onclick(sala.physical_room_id)
+                }}>{sala.physical_room_name}</Cards.Header>
+                    {reserva && <Cards.BodySala onclick={()=>{
+                    onclick(sala.physical_room_id)
+                }} reservation={reserva} capacidade={sala.physical_room_vacancies} />}
                 </Cards.Root>
             );
         });
