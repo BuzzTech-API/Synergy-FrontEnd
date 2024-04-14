@@ -1,3 +1,4 @@
+'use client'
 import { Box, Flex, Heading } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { GetReservationSalaService, GetSalasService } from "./services/SalasService";
@@ -39,6 +40,7 @@ export default function Salas({ tipo, dataRealizacaoReuniao, onclick }: SalasPro
 
     const [salasPresenciais, setSalasPresenciais] = useState<PhysicalRoom[]>(new Array<PhysicalRoom>());
     const [reservas, setReservas] = useState<PhysicalRoomReservation[]>(new Array<PhysicalRoomReservation>());
+    const [selected, setSelected] = useState(-1)
 
 
     useEffect(() => {
@@ -71,16 +73,19 @@ export default function Salas({ tipo, dataRealizacaoReuniao, onclick }: SalasPro
         return salas.map((sala, index) => {
             const reserva: PhysicalRoomReservation | undefined = reservas.find(reserva => reserva.physical_room_id === sala.physical_room_id);
             return (
-                <Cards.Root onclick={() => {
+                <Cards.Root selected={index === selected ? true : false} onclick={() => {
+                    setSelected((prevState) => index)
                     onclick(sala.physical_room_id)
                 }} variant='presencial' key={index}>
                     <Cards.Header
                         fontSize="1.5rem"
                         onClick={() => {
+                            setSelected((prevState) => index)
                             onclick(sala.physical_room_id)
                         }}
                     >{sala.physical_room_name}</Cards.Header>
                     {reserva && <Cards.BodySala onclick={() => {
+                        setSelected((prevState) => index)
                         onclick(sala.physical_room_id)
                     }} reservation={reserva} capacidade={sala.physical_room_vacancies} />}
                 </Cards.Root>

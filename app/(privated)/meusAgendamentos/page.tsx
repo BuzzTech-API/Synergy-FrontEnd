@@ -20,7 +20,7 @@ export default function MeusAgendamentos() {
       }
       fetchUser()
     }
-  )
+    , [])
   function formatarData(dataString: string): string {
     const dataUTC = new Date(dataString);
     const dia = dataUTC.getDate().toString().padStart(2, '0');
