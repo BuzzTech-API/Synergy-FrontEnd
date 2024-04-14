@@ -14,7 +14,7 @@ type props = {
 export function FormInputAgendar({ handleInputChange, input, campo, id, type, width = '100%' }: props) {
   // Input com indentifcação visual de erro, caso queria utilizar
   // use de exemplo a tela de cadastro de usuário para reproduzir
-  const [isError, setIsError] = useState(input === '')
+  const [isError, setIsError] = useState(false)
 
 
   return (

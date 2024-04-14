@@ -1,13 +1,10 @@
-import { FormControlInput } from "@/app/components/FormControlInput/FormControlInput";
 import { Button, Center, Flex, Heading, useToast } from "@chakra-ui/react";
 import { ChangeEvent, Dispatch, MouseEventHandler, SetStateAction, useEffect, useState } from "react";
 import { FormInputAgendar } from "./FormInputAgendar";
 import { formatData } from "../service/formatData";
 import SearchInput from "@/app/components/SearchBar";
-import { getAllUsers } from "../service/getUsers";
 import { User } from "@/app/type/user";
 import Accordion from "@/app/components/accordion/accordion";
-import { BtnAdicionar } from "@/app/components/buttons/BtnsAdicionar";
 import { BtnAdicionar2 } from "@/app/components/buttons/BtnAdicionar2";
 import { Cards } from "@/app/components/cards";
 import { BtnAgendar } from "@/app/components/buttons/IconBtns/BtnAgendar&Reagendar";
@@ -25,6 +22,11 @@ export default function FormularioPresencial() {
   const [emailValid, setEmailValid] = useState(false)
   const [passwordValid, setPasswordValid] = useState(false)
   const [boardValid, setBoardValid] = useState(false)
+
+
+
+  // Data para filtrar os cards
+  const [dataParaCard, setDataParaCard] = useState(new Date())
 
   // Objeto para criar o agendamento e a reunião
   const [agendamento, setAgendamento] = useState({
@@ -103,14 +105,17 @@ export default function FormularioPresencial() {
       setPasswordValid(isValid)
     } else if (id === 'board') {
       setBoardValid(isValid)
+    } else if (id === 'reserve_date') {
+      setDataParaCard(new Date(value))
     }
+
   }
 
   const handleCardChange = (id: number) => {
-    setAgendamento ((prevstate) => ({
-        ...prevstate,
-        physical_room_id: id
-    } ))
+    setAgendamento((prevstate) => ({
+      ...prevstate,
+      physical_room_id: id
+    }))
 
   }
 
@@ -118,13 +123,22 @@ export default function FormularioPresencial() {
   return (
     <form>
       <Center flexDir={'column'} gap={'1rem'} p={'2rem'}>
-        <FormInputAgendar width={"75%"} handleInputChange={handleInputChange} input={agendamento.meeting_title} campo="Título da Reunião" id="meeting_title" type="text" />
+
+        {/* Input do titulo */}
+        <FormInputAgendar width={"65%"} handleInputChange={handleInputChange} input={agendamento.meeting_title} campo="Título da Reunião" id="meeting_title" type="text" />
+
+        {/* Input da Data de Realização */}
         <FormInputAgendar width="30%" handleInputChange={handleInputChange} input={agendamento.reserve_date} campo="Data de Realização" id="reserve_date" type="date" />
+
+        {/* Parte dos Usuários do sistema que participam da reunião */}
         <Heading>Participantes</Heading>
         <SearchInput selectedUser={selectedUser} setSelectedUser={setSelectedUser} />
         <Flex gap={'1rem'}>
           <Accordion users={selectedUser} setUsers={setSelectedUser} />
         </Flex>
+
+        {/* Pare dos Participantes de Fora */}
+
         <Heading>Participantes de Fora</Heading>
         <Flex gap={'4rem'}>
           <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.participante_nome} campo="Nome" id="participante_nome" type="text" />
@@ -134,24 +148,32 @@ export default function FormularioPresencial() {
         <Flex flexDir={'column'} gap={'1rem'}>
           {
             participantesFora.map((participante, index) => {
+              function removeParticipante() {
+                setParticipantesFora(participantesFora.filter((item, indexFilter) => indexFilter !== index))
+              }
               return (
                 <Cards.Root variant="deitado" key={index}>
-                  <Cards.BodyDeitado nome={participante.participante_nome} email={participante.participante_email} />
+                  <Cards.BodyDeitado onClick={removeParticipante} nome={participante.participante_nome} email={participante.participante_email} />
                 </Cards.Root>
               )
             })
           }
         </Flex>
-        
-        <Salas onclick={handleCardChange} tipo={"Presencial"} dataRealizacaoReuniao={new Date} />
 
+        {/* Cards das Salas */}
+        <Salas onclick={handleCardChange} tipo={"Presencial"} dataRealizacaoReuniao={dataParaCard} />
+
+        {/* Inputs de Horário de Realização */}
         <Heading>Horário de Realização</Heading>
         <Flex gap={'12rem'}>
-          <FormInputAgendar handleInputChange={handleInputChange} width="50%" input={agendamento.inicio} campo="Início" id="inicio" type="time" />
-          <FormInputAgendar handleInputChange={handleInputChange} width="50%" input={agendamento.fim} campo="Fim" id="fim" type="time" />
+          <FormInputAgendar handleInputChange={handleInputChange} width="100%" input={agendamento.inicio} campo="Início" id="inicio" type="time" />
+          <FormInputAgendar handleInputChange={handleInputChange} width="100%" input={agendamento.fim} campo="Fim" id="fim" type="time" />
         </Flex>
 
+        {/* Input de Assunto da Reunião */}
         <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.assuntoReuniao} campo="Assunto da Reunião" id="assuntoReuniao" type="textarea" />
+
+        {/* Botão para enviar o agendamento */}
         <BtnAgendar type="submit" />
       </Center>
     </form>

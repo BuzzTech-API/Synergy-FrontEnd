@@ -15,7 +15,7 @@ type participanteDeFora = {
 
 export default function formIndividual() {
 
-    const session = useSession()
+  const session = useSession()
 
 
   // useState para controlar a validade dos campos
@@ -34,11 +34,7 @@ export default function formIndividual() {
   })
 
 
-  // Lista de Usuários que vão participar da Reunião
-  const [selectedUser, setSelectedUser] = useState<User[]>(new Array<User>())
 
-  // Lista Participantes de Fora
-  const [participantesFora, setParticipantesFora] = useState<Array<participanteDeFora>>(new Array<participanteDeFora>())
 
 
   const toast = useToast()
@@ -83,26 +79,26 @@ export default function formIndividual() {
       setBoardValid(isValid)
     } else if (id === 'reserve_date') {
       setDataParaCard(new Date(value))
-      }
+    }
   }
 
   const handleCardChange = (id: number) => {
-    setAgendamento ((prevstate) => ({
-        ...prevstate,
-        physical_room_id: id
-    } ))
+    setAgendamento((prevstate) => ({
+      ...prevstate,
+      physical_room_id: id
+    }))
 
   }
 
-  const onSubmit = (e:any) => {
+  const onSubmit = (e: any) => {
     e.preventDefault()
     createReservation({
-        "reserve_start":agendamento.reserve_date+" "+agendamento.inicio+":00",
-        "reserve_end":agendamento.reserve_date+" "+agendamento.fim+":00",
-        "reserve_date":agendamento.reserve_date,
-        "user_id":session.data?.user.user_id,
-        "physical_room_id":agendamento.physical_room_id,
-        })
+      "reserve_start": agendamento.reserve_date + " " + agendamento.inicio + ":00",
+      "reserve_end": agendamento.reserve_date + " " + agendamento.fim + ":00",
+      "reserve_date": agendamento.reserve_date,
+      "user_id": session.data?.user.user_id,
+      "physical_room_id": agendamento.physical_room_id,
+    })
 
   }
 
@@ -113,7 +109,7 @@ export default function formIndividual() {
     <form onSubmit={onSubmit}>
       <Center flexDir={'column'} gap={'1rem'} p={'2rem'}>
         <FormInputAgendar width="30%" handleInputChange={handleInputChange} input={agendamento.reserve_date} campo="Data de Realização" id="reserve_date" type="date" />
-        
+
         <Salas onclick={handleCardChange} tipo={"Presencial"} dataRealizacaoReuniao={dataParaCard} />
 
         <Heading>Horário de Realização</Heading>
@@ -122,7 +118,7 @@ export default function formIndividual() {
           <FormInputAgendar handleInputChange={handleInputChange} width="100%" input={agendamento.fim} campo="Fim" id="fim" type="time" />
         </Flex>
 
-        <BtnAgendar type = "submit"/>
+        <BtnAgendar type="submit" />
       </Center>
     </form>
   )

@@ -6,7 +6,7 @@ import { Cards } from "@/app/components/cards";
 interface SalasProps {
     tipo: string,
     dataRealizacaoReuniao: Date,
-    onclick: (id:number) => void,
+    onclick: (id: number) => void,
 }
 
 interface PhysicalRoom {
@@ -70,16 +70,19 @@ export default function Salas({ tipo, dataRealizacaoReuniao, onclick }: SalasPro
 
         return salas.map((sala, index) => {
             const reserva: PhysicalRoomReservation | undefined = reservas.find(reserva => reserva.physical_room_id === sala.physical_room_id);
-            return (            
-                <Cards.Root onclick={()=>{
+            return (
+                <Cards.Root onclick={() => {
                     onclick(sala.physical_room_id)
                 }} variant='presencial' key={index}>
-                    <Cards.Header onClick={()=>{
-                    onclick(sala.physical_room_id)
-                }}>{sala.physical_room_name}</Cards.Header>
-                    {reserva && <Cards.BodySala onclick={()=>{
-                    onclick(sala.physical_room_id)
-                }} reservation={reserva} capacidade={sala.physical_room_vacancies} />}
+                    <Cards.Header
+                        fontSize="1.5rem"
+                        onClick={() => {
+                            onclick(sala.physical_room_id)
+                        }}
+                    >{sala.physical_room_name}</Cards.Header>
+                    {reserva && <Cards.BodySala onclick={() => {
+                        onclick(sala.physical_room_id)
+                    }} reservation={reserva} capacidade={sala.physical_room_vacancies} />}
                 </Cards.Root>
             );
         });

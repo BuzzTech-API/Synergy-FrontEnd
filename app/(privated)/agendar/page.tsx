@@ -3,7 +3,6 @@ import { Center, Heading, Radio, RadioGroup, Stack } from "@chakra-ui/react"
 import React from "react"
 import { Navbar } from "../../components/Navbar/Navbar"
 import FormularioPresencial from "./components/formularioPresencial"
-import Salas from "./components/Salas/Salas"
 import FormIndividual from "./components/formIndividual"
 
 
@@ -11,6 +10,12 @@ export default function AgendarPage() {
   const [radioTipo, setRadioTipo] = React.useState('0')
   const [radioModo, setRadioModo] = React.useState('')
   const [radioIndividual, setRadioIndividual] = React.useState('0')
+
+  const handleRadioTipo = (nextValue: string) => {
+    setRadioTipo(nextValue)
+    setRadioModo('')
+    setRadioIndividual('')
+  }
   return (
     <main>
       <Navbar.Root>
@@ -19,7 +24,7 @@ export default function AgendarPage() {
       </Navbar.Root>
       <Center pt={'6.5rem'} flexDir={'column'} gap={'1rem'}>
         <Heading>Tipo de Reunião</Heading>
-        <RadioGroup onChange={setRadioTipo} value={radioTipo}>
+        <RadioGroup onChange={handleRadioTipo} id="radioTipo" value={radioTipo}>
           <Stack direction='row'>
             <Radio value='grupo' colorScheme={'orange'} bgColor={"gray"} borderColor={'gray'} >Grupo</Radio>
             <Radio value='individual' colorScheme={'orange'} bgColor={"gray"} borderColor={'gray'} >Indivindual</Radio>
@@ -34,10 +39,10 @@ export default function AgendarPage() {
               <Radio value='reuniaoCompleta' colorScheme={'orange'} bgColor={"gray"} borderColor={'gray'} >Agendar reunião completa</Radio>
             </Stack>
           </RadioGroup></>)}
-        {radioIndividual === 'somenteSala' && (<FormIndividual/>)}
+        {radioIndividual === 'somenteSala' && (<FormIndividual />)}
 
 
-       {/* Espaço para Reunião completa */}
+        {/* Espaço para Reunião completa */}
         {radioIndividual === 'reuniaoCompleta' && (<> </>)}
 
         {radioTipo === 'grupo' && (<>

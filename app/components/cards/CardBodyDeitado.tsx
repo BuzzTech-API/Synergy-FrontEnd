@@ -3,14 +3,16 @@
 import { Flex, Text, Heading, CardBody, Button } from "@chakra-ui/react"
 import { useState } from "react"
 import { SwitchPV } from "../switch/Switch"
+import { BtnRemover } from "../buttons/IconBtns/BtnRemover&Entrar"
 
 type props = {
 	nome: string,
 	email: string,
 	variant?: string,
+	onClick?: () => void
 }
 
-export function CardBodyDeitado({ nome, email, variant = 'presencial' }: props) {
+export function CardBodyDeitado({ nome, email, variant = 'presencial', onClick }: props) {
 	const [hybrid, setHybrido] = useState(variant === 'presencial' ? false : true)
 	let color = ''
 	if (!hybrid)
@@ -33,7 +35,7 @@ export function CardBodyDeitado({ nome, email, variant = 'presencial' }: props) 
 						<Text>Virtual</Text>
 					</Flex>
 				)}
-				<Button bgColor={"red"}>Remover</Button>
+				<BtnRemover onClick={onClick} />
 			</Flex>
 		</CardBody>
 	)
