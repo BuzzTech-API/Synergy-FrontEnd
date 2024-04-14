@@ -12,4 +12,5 @@ export const Cards = {
 	BodyDeitado: CardBodyDeitado,
 	BodySalaAdm: CardBodySalaAdm,
 	BodyReuniao: CardBodyReuniao,
+	
 }
