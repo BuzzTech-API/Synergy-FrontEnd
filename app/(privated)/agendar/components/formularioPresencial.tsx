@@ -116,11 +116,7 @@ export default function FormularioPresencial() {
         <Heading>Participantes</Heading>
         <SearchInput selectedUser={selectedUser} setSelectedUser={setSelectedUser} />
         <Flex gap={'1rem'}>
-          // Aqui Vai entrar os Accordions
-          {selectedUser.map((user, index) => {
-
-            return (<></>)
-          })}
+          <Accordion users={selectedUser} setUsers={setSelectedUser} />
         </Flex>
         <Heading>Participantes de Fora</Heading>
         <Flex gap={'4rem'}>
@@ -139,7 +135,7 @@ export default function FormularioPresencial() {
             })
           }
         </Flex>
-        
+
         <Salas tipo={"Presencial"} dataRealizacaoReuniao={new Date} />
 
         <Heading>Horário de Realização</Heading>
@@ -149,7 +145,7 @@ export default function FormularioPresencial() {
         </Flex>
 
         <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.assuntoReuniao} campo="Assunto da Reunião" id="assuntoReuniao" type="textarea" />
-        <BtnAgendar />
+        <BtnAgendar type="submit" />
       </Center>
     </form>
   )

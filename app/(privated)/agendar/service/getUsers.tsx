@@ -19,3 +19,21 @@ export async function getAllUsers() {
 
 
 }
+
+
+export async function getUserInTheSession() {
+  const session = await getServerSession(authOptions)
+  const response = await fetch(BACKEND_URL + "/users/" + session?.user.user_id,
+    {
+      headers: {
+        'Authorization': `Bearer ${session?.backendTokens.access_token}`
+      }
+    }
+  )
+  if (!response.ok)
+    throw console.error(response.text);
+
+  return response.json()
+
+
+}

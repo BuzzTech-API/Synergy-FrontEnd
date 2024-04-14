@@ -25,7 +25,7 @@ export function CardBodyReuniao({ tituloReuniao, children, data, horaInicio, hor
 			>
 
 				<Text
-					textAlign={"center"} variant={'comum'} color={'#000'}
+					textAlign={"center"}
 				>
 					{tituloReuniao}
 				</Text>
@@ -36,7 +36,7 @@ export function CardBodyReuniao({ tituloReuniao, children, data, horaInicio, hor
 					flexDirection={"column"}
 				>
 					<Heading fontSize={'1rem'}>Data</Heading>
-					<Text variant={'comum'} color={'#000'} width={'5rem'} >{data}</Text>
+					<Text >{data}</Text>
 				</Flex>
 				<Flex
 					pt={'0.3rem'}
@@ -45,7 +45,7 @@ export function CardBodyReuniao({ tituloReuniao, children, data, horaInicio, hor
 					flexDirection={"column"}
 				>
 					<Heading fontSize={'1rem'}>Horário de Inicio</Heading>
-					<Text variant={'comum'} color={'#000'} width={'3rem'} >{horaInicio}</Text>
+					<Text>{horaInicio}</Text>
 				</Flex>
 				<Flex
 					pt={'0.3rem'}
@@ -54,7 +54,7 @@ export function CardBodyReuniao({ tituloReuniao, children, data, horaInicio, hor
 					flexDirection={"column"}
 				>
 					<Heading fontSize={'1rem'}>Horário de Fim</Heading>
-					<Text variant={'comum'} color={'#000'} width={'3rem'} >{horaFim}</Text>
+					<Text>{horaFim}</Text>
 				</Flex>
 				<Flex mt={'0.5rem'} gap={'0.4em'} zIndex={'3'} flexDirection={'column'} >
 					{children}
