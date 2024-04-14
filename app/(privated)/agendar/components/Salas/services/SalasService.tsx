@@ -1,6 +1,6 @@
 'use server'
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import { BACKEND_URL } from "@/app/constants";
+import { authOptions } from "@/app/utils/authOptions";
 import { getServerSession } from "next-auth"
 
 
@@ -23,8 +23,8 @@ export async function GetSalasService() {
 	return response.json()
 }
 
-export async function GetReservationSalaService(id:number) {
-	
+export async function GetReservationSalaService(id: number) {
+
 	const session = await getServerSession(authOptions);
 
 	const request = await fetch(BACKEND_URL + `/physicalrooms/${id}`, {

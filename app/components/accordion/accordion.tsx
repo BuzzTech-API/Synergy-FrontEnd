@@ -94,13 +94,14 @@ const Accordion: React.FC<AccordionProps> = ({ users, setUsers }) => {
     <ChakraAccordion allowToggle
       allowMultiple
       width="450px"
+      gap={'2rem'}
     >
       {users.map((user, index) => {
         function removeItem() {
           setUsers(users.filter((userFilter) => userFilter.user_id !== user.user_id))
         }
         return (
-          <AccordionItem key={index} avatar={""} nome={user.user_name} onClick={removeItem} badges={['']} />
+          <AccordionItem key={index} avatar={""} nome={user.user_name} onClick={removeItem} badges={[]} />
         )
       }
       )
