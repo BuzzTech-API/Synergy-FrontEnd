@@ -18,18 +18,61 @@ export default function FormularioLogin() {
 
 	async function onSubmit(e: any) {
 		e.preventDefault()
-
-		const resposta = await signIn('credentials', {
-			email: input.email,
-			password: input.senha,
-			redirect: false,
+		const loadingToast = toast({
+			title: "Fazendo login",
+			description: "Fazendo login no sistema, aguarde...",
+			status: "info",
+			position: 'top',
+			duration: null, // Define a duração como null para manter o toast visível enquanto estiver carregando
+			isClosable: false, // Impede que o usuário feche o toast enquanto estiver carregando
 		})
-
-		if (resposta?.error) {
-			console.log(resposta);
+		if (input.email === '') {
+			toast.close(loadingToast)
+			toast({
+				title: "Erro",
+				description: "Informe o email do usuário.",
+				status: "error",
+				position: 'top',
+				duration: 3000,
+				isClosable: true,
+			})
+			return
+		} else if (input.senha === '') {
+			toast.close(loadingToast)
+			toast({
+				title: "Erro",
+				description: "Informe a senha do usuário.",
+				status: "error",
+				position: 'top',
+				duration: 3000,
+				isClosable: true,
+			})
 			return
 		}
-		router.replace('/')
+
+		try {
+			const resposta = await signIn('credentials', {
+				email: input.email,
+				password: input.senha,
+				redirect: false,
+			})
+			if (resposta?.error) {
+				throw new Error(resposta.error)
+			}
+			toast.close(loadingToast)
+			router.replace('/')
+
+		} catch (error) {
+			toast.close(loadingToast)
+			toast({
+				title: "Erro",
+				description: "Credenciais inválidas",
+				status: "error",
+				position: 'top',
+				duration: 3000,
+				isClosable: true,
+			})
+		}
 	}
 	return (
 		<form onSubmit={onSubmit}>
