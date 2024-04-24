@@ -15,6 +15,7 @@ import { createMeeting } from "../service/createMeeting";
 import { createGuests } from "../service/createGuests";
 import { createMeetingGuest } from "../service/createMeetingGuest";
 import { createMeetingUsers } from "../service/createMeetingUsers";
+import { calcularReserveEnd } from "../service/calculateEnd";
 
 type participanteDeFora = {
   participante_nome: string,
@@ -38,7 +39,7 @@ export default function FormularioPresencial() {
     participante_nome: '',
     participante_email: "",
     inicio: "",
-    fim: "",
+    duracao: "",
     assuntoReuniao: "",
   })
 
@@ -71,7 +72,7 @@ export default function FormularioPresencial() {
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>, setIsError: Dispatch<SetStateAction<boolean>>) => {
     const { id, value } = e.target
-
+    
     let isValid = true
 
     if (id === 'reserve_date') {
@@ -164,7 +165,7 @@ export default function FormularioPresencial() {
           isClosable: true,
         })
         return // Encerra a função onSubmit para evitar o envio do formulário
-      } else if (agendamento.inicio === '' || agendamento.fim === '') {
+      } else if (agendamento.inicio === '' || agendamento.duracao === '') {
         toast.close(loadingToast)
         toast({
           title: "Erro",
@@ -189,10 +190,15 @@ export default function FormularioPresencial() {
         return
       }
 
+      const data_end = calcularReserveEnd(agendamento.reserve_date, agendamento.inicio, agendamento.duracao)
+      data_end.setMinutes(data_end.getMinutes() - data_end.getTimezoneOffset())
+      const reserve_end = data_end.toISOString()
+
+
       const reserve = await createReservation({
         "reserve_date": agendamento.reserve_date,
         "reserve_start": agendamento.reserve_date + "T" + agendamento.inicio + ":00",
-        "reserve_end": agendamento.reserve_date + "T" + agendamento.fim + ":00",
+        "reserve_end": reserve_end,
         "physical_room_id": agendamento.physical_room_id,
       })
 
@@ -221,7 +227,7 @@ export default function FormularioPresencial() {
         participante_nome: '',
         participante_email: "",
         inicio: "",
-        fim: "",
+        duracao: "",
         assuntoReuniao: "",
       })
       setSelectedUser([])
@@ -298,7 +304,7 @@ export default function FormularioPresencial() {
         <Heading>Horário de Realização</Heading>
         <Flex gap={'12rem'}>
           <FormInputAgendar handleInputChange={handleInputChange} width="100%" input={agendamento.inicio} campo="Início" id="inicio" type="time" />
-          <FormInputAgendar handleInputChange={handleInputChange} width="100%" input={agendamento.fim} campo="Fim" id="fim" type="time" />
+          <FormInputAgendar handleInputChange={handleInputChange} width="100%" input={agendamento.duracao} campo="Duração" id="duracao" type="time" />
         </Flex>
 
         {/* Input de Assunto da Reunião */}
