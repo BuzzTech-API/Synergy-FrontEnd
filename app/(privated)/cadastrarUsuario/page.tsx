@@ -25,8 +25,10 @@ export default function CadastrarUsuario() {
   const toast = useToast()
 
   // verifica se todos os campos estão preenchido
-  const isFormValid = nameValid && emailValid && passwordValid && boardValid && (user.permissionLevel !== 0)
-
+  const isPermissionLevelValid = [1, 2, 3].includes(user.permissionLevel); //ivan: percebi que tinha um erro na hora de validiar o nível de permissão, então eu criei essa
+                                                                           //variavel para validar somente se 1, 2 ou 3 fossem selecionados.
+  const isFormValid = nameValid && emailValid && passwordValid && (user.board !== '') && isPermissionLevelValid;
+  //ivan: removi o `else if` da linha 39 - validação do board, porque já é possivel fazer a validação do campo pela const isFormValid
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>, setIsError: Dispatch<SetStateAction<boolean>>) => {
     const { id, value } = e.target
@@ -35,10 +37,6 @@ export default function CadastrarUsuario() {
     if (id === 'name') {
       // Verifica se o valor não começa com espaço e não excede 150 caracteres
       isValid = value.trim() !== '' && value.length <= 150 && !value.startsWith(' ')
-      setIsError(!isValid)
-    } else if (id === 'board') {
-      // Verifica se o valor não começa com espaço e não excede 80 caracteres
-      isValid = value.trim() !== '' && value.length <= 80 && !value.startsWith(' ')
       setIsError(!isValid)
     } else if (id === 'email') {
       // Verifica se o valor não começa com espaço e não excede 80 caracteres
@@ -63,8 +61,6 @@ export default function CadastrarUsuario() {
       setEmailValid(isValid)
     } else if (id === 'password') {
       setPasswordValid(isValid)
-    } else if (id === 'board') {
-      setBoardValid(isValid)
     }
   }
 
@@ -114,11 +110,9 @@ export default function CadastrarUsuario() {
       permissionLevel: 0
     })
     setNameValid(false)
-    setBoardValid(false)
     setEmailValid(false)
     setPasswordValid(false)
   }
-
 
   return (
 
@@ -137,10 +131,19 @@ export default function CadastrarUsuario() {
             <FormControlInput id='name' input={user.name} handleInputChange={handleInputChange} campo="Nome Completo" type="" />
             <FormControlInput id='email' input={user.email} handleInputChange={handleInputChange} campo="Email" type="email" />
             <FormControlInput id='password' input={user.password} handleInputChange={handleInputChange} campo="Senha" type="password" />
-            <FormControlInput id='board' input={user.board} handleInputChange={handleInputChange} campo="Área" type="" />
+            <Flex w='100%' gap="1rem"><Heading fontWeight={'normal'} whiteSpace={'nowrap'}>Diretoria do Usuário</Heading>
+              <Select placeholder='Diretoria' value={user.board} onChange={(e: ChangeEvent<HTMLSelectElement>) => setUser({
+                ...user, board: String(e.target.value)
+              })}>
+                <option value={'Financeira'}>Financeira</option>
+                <option value={'Comercial'}>Comercial</option>
+                <option value={'Técnica'}>Técnica</option>
+              </Select>
+            </Flex>
+            {/*ivan: removi o FormControlInput do board e substitui por um clone do select abaixo, alterando os valores do dropbox */}
             <Flex w='100%' gap="1rem"><Heading fontWeight={'normal'} whiteSpace={'nowrap'}>Nível de Permissão</Heading>
               <Select placeholder='Escolha o Nível de Permissão' value={user.permissionLevel} onChange={(e: ChangeEvent<HTMLSelectElement>) => setUser({
-                ...user, permissionLevel: Number.parseInt(e.target.value)
+                ...user, permissionLevel: Number.parseInt(e.target.value, 10)
               })}>
                 <option value={1}>1</option>
                 <option value={2}>2</option>
