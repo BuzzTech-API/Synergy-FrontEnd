@@ -9,14 +9,16 @@ import { BtnCriarSala } from "@/app/components/buttons/IconBtns/BtnCriarSala&Usu
 export default function CadastrarSalaPresencial() {
   const [nameValid, setNameValid] = useState(false)
   const [capacityValid, setCapacityValid] = useState(false)
+  const [localityValid, setLocalityValid] = useState(false)
   // Objeto para criar a sala
   const [room, setRoom] = useState({
     name: '',
     capacity: '',
-    permissionLevel: 0
+    permissionLevel: 0,
+    locality:''
   })
   const toast = useToast()
-  const isFormValid = capacityValid && nameValid && (room.permissionLevel !== 0)
+  const isFormValid = capacityValid && nameValid && localityValid && (room.permissionLevel !== 0)
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>, setIsError: Dispatch<SetStateAction<boolean>>) => {
     const { id, value } = e.target
@@ -26,6 +28,9 @@ export default function CadastrarSalaPresencial() {
       isValid = value.trim() !== '' && value.length <= 80 && !value.startsWith(' ')
       setIsError(!isValid)
     } else if (id === 'capacity') {
+      isValid = value.trim() !== '' && !value.startsWith(' ')
+      setIsError(!isValid)
+    } else if (id === 'locality') {
       isValid = value.trim() !== '' && !value.startsWith(' ')
       setIsError(!isValid)
     }
@@ -42,6 +47,8 @@ export default function CadastrarSalaPresencial() {
       setNameValid(isValid)
     } else if (id === 'capacity') {
       setCapacityValid(isValid)
+    } else if (id === 'locality') {
+      setLocalityValid(isValid)
     }
   }
 
@@ -54,6 +61,7 @@ export default function CadastrarSalaPresencial() {
       "physical_room_name": room.name,
       "physical_room_vacancies": Number.parseInt(room.capacity),
       "physical_room_permission_level": room.permissionLevel,
+      "physical_room_address": room.locality
     }
     
     const request = cadastrarSala(body)
@@ -85,10 +93,12 @@ export default function CadastrarSalaPresencial() {
     setRoom({
       name: '',
       capacity: '',
-      permissionLevel: 0
+      permissionLevel: 0,
+      locality:''
     })
     setCapacityValid(false)
     setNameValid(false)
+    setLocalityValid(false)
   }
 
 
@@ -102,6 +112,7 @@ export default function CadastrarSalaPresencial() {
             <Heading color={"#007ABE"} variant={'big'} fontWeight={'normal'}>Cadastro de Sala Presencial</Heading>
             <FormControlInput id='name' input={room.name} handleInputChange={handleInputChange} campo="Nome" type="" />
             <FormControlInput id='capacity' input={room.capacity} handleInputChange={handleInputChange} campo="Capacidade" type="number" />
+            <FormControlInput id='locality' input={room.locality} handleInputChange={handleInputChange} campo="Endereço / Local" type="" />
             <Flex w='100%' gap="1rem"><Heading fontWeight={'normal'} whiteSpace={'nowrap'}>Nível de Permissão</Heading>
               <Select placeholder='Escolha o Nível de Permissão' value={room.permissionLevel} onChange={(e: ChangeEvent<HTMLSelectElement>) => setRoom({
                 ...room, permissionLevel: Number.parseInt(e.target.value)
