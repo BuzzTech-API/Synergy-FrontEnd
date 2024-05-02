@@ -9,7 +9,7 @@ import { BtnCriarSala } from "@/app/components/buttons/IconBtns/BtnCriarSala&Usu
 export default function CadastrarSalaPresencial() {
   const [nameValid, setNameValid] = useState(false)
   const [capacityValid, setCapacityValid] = useState(false)
-  // Objeto para criar o usuário
+  // Objeto para criar a sala
   const [room, setRoom] = useState({
     name: '',
     capacity: '',
