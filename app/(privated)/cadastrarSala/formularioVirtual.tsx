@@ -96,8 +96,8 @@ export default function CadastrarSalaVirtual() {
         permissionLevel: 0
       })
       setLoginValid(false)
-      setNameValid(false)
       setPasswordValid(false)
+      setNameValid(false)
     }
 
     return (
@@ -109,7 +109,7 @@ export default function CadastrarSalaVirtual() {
                 <Heading color={"#007ABE"} variant={'big'} fontWeight={'normal'}>Cadastro de Sala Virtual</Heading>
                 <FormControlInput id='name' input={room.name} handleInputChange={handleInputChange} campo="Nome" type="" />
                 <FormControlInput id='login' input={room.login} handleInputChange={handleInputChange} campo="Login" type="" />
-                <FormControlInput id='password' input={room.password} handleInputChange={handleInputChange} campo="Senha" type="" />
+                <FormControlInput id='password' input={room.password} handleInputChange={handleInputChange} campo="Senha" type="password" />
                 <FormControlInput id='link' input={room.link} handleInputChange={handleInputChange} campo="Link" type="" />
                 <Flex w='100%' gap="1rem"><Heading fontWeight={'normal'} whiteSpace={'nowrap'}>Nível de Permissão</Heading>
                   <Select placeholder='Escolha o Nível de Permissão' value={room.permissionLevel} onChange={(e: ChangeEvent<HTMLSelectElement>) => setRoom({
