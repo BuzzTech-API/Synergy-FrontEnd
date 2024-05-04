@@ -5,6 +5,7 @@ import { Navbar } from "../../components/Navbar/Navbar"
 import FormularioPresencial from "./components/formularioPresencial"
 import FormIndividual from "./components/formIndividual"
 import FormularioVirtual from "./components/formularioVirtual"
+import FormularioHibrido from "./components/FormularioHibrido"
 
 
 export default function AgendarPage() {
@@ -56,6 +57,7 @@ export default function AgendarPage() {
             </Stack>
           </RadioGroup></>)}
         {radioModo === 'Presencial' && (<FormularioPresencial />)}
+        {radioModo === 'Híbrido' && (<FormularioHibrido/>)}
         {radioModo === 'Virtual' && (<FormularioVirtual />)}
       </Center>
     </main>
