@@ -110,7 +110,7 @@ export default function formIndividual() {
       <Center flexDir={'column'} gap={'1rem'} p={'2rem'}>
         <FormInputAgendar width="30%" handleInputChange={handleInputChange} input={agendamento.reserve_date} campo="Data de Realização" id="reserve_date" type="date" />
 
-        <Salas onclick={handleCardChange} tipo={"Presencial"} dataRealizacaoReuniao={dataParaCard} />
+        <Salas onclick={handleCardChange} tipo={"Presencial"} dataRealizacaoReuniao={agendamento.reserve_date} />
 
         <Heading>Horário de Realização</Heading>
         <Flex gap={'12rem'}>

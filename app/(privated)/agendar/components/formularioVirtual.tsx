@@ -328,7 +328,7 @@ export default function FormularioVirtual() {
         </Flex>
 
         {/* Cards das Salas */}
-        <Salas onclick={handleCardChange} tipo={"Virtual"} dataRealizacaoReuniao={dataParaCard} />
+        <Salas onclick={handleCardChange} tipo={"Virtual"} dataRealizacaoReuniao={agendamento.reserve_date} />
 
         {/* Botão para enviar o agendamento */}
         <BtnAgendar type="submit" />
