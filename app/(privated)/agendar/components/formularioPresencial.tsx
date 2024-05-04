@@ -298,7 +298,7 @@ export default function FormularioPresencial() {
         </Flex>
 
         {/* Cards das Salas */}
-        <Salas onclick={handleCardChange} tipo={"Presencial"} dataRealizacaoReuniao={dataParaCard} />
+        <Salas onclick={handleCardChange} tipo={"Presencial"} dataRealizacaoReuniao={agendamento.reserve_date} />
 
         {/* Inputs de Horário de Realização */}
         <Heading>Horário de Realização</Heading>
