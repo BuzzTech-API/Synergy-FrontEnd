@@ -25,9 +25,6 @@ type participanteDeFora = {
 export default function FormularioPresencial() {
 
   const session = useSession()
-
-
-
   // Data para filtrar os cards
   const [dataParaCard, setDataParaCard] = useState(new Date())
 
@@ -38,18 +35,16 @@ export default function FormularioPresencial() {
     physical_room_id: 0,
     participante_nome: '',
     participante_email: "",
-    inicio: "",
-    duracao: "",
+    duracao: "", // Adicionado campo de duração
+    inicio: "", // Adicionado campo de horário de início
     assuntoReuniao: "",
   })
-
 
   // Lista de Usuários que vão participar da Reunião
   const [selectedUser, setSelectedUser] = useState<User[]>(new Array<User>())
 
   // Lista Participantes de Fora
   const [participantesFora, setParticipantesFora] = useState<Array<participanteDeFora>>(new Array<participanteDeFora>())
-
 
   const toast = useToast()
 
@@ -69,10 +64,9 @@ export default function FormularioPresencial() {
     }
   }
 
-
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>, setIsError: Dispatch<SetStateAction<boolean>>) => {
     const { id, value } = e.target
-    
+
     let isValid = true
 
     if (id === 'reserve_date') {
@@ -103,10 +97,10 @@ export default function FormularioPresencial() {
       ...prevstate,
       physical_room_id: id
     }))
-
   }
+
   const onSubmit = async (e: any) => {
-    e.preventDefault()
+    e.preventDefault();
 
     // Exibe um toast indicando que o envio do formulário está em andamento
     const loadingToast = toast({
@@ -117,6 +111,7 @@ export default function FormularioPresencial() {
       duration: null, // Define a duração como null para manter o toast visível enquanto estiver carregando
       isClosable: false, // Impede que o usuário feche o toast enquanto estiver carregando
     })
+
     try {
       if (agendamento.meeting_title === '') {
         toast.close(loadingToast)
@@ -141,7 +136,7 @@ export default function FormularioPresencial() {
           isClosable: true,
         })
         return
-      }
+      } 
       else if (agendamento.physical_room_id === 0) {
         toast.close(loadingToast)
         toast({
@@ -169,7 +164,7 @@ export default function FormularioPresencial() {
         toast.close(loadingToast)
         toast({
           title: "Erro",
-          description: "Você precisa selecionar o horário de realização corretamente.",
+          description: "Você precisa selecionar o horário de início e a duração corretamente.",
           status: "error",
           position: 'top',
           duration: 3000,
@@ -190,15 +185,19 @@ export default function FormularioPresencial() {
         return
       }
 
-      const data_end = calcularReserveEnd(agendamento.reserve_date, agendamento.inicio, agendamento.duracao)
-      data_end.setMinutes(data_end.getMinutes() - data_end.getTimezoneOffset())
-      const reserve_end = data_end.toISOString()
+      // Obter o horário de início da reunião
+      const startTime = new Date(agendamento.reserve_date + "T" + agendamento.inicio + ":00");
+      
+      // Converter a duração para número
+      const duration = parseInt(agendamento.duracao);
 
+      // Calcular o horário de término adicionando a duração ao horário de início
+      const endTime = new Date(startTime.getTime() + duration * 60000); // Convertendo minutos para milissegundos
 
       const reserve = await createReservation({
         "reserve_date": agendamento.reserve_date,
-        "reserve_start": agendamento.reserve_date + "T" + agendamento.inicio + ":00",
-        "reserve_end": reserve_end,
+        "reserve_start": startTime.toISOString(), // Usando o horário de início calculado
+        "reserve_end": endTime.toISOString(), // Usando o horário de término calculado
         "physical_room_id": agendamento.physical_room_id,
       })
 
@@ -226,8 +225,8 @@ export default function FormularioPresencial() {
         physical_room_id: 0,
         participante_nome: '',
         participante_email: "",
-        inicio: "",
-        duracao: "",
+        duracao: "", // Resetando a duração
+        inicio: "", // Resetando o horário de início
         assuntoReuniao: "",
       })
       setSelectedUser([])
@@ -256,16 +255,26 @@ export default function FormularioPresencial() {
     }
   }
 
-
   return (
     <form onSubmit={onSubmit}>
       <Center flexDir={'column'} gap={'1rem'} p={'2rem'}>
-
-        {/* Input do titulo */}
-        <FormInputAgendar width={"65%"} handleInputChange={handleInputChange} input={agendamento.meeting_title} campo="Título da Reunião" id="meeting_title" type="text" />
-
-        {/* Input da Data de Realização */}
-        <FormInputAgendar width="30%" handleInputChange={handleInputChange} input={agendamento.reserve_date} campo="Data de Realização" id="reserve_date" type="date" />
+        <Flex gap={'10rem'} width="100%">
+          {/* Container para inputs de título, duração, data de realização e horário de início */}
+          <Flex flexDir={'column'} width="50%">
+            {/* Input do titulo */}
+            <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.meeting_title} campo="Título da Reunião" id="meeting_title" type="text"/>
+            {/* Input para duração da reunião */}
+            <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.duracao} campo="Duração" id="duracao" type="time" width="8rem"/>
+            {/* Input da Data de Realização */}
+            <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.reserve_date} campo="Data de Realização" id="reserve_date" type="date" width="10rem" />
+            {/* Input para horário de início */}
+            <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.inicio} campo="Horário de Início" id="inicio" type="time" width="8rem" />
+          </Flex>
+          {/* Input de Assunto da Reunião */}
+          <Flex flexDir={'column'} width="50%">
+            <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.assuntoReuniao} campo="Assunto da Reunião" id="assuntoReuniao" type="textarea"/>
+          </Flex>
+        </Flex>
 
         {/* Parte dos Usuários do sistema que participam da reunião */}
         <Heading id="participantes">Participantes</Heading>
@@ -275,7 +284,6 @@ export default function FormularioPresencial() {
         </Flex>
 
         {/* Pare dos Participantes de Fora */}
-
         <Heading>Participantes de Fora</Heading>
         <Flex gap={'4rem'}>
           <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.participante_nome} campo="Nome" id="participante_nome" type="text" />
@@ -299,16 +307,6 @@ export default function FormularioPresencial() {
 
         {/* Cards das Salas */}
         <Salas onclick={handleCardChange} tipo={"Presencial"} dataRealizacaoReuniao={dataParaCard} />
-
-        {/* Inputs de Horário de Realização */}
-        <Heading>Horário de Realização</Heading>
-        <Flex gap={'12rem'}>
-          <FormInputAgendar handleInputChange={handleInputChange} width="100%" input={agendamento.inicio} campo="Início" id="inicio" type="time" />
-          <FormInputAgendar handleInputChange={handleInputChange} width="100%" input={agendamento.duracao} campo="Duração" id="duracao" type="time" />
-        </Flex>
-
-        {/* Input de Assunto da Reunião */}
-        <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.assuntoReuniao} campo="Assunto da Reunião" id="assuntoReuniao" type="textarea" />
 
         {/* Botão para enviar o agendamento */}
         <BtnAgendar type="submit" />
