@@ -109,7 +109,7 @@ export default function FormularioVirtual() {
   }
   const onSubmit = async (e: any) => {
     e.preventDefault()
-
+    toast.closeAll()
     // Exibe um toast indicando que o envio do formulário está em andamento
     const loadingToast = toast({
       title: "Enviando",
@@ -191,6 +191,18 @@ export default function FormularioVirtual() {
         })
         return
       }
+      if (!zoomAccessToken && !zoomRefreshToken) {
+        toast.closeAll()
+        toast({
+          title: "Erro de autenticação no zoom",
+          description: "Autentique no zoom e tente novamente",
+          status: "error",
+          position: 'top',
+          duration: 3000,
+          isClosable: false,
+        })
+        return
+      }
 
       const data_end = calcularReserveEnd(agendamento.reserve_date, agendamento.inicio, agendamento.duracao)
       data_end.setMinutes(data_end.getMinutes() - data_end.getTimezoneOffset())
@@ -225,22 +237,26 @@ export default function FormularioVirtual() {
       emails.concat(selectedUser.map((user) => user.user_email))
       emails.concat(participantesFora.map((user) => user.participante_email))
 
-      if (zoomAccessToken && zoomRefreshToken) {
-        const zoomBody = {
-          access_token: zoomAccessToken,
-          refresh_token: zoomRefreshToken,
-          topic: agendamento.meeting_title,
-          start_time: agendamento.reserve_date + "T" + agendamento.inicio + ":00",
-          duration: calcularMinutosTotal(agendamento.duracao),
-          agenda: agendamento.assuntoReuniao,
-          meeting_invites: emails
-        }
-
-        const zoomMeeting = await cadastrarZoomMeeting(zoomBody)
-        console.log(zoomMeeting);
-
-
+      const zoomBody = {
+        access_token: zoomAccessToken,
+        refresh_token: zoomRefreshToken,
+        topic: agendamento.meeting_title,
+        start_time: agendamento.reserve_date + "T" + agendamento.inicio + ":00",
+        duration: calcularMinutosTotal(agendamento.duracao),
+        agenda: agendamento.assuntoReuniao,
+        meeting_invites: emails
       }
+
+      const zoomMeeting = await cadastrarZoomMeeting(zoomBody)
+
+      toast({
+        title: "Link da sala virtual",
+        description: <a href={zoomMeeting.join_url}>{zoomMeeting.join_url}</a>,
+        status: "success",
+        position: 'top',
+        duration: null,
+        isClosable: true,
+      })
       toast.close(loadingToast)
 
       setDataParaCard(new Date())
