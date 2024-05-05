@@ -263,7 +263,7 @@ export default function FormularioHibrido() {
       const meeting = await createMeeting({
         "meeting_title": agendamento.meeting_title,
         "meeting_subject": agendamento.assuntoReuniao,
-        "meeting_type": "Presencial",
+        "meeting_type": "Híbrido",
         "reserve_id": reserve.reserve_id,
       })
       const participantes = await createGuests(participantesFora)
