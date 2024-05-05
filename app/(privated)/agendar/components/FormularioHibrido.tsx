@@ -15,16 +15,18 @@ import { createMeeting } from "../service/createMeeting";
 import { createGuests } from "../service/createGuests";
 import { createMeetingGuest } from "../service/createMeetingGuest";
 import { createMeetingUsers } from "../service/createMeetingUsers";
-import { calcularReserveEnd } from "../service/calculateEnd";
 
 type participanteDeFora = {
   participante_nome: string,
   participante_email: string
 }
 
-export default function FormularioPresencial() {
+export default function FormularioHibrido() {
 
   const session = useSession()
+
+
+
   // Data para filtrar os cards
   const [dataParaCard, setDataParaCard] = useState(new Date())
 
@@ -136,8 +138,7 @@ export default function FormularioPresencial() {
           isClosable: true,
         })
         return
-      } 
-      else if (agendamento.physical_room_id === 0) {
+      } else if (agendamento.physical_room_id === 0) {
         toast.close(loadingToast)
         toast({
           title: "Erro",
@@ -306,7 +307,10 @@ export default function FormularioPresencial() {
         </Flex>
 
         {/* Cards das Salas */}
-        <Salas onclick={handleCardChange} tipo={"Presencial"} dataRealizacaoReuniao={agendamento.reserve_date} />
+        <Salas onclick={handleCardChange} tipo={"Presencial"} dataRealizacaoReuniao={dataParaCard} />
+
+        {/* Cards das Salas virtuais */}
+        <Heading>Salas Virtuais</Heading>
 
         {/* Botão para enviar o agendamento */}
         <BtnAgendar type="submit" />

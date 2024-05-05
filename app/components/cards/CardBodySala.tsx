@@ -1,29 +1,17 @@
 'use client'
+import getAvailableTimes from "@/app/(privated)/agendar/service/roomSchedules";
+import { PhysicalRooms } from "@/app/type/rooms";
 import { Badge, CardBody, Flex, Text } from "@chakra-ui/react";
 
 type props = {
 	capacidade?: number,
-	reservation: PhysicalRoomReservation
+	rooms: PhysicalRooms,
 	onclick?: () => void,
+	data: string,
 }
 
-interface PhysicalRoomReservation {
-	physical_room_id: number;
-	physical_room_name: string;
-	physical_room_permission_level: number;
-	physical_room_vacancies: number;
-	is_active: boolean;
-	reservation: Array<Reserve>
-}
-
-interface Reserve {
-	reserve_date: Date;
-	reserve_start: Date;
-	reserve_end: Date;
-	reserve_id: number;
-}
-
-export function CardBodySala({ capacidade, reservation, onclick}: props) {
+export function CardBodySala({ capacidade, rooms, onclick, data }: props) {
+	const availableTimes = getAvailableTimes(rooms, data)
 
 	return (
 		<CardBody onClick={onclick}>
@@ -45,12 +33,14 @@ export function CardBodySala({ capacidade, reservation, onclick}: props) {
 				flexDirection={"column"}
 				overflowY={'auto'}
 			>
-				<Text fontWeight={'bold'}>Ocupado nos Horários</Text>
-				{reservation.reservation.map((reserva, index) =>
-					<Badge key={index}>
-						{`${new Date(reserva.reserve_start).toLocaleTimeString()} até ${new Date(reserva.reserve_end).toLocaleTimeString()}`}
-					</Badge>
-				)}
+				<Text fontWeight={'bold'}>Horários Disponíveis</Text>
+				{
+					availableTimes.availableTimes.map((time, index) => {
+						return <Badge key={index}>
+							{`${time.start} até ${time.end}`}
+						</Badge>
+					})
+				}
 			</Flex>
 		</CardBody>
 	)

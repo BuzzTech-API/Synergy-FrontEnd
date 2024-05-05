@@ -1,46 +1,20 @@
 'use client'
 import { Box, Flex, Heading, Text, Spacer} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { GetReservationSalaService, GetSalasService } from "./services/SalasService";
+import { GetSalasService } from "./services/SalasService";
 import { Cards } from "@/app/components/cards";
 import { MdCoPresent } from "react-icons/md";
+import { PhysicalRooms } from "@/app/type/rooms";
 
 interface SalasProps {
     tipo: string,
-    dataRealizacaoReuniao: Date,
+    dataRealizacaoReuniao: string,
     onclick: (id: number) => void,
 }
 
-interface PhysicalRoom {
-    physical_room_id: number;
-    physical_room_name: string;
-    physical_room_permission_level: number;
-    physical_room_vacancies: number;
-    is_active: boolean;
-}
-
-interface PhysicalRoomReservation {
-    physical_room_id: number;
-    physical_room_name: string;
-    physical_room_permission_level: number;
-    physical_room_vacancies: number;
-    is_active: boolean;
-    reservation: Array<Reserve>
-}
-
-interface Reserve {
-    reserve_date: Date;
-    reserve_start: Date;
-    reserve_end: Date;
-    reserve_id: number;
-}
-
-
-
 export default function Salas({ tipo, dataRealizacaoReuniao, onclick }: SalasProps) {
 
-    const [salasPresenciais, setSalasPresenciais] = useState<PhysicalRoom[]>(new Array<PhysicalRoom>());
-    const [reservas, setReservas] = useState<PhysicalRoomReservation[]>(new Array<PhysicalRoomReservation>());
+    const [salasPresenciais, setSalasPresenciais] = useState<PhysicalRooms[]>(new Array<PhysicalRooms>());
     const [selected, setSelected] = useState(-1)
 
 
@@ -49,13 +23,8 @@ export default function Salas({ tipo, dataRealizacaoReuniao, onclick }: SalasPro
         const fetchData = async () => {
             try {
 
-                const salas: PhysicalRoom[] = await GetSalasService();
+                const salas: PhysicalRooms[] = await GetSalasService();
                 setSalasPresenciais(salas);
-
-                const reservationsPromises = salas.map(sala => GetReservationSalaService(sala.physical_room_id));
-                const reservationsData = await Promise.all(reservationsPromises);
-                setReservas(reservationsData);
-
             } catch (error) {
                 console.error('Erro ao buscar dados do backend:', error);
             }
@@ -65,14 +34,13 @@ export default function Salas({ tipo, dataRealizacaoReuniao, onclick }: SalasPro
 
     }, []);
 
-    const renderSalas = (salas: Array<PhysicalRoom>, reservas: Array<PhysicalRoomReservation>) => {
+    const renderSalas = (salas: Array<PhysicalRooms>) => {
 
-        if (!salas || !reservas) {
+        if (!salas) {
             return null;
         }
 
         return salas.map((sala, index) => {
-            const reserva: PhysicalRoomReservation | undefined = reservas.find(reserva => reserva.physical_room_id === sala.physical_room_id);
             return (
                 <Cards.Root selected={index === selected ? true : false} onclick={() => {
                     setSelected((prevState) => index)
@@ -82,10 +50,12 @@ export default function Salas({ tipo, dataRealizacaoReuniao, onclick }: SalasPro
                     {/*Ivan: Este é o Header do Card para salas Physicas*/}
                     <Cards.HeaderPhysical room_name={sala.physical_room_name}/>
 
-                    {reserva && <Cards.BodySala onclick={() => {
+                    {reserva && <Cards.BodySala onclick={() => {           
+      
+                    {sala.reservation && <Cards.BodySala onclick={() => {
                         setSelected((prevState) => index)
                         onclick(sala.physical_room_id)
-                    }} reservation={reserva} capacidade={sala.physical_room_vacancies} />}
+                    }} rooms={sala} data={dataRealizacaoReuniao} capacidade={sala.physical_room_vacancies} />}
                 </Cards.Root>
             );
         });
@@ -106,7 +76,7 @@ export default function Salas({ tipo, dataRealizacaoReuniao, onclick }: SalasPro
                 wrap='wrap'
                 gap='3rem'>
 
-                {renderSalas(salasPresenciais, reservas)}
+                {renderSalas(salasPresenciais)}
 
             </Flex>
 
