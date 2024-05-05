@@ -25,9 +25,6 @@ interface Reserve {
 
 export function CardBodySala({ capacidade, reservation, onclick}: props) {
 
-
-
-
 	return (
 		<CardBody onClick={onclick}>
 			{capacidade !== 0 &&

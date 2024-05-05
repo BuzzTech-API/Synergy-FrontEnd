@@ -1,8 +1,9 @@
 'use client'
-import { Box, Flex, Heading } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text, Spacer} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { GetReservationSalaService, GetSalasService } from "./services/SalasService";
 import { Cards } from "@/app/components/cards";
+import { MdCoPresent } from "react-icons/md";
 
 interface SalasProps {
     tipo: string,
@@ -77,13 +78,10 @@ export default function Salas({ tipo, dataRealizacaoReuniao, onclick }: SalasPro
                     setSelected((prevState) => index)
                     onclick(sala.physical_room_id)
                 }} variant='presencial' key={index}>
-                    <Cards.Header
-                        fontSize="1.5rem"
-                        onClick={() => {
-                            setSelected((prevState) => index)
-                            onclick(sala.physical_room_id)
-                        }}
-                    >{sala.physical_room_name}</Cards.Header>
+
+                    {/*Ivan: Este é o Header do Card para salas Physicas*/}
+                    <Cards.HeaderPhysical room_name={sala.physical_room_name}/>
+
                     {reserva && <Cards.BodySala onclick={() => {
                         setSelected((prevState) => index)
                         onclick(sala.physical_room_id)
