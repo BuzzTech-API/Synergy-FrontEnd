@@ -17,6 +17,7 @@ import { createMeetingGuest } from "../service/createMeetingGuest";
 import { createMeetingUsers } from "../service/createMeetingUsers";
 import { calcularMinutosTotal } from "../service/calculateEnd";
 import { cadastrarZoomMeeting } from "./Salas/services/ZoomService";
+import SalasVirtuais from "./Salas/SalasVirtuais";
 
 type participanteDeFora = {
   participante_nome: string,
@@ -105,6 +106,13 @@ export default function FormularioHibrido() {
       physical_room_id: id
     }))
   }
+  const handleCardChangeVirtual = (id: number) => {
+    setAgendamento((prevstate) => ({
+      ...prevstate,
+      virtual_room_id: id
+    }))
+  }
+
 
   const onSubmit = async (e: any) => {
     e.preventDefault();
@@ -338,7 +346,7 @@ export default function FormularioHibrido() {
         <Salas onclick={handleCardChange} tipo={"Presencial"} dataRealizacaoReuniao={agendamento.reserve_date} />
 
         {/* Cards das Salas virtuais */}
-        <Heading>Salas Virtuais</Heading>
+        <SalasVirtuais onclick={handleCardChangeVirtual} tipo="Virtual" dataRealizacaoReuniao={agendamento.reserve_date} />
 
         {/* Botão para enviar o agendamento */}
         <BtnAgendar type="submit" />
