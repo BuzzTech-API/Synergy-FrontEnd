@@ -10,6 +10,7 @@ export default function CadastrarSalaVirtual() {
     const [nameValid, setNameValid] = useState(false)
     const [loginValid, setLoginValid] = useState(false)
     const [passwordValid, setPasswordValid] = useState(false)
+    const [linkValid, setLinkValid] = useState(false)
 
     // Objeto para criar sala
     const [room, setRoom] = useState({
@@ -21,7 +22,8 @@ export default function CadastrarSalaVirtual() {
     })
 
     const toast = useToast()
-    const isFormValid = nameValid && loginValid && passwordValid && (room.permissionLevel !== 0)
+    const isPermissionLevelValid = [1, 2, 3].includes(room.permissionLevel);
+    const isFormValid = nameValid && loginValid && passwordValid && isPermissionLevelValid;
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>, setIsError: Dispatch<SetStateAction<boolean>>) => {
         const { id, value } = e.target
@@ -36,7 +38,10 @@ export default function CadastrarSalaVirtual() {
         } else if (id === 'password') {
             isValid = value.trim() !== '' && !value.startsWith(' ') && value.length <= 20
             setIsError(!isValid)
-        }
+        } else if (id === 'link') {
+          isValid = value.trim() !== '' && !value.startsWith(' ') && value.length <= 20
+          setIsError(!isValid)
+      }
         setRoom(prevState => ({
             ...prevState,
             [id]: value
@@ -49,7 +54,9 @@ export default function CadastrarSalaVirtual() {
         setLoginValid(isValid)
       } else if (id === 'password') {
         setPasswordValid(isValid)
-      }
+      } else if (id === 'link') {
+        setPasswordValid(isValid)
+    }
     }
 
     const submit = (e: any) => {
@@ -98,6 +105,7 @@ export default function CadastrarSalaVirtual() {
       setLoginValid(false)
       setPasswordValid(false)
       setNameValid(false)
+      setLinkValid(false)
     }
 
     return (

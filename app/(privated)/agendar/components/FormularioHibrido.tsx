@@ -307,7 +307,7 @@ export default function FormularioHibrido() {
         </Flex>
 
         {/* Cards das Salas */}
-        <Salas onclick={handleCardChange} tipo={"Presencial"} dataRealizacaoReuniao={dataParaCard} />
+        <Salas onclick={handleCardChange} tipo={"Presencial"} dataRealizacaoReuniao={agendamento.reserve_date} />
 
         {/* Cards das Salas virtuais */}
         <Heading>Salas Virtuais</Heading>

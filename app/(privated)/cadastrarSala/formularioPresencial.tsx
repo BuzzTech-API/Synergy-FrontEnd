@@ -17,8 +17,13 @@ export default function CadastrarSalaPresencial() {
     permissionLevel: 0,
     locality:''
   })
+
+
   const toast = useToast()
-  const isFormValid = capacityValid && nameValid && localityValid && (room.permissionLevel !== 0)
+
+
+  const isPermissionLevelValid = [1, 2, 3].includes(room.permissionLevel); //Ivan: Eu criei essa variavel para validar somente se 1, 2 ou 3 fossem selecionados.
+  const isFormValid = capacityValid && nameValid && localityValid && isPermissionLevelValid
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>, setIsError: Dispatch<SetStateAction<boolean>>) => {
     const { id, value } = e.target

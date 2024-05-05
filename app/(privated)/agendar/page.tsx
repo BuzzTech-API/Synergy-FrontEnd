@@ -5,11 +5,8 @@ import { Navbar } from "../../components/Navbar/Navbar"
 import FormularioPresencial from "./components/formularioPresencial"
 import FormIndividual from "./components/formIndividual"
 import FormularioVirtual from "./components/formularioVirtual"
-<<<<<<< HEAD
 import FormularioHibrido from "./components/FormularioHibrido"
-=======
 import Link from "next/link"
->>>>>>> 2d999a6 (feat: adiciona necessidade de autenticar com o zoom para fazer agendamento virtual)
 
 
 export default function AgendarPage() {
