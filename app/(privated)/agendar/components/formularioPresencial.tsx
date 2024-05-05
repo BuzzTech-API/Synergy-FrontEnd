@@ -136,7 +136,7 @@ export default function FormularioPresencial() {
           isClosable: true,
         })
         return
-      } 
+      }
       else if (agendamento.physical_room_id === 0) {
         toast.close(loadingToast)
         toast({
@@ -187,7 +187,7 @@ export default function FormularioPresencial() {
 
       // Obter o horário de início da reunião
       const startTime = new Date(agendamento.reserve_date + "T" + agendamento.inicio + ":00");
-      
+
       // Converter a duração para número
       const duration = parseInt(agendamento.duracao);
 
@@ -262,9 +262,9 @@ export default function FormularioPresencial() {
           {/* Container para inputs de título, duração, data de realização e horário de início */}
           <Flex flexDir={'column'} width="50%">
             {/* Input do titulo */}
-            <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.meeting_title} campo="Título da Reunião" id="meeting_title" type="text"/>
+            <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.meeting_title} campo="Título da Reunião" id="meeting_title" type="text" />
             {/* Input para duração da reunião */}
-            <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.duracao} campo="Duração" id="duracao" type="time" width="8rem"/>
+            <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.duracao} campo="Duração" id="duracao" type="time" width="8rem" />
             {/* Input da Data de Realização */}
             <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.reserve_date} campo="Data de Realização" id="reserve_date" type="date" width="10rem" />
             {/* Input para horário de início */}
@@ -272,7 +272,7 @@ export default function FormularioPresencial() {
           </Flex>
           {/* Input de Assunto da Reunião */}
           <Flex flexDir={'column'} width="50%">
-            <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.assuntoReuniao} campo="Assunto da Reunião" id="assuntoReuniao" type="textarea"/>
+            <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.assuntoReuniao} campo="Assunto da Reunião" id="assuntoReuniao" type="textarea" />
           </Flex>
         </Flex>
 

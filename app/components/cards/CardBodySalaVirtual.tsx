@@ -1,11 +1,11 @@
 'use client'
-import { getAvailableTimes } from "@/app/(privated)/agendar/service/roomSchedules";
-import { PhysicalRooms } from "@/app/type/rooms";
+import { getAvailableTimesVirtual } from "@/app/(privated)/agendar/service/roomSchedules";
+import { VirtualRoom } from "@/app/type/rooms";
 import { Badge, CardBody, Flex, Text } from "@chakra-ui/react";
 
 type props = {
 	capacidade?: number,
-	rooms: PhysicalRooms,
+	rooms: VirtualRoom,
 	onclick?: () => void,
 	data: string,
 }
@@ -15,8 +15,8 @@ function formatarHoraMinuto(dataString: string): string {
 	const minutos = data.getMinutes().toString().padStart(2, '0');
 	return `${horas}:${minutos}`;
 }
-export function CardBodySala({ capacidade, rooms, onclick, data }: props) {
-	const availableTimes = getAvailableTimes(rooms, data)
+export function CardBodySalaVirtual({ capacidade, rooms, onclick, data }: props) {
+	const availableTimes = getAvailableTimesVirtual(rooms, data)
 
 	return (
 		<CardBody onClick={onclick}>

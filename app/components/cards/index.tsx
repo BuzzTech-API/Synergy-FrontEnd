@@ -7,6 +7,7 @@ import { CardBodyReuniao } from "./CardBodyReuniao";
 import { CardReunionHeader } from "./CardReunionHeader";
 import { CardPhysicalHeader } from "./CardPhysicalHeader";
 import { CardVirtualHeader } from "./CardVirtualHeader";
+import { CardBodySalaVirtual } from "./CardBodySalaVirtual";
 
 export const Cards = {
 	Root: CardRoot,
@@ -15,6 +16,7 @@ export const Cards = {
 	HeaderVirtual: CardVirtualHeader,     //Ivan: Este é o Cabeçalho dos Cards de Sala Física, que aparecem no "Formulário de Agendamento de Reuniões Virtuais".
 	HeaderReunion: CardReunionHeader,	  //Ivan: Este é o Cabeçalho dos Cards de Reunião, que aparecem na página de "Meus Agendamentos"
 	BodySala: CardBodySala,
+	BodySalaVirtual: CardBodySalaVirtual,
 	BodyDeitado: CardBodyDeitado,
 	BodySalaAdm: CardBodySalaAdm,
 	BodyReuniao: CardBodyReuniao,

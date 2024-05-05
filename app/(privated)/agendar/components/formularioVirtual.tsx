@@ -8,14 +8,15 @@ import Accordion from "@/app/components/accordion/accordion";
 import { BtnAdicionar2 } from "@/app/components/buttons/BtnAdicionar2";
 import { Cards } from "@/app/components/cards";
 import { BtnAgendar } from "@/app/components/buttons/IconBtns/BtnAgendar&Reagendar";
-import Salas from "./Salas/Salas";
-import { createReservation } from "../service/postReservation";
+import { createReservation, createReservationVirtual } from "../service/postReservation";
 import { useSession } from "next-auth/react";
 import { createMeeting } from "../service/createMeeting";
 import { createGuests } from "../service/createGuests";
 import { createMeetingGuest } from "../service/createMeetingGuest";
 import { createMeetingUsers } from "../service/createMeetingUsers";
-import { calcularReserveEnd } from "../service/calculateEnd";
+import { calcularMinutosTotal, calcularReserveEnd } from "../service/calculateEnd";
+import SalasVirtuais from "./Salas/SalasVirtuais";
+import { cadastrarZoomMeeting } from "./Salas/services/ZoomService";
 
 type participanteDeFora = {
   participante_nome: string,
@@ -26,7 +27,8 @@ export default function FormularioVirtual() {
 
   const session = useSession()
 
-
+  const zoomAccessToken = localStorage.getItem("zoom_token")
+  const zoomRefreshToken = localStorage.getItem("zoom_refresh_token")
 
   // Data para filtrar os cards
   const [dataParaCard, setDataParaCard] = useState(new Date())
@@ -35,7 +37,7 @@ export default function FormularioVirtual() {
   const [agendamento, setAgendamento] = useState({
     meeting_title: '',
     reserve_date: formatData(new Date()),
-    physical_room_id: 0,
+    virtual_room_id: 0,
     participante_nome: '',
     participante_email: "",
     inicio: "",
@@ -101,7 +103,7 @@ export default function FormularioVirtual() {
   const handleCardChange = (id: number) => {
     setAgendamento((prevstate) => ({
       ...prevstate,
-      physical_room_id: id
+      virtual_room_id: id
     }))
 
   }
@@ -142,7 +144,7 @@ export default function FormularioVirtual() {
         })
         return
       }
-      else if (agendamento.physical_room_id === 0) {
+      else if (agendamento.virtual_room_id === 0) {
         toast.close(loadingToast)
         toast({
           title: "Erro",
@@ -195,17 +197,17 @@ export default function FormularioVirtual() {
       const reserve_end = data_end.toISOString()
 
 
-      const reserve = await createReservation({
+      const reserve = await createReservationVirtual({
         "reserve_date": agendamento.reserve_date,
         "reserve_start": agendamento.reserve_date + "T" + agendamento.inicio + ":00",
         "reserve_end": reserve_end,
-        "physical_room_id": agendamento.physical_room_id,
+        "virtual_room_id": agendamento.virtual_room_id,
       })
 
       const meeting = await createMeeting({
         "meeting_title": agendamento.meeting_title,
         "meeting_subject": agendamento.assuntoReuniao,
-        "meeting_type": "Presencial",
+        "meeting_type": "Virtual",
         "reserve_id": reserve.reserve_id,
       })
       const participantes = await createGuests(participantesFora)
@@ -213,17 +215,39 @@ export default function FormularioVirtual() {
         "meeting_id": meeting.meeting_id,
         "guests_list": participantes.map((participante) => { return participante.guest_id })
       })
+
       const meetUsers = await createMeetingUsers({
         "meeting_id": meeting.meeting_id,
         "users_list": selectedUser.map((participante) => { return participante.user_id })
       })
+
+      const emails = new Array<String>()
+      emails.concat(selectedUser.map((user) => user.user_email))
+      emails.concat(participantesFora.map((user) => user.participante_email))
+
+      if (zoomAccessToken && zoomRefreshToken) {
+        const zoomBody = {
+          access_token: zoomAccessToken,
+          refresh_token: zoomRefreshToken,
+          topic: agendamento.meeting_title,
+          start_time: agendamento.reserve_date + "T" + agendamento.inicio + ":00",
+          duration: calcularMinutosTotal(agendamento.duracao),
+          agenda: agendamento.assuntoReuniao,
+          meeting_invites: emails
+        }
+
+        const zoomMeeting = await cadastrarZoomMeeting(zoomBody)
+        console.log(zoomMeeting);
+
+
+      }
       toast.close(loadingToast)
 
       setDataParaCard(new Date())
       setAgendamento({
         meeting_title: '',
         reserve_date: formatData(new Date()),
-        physical_room_id: 0,
+        virtual_room_id: 0,
         participante_nome: '',
         participante_email: "",
         inicio: "",
@@ -287,7 +311,7 @@ export default function FormularioVirtual() {
 
 
             {/* Inputs de Horário de Início */}
-            <FormInputAgendar handleInputChange={handleInputChange} width="40%" input={agendamento.duracao} campo="Duração" id="duracao" type="number" />
+            <FormInputAgendar handleInputChange={handleInputChange} width="40%" input={agendamento.duracao} campo="Duração" id="duracao" type="time" />
           </Flex>
 
           {/* Input de Assunto da Reunião */}
@@ -328,7 +352,7 @@ export default function FormularioVirtual() {
         </Flex>
 
         {/* Cards das Salas */}
-        <Salas onclick={handleCardChange} tipo={"Virtual"} dataRealizacaoReuniao={agendamento.reserve_date} />
+        <SalasVirtuais onclick={handleCardChange} tipo={"Virtual"} dataRealizacaoReuniao={agendamento.reserve_date} />
 
         {/* Botão para enviar o agendamento */}
         <BtnAgendar type="submit" />

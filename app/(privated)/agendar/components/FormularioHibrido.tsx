@@ -15,6 +15,8 @@ import { createMeeting } from "../service/createMeeting";
 import { createGuests } from "../service/createGuests";
 import { createMeetingGuest } from "../service/createMeetingGuest";
 import { createMeetingUsers } from "../service/createMeetingUsers";
+import { calcularMinutosTotal } from "../service/calculateEnd";
+import { cadastrarZoomMeeting } from "./Salas/services/ZoomService";
 
 type participanteDeFora = {
   participante_nome: string,
@@ -25,6 +27,8 @@ export default function FormularioHibrido() {
 
   const session = useSession()
 
+  const zoomAccessToken = localStorage.getItem("zoom_token")
+  const zoomRefreshToken = localStorage.getItem("zoom_refresh_token")
 
 
   // Data para filtrar os cards
@@ -34,6 +38,7 @@ export default function FormularioHibrido() {
   const [agendamento, setAgendamento] = useState({
     meeting_title: '',
     reserve_date: formatData(new Date()),
+    virtual_room_id: 0,
     physical_room_id: 0,
     participante_nome: '',
     participante_email: "",
@@ -188,7 +193,7 @@ export default function FormularioHibrido() {
 
       // Obter o horário de início da reunião
       const startTime = new Date(agendamento.reserve_date + "T" + agendamento.inicio + ":00");
-      
+
       // Converter a duração para número
       const duration = parseInt(agendamento.duracao);
 
@@ -217,6 +222,27 @@ export default function FormularioHibrido() {
         "meeting_id": meeting.meeting_id,
         "users_list": selectedUser.map((participante) => { return participante.user_id })
       })
+
+      const emails = new Array<String>()
+      emails.concat(selectedUser.map((user) => user.user_email))
+      emails.concat(participantesFora.map((user) => user.participante_email))
+
+      if (zoomAccessToken && zoomRefreshToken) {
+        const zoomBody = {
+          access_token: zoomAccessToken,
+          refresh_token: zoomRefreshToken,
+          topic: agendamento.meeting_title,
+          start_time: agendamento.reserve_date + "T" + agendamento.inicio + ":00",
+          duration: calcularMinutosTotal(agendamento.duracao),
+          agenda: agendamento.assuntoReuniao,
+          meeting_invites: emails
+        }
+
+        const zoomMeeting = await cadastrarZoomMeeting(zoomBody)
+        console.log(zoomMeeting);
+
+      }
+
       toast.close(loadingToast)
 
       setDataParaCard(new Date())
@@ -224,6 +250,7 @@ export default function FormularioHibrido() {
         meeting_title: '',
         reserve_date: formatData(new Date()),
         physical_room_id: 0,
+        virtual_room_id: 0,
         participante_nome: '',
         participante_email: "",
         duracao: "", // Resetando a duração
@@ -263,9 +290,9 @@ export default function FormularioHibrido() {
           {/* Container para inputs de título, duração, data de realização e horário de início */}
           <Flex flexDir={'column'} width="50%">
             {/* Input do titulo */}
-            <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.meeting_title} campo="Título da Reunião" id="meeting_title" type="text"/>
+            <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.meeting_title} campo="Título da Reunião" id="meeting_title" type="text" />
             {/* Input para duração da reunião */}
-            <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.duracao} campo="Duração" id="duracao" type="time" width="8rem"/>
+            <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.duracao} campo="Duração" id="duracao" type="time" width="8rem" />
             {/* Input da Data de Realização */}
             <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.reserve_date} campo="Data de Realização" id="reserve_date" type="date" width="10rem" />
             {/* Input para horário de início */}
@@ -273,7 +300,7 @@ export default function FormularioHibrido() {
           </Flex>
           {/* Input de Assunto da Reunião */}
           <Flex flexDir={'column'} width="50%">
-            <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.assuntoReuniao} campo="Assunto da Reunião" id="assuntoReuniao" type="textarea"/>
+            <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.assuntoReuniao} campo="Assunto da Reunião" id="assuntoReuniao" type="textarea" />
           </Flex>
         </Flex>
 
@@ -314,7 +341,7 @@ export default function FormularioHibrido() {
 
         {/* Botão para enviar o agendamento */}
         <BtnAgendar type="submit" />
-      </Center>
-    </form>
+      </Center >
+    </form >
   )
 }
