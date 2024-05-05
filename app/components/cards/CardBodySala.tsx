@@ -12,6 +12,7 @@ type props = {
 
 export function CardBodySala({ capacidade, rooms, onclick, data }: props) {
 	const availableTimes = getAvailableTimes(rooms, data)
+
 	return (
 		<CardBody onClick={onclick}>
 			{capacidade !== 0 &&

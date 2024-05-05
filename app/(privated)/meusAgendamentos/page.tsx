@@ -45,7 +45,7 @@ export default function MeusAgendamentos() {
           variant="reuniao"
           key={participa.meeting_id}
         >
-          <Cards.Header>Reunião</Cards.Header>
+          <Cards.HeaderReunion>Reunião</Cards.HeaderReunion>
           <Cards.BodyReuniao
             tituloReuniao={participa.meetings.meeting_title}
             data={formatarData(participa.meetings.reservations.reserve_date)}
@@ -72,7 +72,7 @@ export default function MeusAgendamentos() {
           variant="reuniao"
           key={participa.meeting_id}
         >
-          <Cards.Header>Reunião</Cards.Header>
+          <Cards.HeaderReunion>Reunião</Cards.HeaderReunion>
           <Cards.BodyReuniao
             tituloReuniao={participa.meetings.meeting_title}
             data={formatarData(participa.meetings.reservations.reserve_date)}
