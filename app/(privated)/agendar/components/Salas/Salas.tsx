@@ -3,7 +3,6 @@ import { Box, Flex, Heading, Text, Spacer} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { GetSalasService } from "./services/SalasService";
 import { Cards } from "@/app/components/cards";
-import { MdCoPresent } from "react-icons/md";
 import { PhysicalRooms } from "@/app/type/rooms";
 
 interface SalasProps {
@@ -48,9 +47,7 @@ export default function Salas({ tipo, dataRealizacaoReuniao, onclick }: SalasPro
                 }} variant='presencial' key={index}>
 
                     {/*Ivan: Este é o Header do Card para salas Physicas*/}
-                    <Cards.HeaderPhysical room_name={sala.physical_room_name}/>
-
-                    {reserva && <Cards.BodySala onclick={() => {           
+                    <Cards.HeaderPhysical room_name={sala.physical_room_name}/>     
       
                     {sala.reservation && <Cards.BodySala onclick={() => {
                         setSelected((prevState) => index)
