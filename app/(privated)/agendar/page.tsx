@@ -66,9 +66,9 @@ export default function AgendarPage() {
             </Stack>
           </RadioGroup></>)}
         {radioModo === 'Presencial' && (<FormularioPresencial />)}
-        {radioModo === 'Híbrido' && (<FormularioHibrido />)}
+        {radioModo === 'Híbrido' && (zoom_access_token !== null || zoom_refresh_token !== null) && (<FormularioHibrido />)}
         {radioModo === 'Virtual' && (zoom_access_token !== null || zoom_refresh_token !== null) && (<FormularioVirtual />)}
-        {radioModo === 'Virtual' && (zoom_access_token === null && zoom_refresh_token === null) && (<Link href={`https://zoom.us/oauth/authorize?response_type=code&client_id=SfOs6_WBQI2fXXh6TnkfZg&redirect_uri=http://localhost:3000/zoomAuth`}>
+        {(radioModo === 'Virtual' || radioModo === "Híbrido") && (zoom_access_token === null && zoom_refresh_token === null) && (<Link href={`https://zoom.us/oauth/authorize?response_type=code&client_id=SfOs6_WBQI2fXXh6TnkfZg&redirect_uri=http://localhost:3000/zoomAuth`}>
           <Button
             p={"1.5rem"}
             width={"14rem"}

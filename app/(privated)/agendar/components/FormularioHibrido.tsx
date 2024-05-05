@@ -9,7 +9,7 @@ import { BtnAdicionar2 } from "@/app/components/buttons/BtnAdicionar2";
 import { Cards } from "@/app/components/cards";
 import { BtnAgendar } from "@/app/components/buttons/IconBtns/BtnAgendar&Reagendar";
 import Salas from "./Salas/Salas";
-import { createReservation } from "../service/postReservation";
+import { createReservation, createReservationHybrid } from "../service/postReservation";
 import { useSession } from "next-auth/react";
 import { createMeeting } from "../service/createMeeting";
 import { createGuests } from "../service/createGuests";
@@ -200,17 +200,18 @@ export default function FormularioHibrido() {
       // Calcular o horário de término adicionando a duração ao horário de início
       const endTime = new Date(startTime.getTime() + duration * 60000); // Convertendo minutos para milissegundos
 
-      const reserve = await createReservation({
+      const reserve = await createReservationHybrid({
         "reserve_date": agendamento.reserve_date,
         "reserve_start": startTime.toISOString(), // Usando o horário de início calculado
         "reserve_end": endTime.toISOString(), // Usando o horário de término calculado
         "physical_room_id": agendamento.physical_room_id,
+        "virtual_room_id": agendamento.virtual_room_id,
       })
 
       const meeting = await createMeeting({
         "meeting_title": agendamento.meeting_title,
         "meeting_subject": agendamento.assuntoReuniao,
-        "meeting_type": "Presencial",
+        "meeting_type": "Híbrido",
         "reserve_id": reserve.reserve_id,
       })
       const participantes = await createGuests(participantesFora)
