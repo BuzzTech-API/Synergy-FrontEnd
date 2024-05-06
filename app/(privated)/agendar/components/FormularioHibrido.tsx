@@ -9,22 +9,29 @@ import { BtnAdicionar2 } from "@/app/components/buttons/BtnAdicionar2";
 import { Cards } from "@/app/components/cards";
 import { BtnAgendar } from "@/app/components/buttons/IconBtns/BtnAgendar&Reagendar";
 import Salas from "./Salas/Salas";
-import { createReservation } from "../service/postReservation";
+import { createReservation, createReservationHibrid } from "../service/postReservation";
 import { useSession } from "next-auth/react";
 import { createMeeting } from "../service/createMeeting";
 import { createGuests } from "../service/createGuests";
 import { createMeetingGuest } from "../service/createMeetingGuest";
 import { createMeetingUsers } from "../service/createMeetingUsers";
-import { calcularReserveEnd } from "../service/calculateEnd";
+import { calcularMinutosTotal } from "../service/calculateEnd";
+import { cadastrarZoomMeeting } from "./Salas/services/ZoomService";
+import SalasVirtuais from "./Salas/SalasVirtuais";
 
 type participanteDeFora = {
   participante_nome: string,
   participante_email: string
 }
 
-export default function FormularioPresencial() {
+export default function FormularioHibrido() {
 
   const session = useSession()
+
+  const zoomAccessToken = localStorage.getItem("zoom_token")
+  const zoomRefreshToken = localStorage.getItem("zoom_refresh_token")
+
+
   // Data para filtrar os cards
   const [dataParaCard, setDataParaCard] = useState(new Date())
 
@@ -32,6 +39,7 @@ export default function FormularioPresencial() {
   const [agendamento, setAgendamento] = useState({
     meeting_title: '',
     reserve_date: formatData(new Date()),
+    virtual_room_id: 0,
     physical_room_id: 0,
     participante_nome: '',
     participante_email: "",
@@ -99,8 +107,18 @@ export default function FormularioPresencial() {
     }))
   }
 
+  const handleCardVirtualChange = (id: number) => {
+    console.log(id);
+
+    setAgendamento((prevstate) => ({
+      ...prevstate,
+      virtual_room_id: id
+    }))
+  }
+
   const onSubmit = async (e: any) => {
     e.preventDefault();
+    toast.closeAll()
 
     // Exibe um toast indicando que o envio do formulário está em andamento
     const loadingToast = toast({
@@ -136,8 +154,7 @@ export default function FormularioPresencial() {
           isClosable: true,
         })
         return
-      }
-      else if (agendamento.physical_room_id === 0) {
+      } else if (agendamento.physical_room_id === 0) {
         toast.close(loadingToast)
         toast({
           title: "Erro",
@@ -185,6 +202,47 @@ export default function FormularioPresencial() {
         return
       }
 
+      if (!zoomAccessToken && !zoomRefreshToken) {
+        toast.closeAll()
+        toast({
+          title: "Erro de autenticação no zoom",
+          description: "Autentique no zoom e tente novamente",
+          status: "error",
+          position: 'top',
+          duration: 3000,
+          isClosable: false,
+        })
+        return
+      }
+
+      const emails = new Array<String>()
+      emails.concat(selectedUser.map((user) => user.user_email))
+      emails.concat(participantesFora.map((user) => user.participante_email))
+      
+      
+
+      const zoomBody = {
+        access_token: zoomAccessToken,
+        refresh_token: zoomRefreshToken,
+        topic: agendamento.meeting_title,
+        start_time: agendamento.reserve_date + "T" + agendamento.inicio + ":00",
+        duration: calcularMinutosTotal(agendamento.duracao),
+        agenda: agendamento.assuntoReuniao,
+        meeting_invites: emails
+      }
+
+      const zoomMeeting = await cadastrarZoomMeeting(zoomBody)
+      if (zoomMeeting) {
+        toast({
+          title: "Link da sala virtual",
+          description: <a href={zoomMeeting.join_url}>{zoomMeeting.join_url}</a>,
+          status: "success",
+          position: 'top',
+          duration: null,
+          isClosable: true,
+        })
+      }
+
       // Obter o horário de início da reunião
       const startTime = new Date(agendamento.reserve_date + "T" + agendamento.inicio + ":00");
 
@@ -194,17 +252,18 @@ export default function FormularioPresencial() {
       // Calcular o horário de término adicionando a duração ao horário de início
       const endTime = new Date(startTime.getTime() + duration * 60000); // Convertendo minutos para milissegundos
 
-      const reserve = await createReservation({
+      const reserve = await createReservationHibrid({
         "reserve_date": agendamento.reserve_date,
         "reserve_start": startTime.toISOString(), // Usando o horário de início calculado
         "reserve_end": endTime.toISOString(), // Usando o horário de término calculado
         "physical_room_id": agendamento.physical_room_id,
+        "virtual_room_id": agendamento.virtual_room_id
       })
 
       const meeting = await createMeeting({
         "meeting_title": agendamento.meeting_title,
         "meeting_subject": agendamento.assuntoReuniao,
-        "meeting_type": "Presencial",
+        "meeting_type": "Híbrido",
         "reserve_id": reserve.reserve_id,
       })
       const participantes = await createGuests(participantesFora)
@@ -216,6 +275,10 @@ export default function FormularioPresencial() {
         "meeting_id": meeting.meeting_id,
         "users_list": selectedUser.map((participante) => { return participante.user_id })
       })
+
+
+
+
       toast.close(loadingToast)
 
       setDataParaCard(new Date())
@@ -223,6 +286,7 @@ export default function FormularioPresencial() {
         meeting_title: '',
         reserve_date: formatData(new Date()),
         physical_room_id: 0,
+        virtual_room_id: 0,
         participante_nome: '',
         participante_email: "",
         duracao: "", // Resetando a duração
@@ -308,9 +372,12 @@ export default function FormularioPresencial() {
         {/* Cards das Salas */}
         <Salas onclick={handleCardChange} tipo={"Presencial"} dataRealizacaoReuniao={agendamento.reserve_date} />
 
+        {/* Cards das Salas virtuais */}
+        <SalasVirtuais onclick={handleCardVirtualChange} tipo={"Virtual"} dataRealizacaoReuniao={agendamento.reserve_date} />
+
         {/* Botão para enviar o agendamento */}
         <BtnAgendar type="submit" />
-      </Center>
-    </form>
+      </Center >
+    </form >
   )
 }

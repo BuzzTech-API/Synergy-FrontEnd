@@ -42,3 +42,23 @@ export async function GetReservationSalaService(id: number) {
 
 	return response.json()
 }
+
+export async function GetSalasVirtuaisService() {
+	const session = await getServerSession(authOptions);
+
+	const request = await fetch(BACKEND_URL + '/virtualrooms/', {
+		method: 'GET',
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json',
+			authorization: `Bearer ` + session?.backendTokens.access_token
+		}
+	})
+	const response = request
+	if (!response.ok) {
+		throw new Error
+	}
+
+	return response.json()
+}
+

@@ -1,15 +1,26 @@
 'use client'
-import { Center, Heading, Radio, RadioGroup, Stack } from "@chakra-ui/react"
+import { Button, Center, Heading, Radio, RadioGroup, Stack } from "@chakra-ui/react"
 import React from "react"
 import { Navbar } from "../../components/Navbar/Navbar"
 import FormularioPresencial from "./components/formularioPresencial"
 import FormIndividual from "./components/formIndividual"
+import FormularioVirtual from "./components/formularioVirtual"
+import FormularioHibrido from "./components/FormularioHibrido"
+import Link from "next/link"
 
 
 export default function AgendarPage() {
   const [radioTipo, setRadioTipo] = React.useState('0')
   const [radioModo, setRadioModo] = React.useState('')
   const [radioIndividual, setRadioIndividual] = React.useState('0')
+
+  let zoom_access_token
+  let zoom_refresh_token
+  if (typeof window !== "undefined") {
+
+    zoom_access_token = localStorage.getItem("zoom_access_token")
+    zoom_refresh_token = localStorage.getItem("zoom_refresh_token")
+  }
 
   const handleRadioTipo = (nextValue: string) => {
     setRadioTipo(nextValue)
@@ -55,6 +66,20 @@ export default function AgendarPage() {
             </Stack>
           </RadioGroup></>)}
         {radioModo === 'Presencial' && (<FormularioPresencial />)}
+        {radioModo === 'Híbrido' && (zoom_access_token !== null || zoom_refresh_token !== null) && (<FormularioHibrido />)}
+        {radioModo === 'Virtual' && (zoom_access_token !== null || zoom_refresh_token !== null) && (<FormularioVirtual />)}
+        {(radioModo === 'Virtual' || radioModo === "Híbrido") && (zoom_access_token === null && zoom_refresh_token === null) && (<Link href={`https://zoom.us/oauth/authorize?response_type=code&client_id=SfOs6_WBQI2fXXh6TnkfZg&redirect_uri=http://localhost:3000/zoomAuth`}>
+          <Button
+            p={"1.5rem"}
+            width={"14rem"}
+            bgColor={"#a87bc7"}
+            color={"white"}
+            fontWeight={700}
+            fontFamily="Poppins"
+            fontSize={"1.3rem"}
+          >Realizar Autenticação</Button>
+
+        </Link>)}
       </Center>
     </main>
   )

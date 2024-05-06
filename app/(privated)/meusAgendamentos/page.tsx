@@ -45,7 +45,8 @@ export default function MeusAgendamentos() {
           variant="reuniao"
           key={participa.meeting_id}
         >
-          <Cards.Header>Reunião</Cards.Header>
+          <Cards.HeaderReunion />
+
           <Cards.BodyReuniao
             tituloReuniao={participa.meetings.meeting_title}
             data={formatarData(participa.meetings.reservations.reserve_date)}
@@ -72,7 +73,8 @@ export default function MeusAgendamentos() {
           variant="reuniao"
           key={participa.meeting_id}
         >
-          <Cards.Header>Reunião</Cards.Header>
+
+          <Cards.HeaderReunion />
           <Cards.BodyReuniao
             tituloReuniao={participa.meetings.meeting_title}
             data={formatarData(participa.meetings.reservations.reserve_date)}
@@ -80,7 +82,7 @@ export default function MeusAgendamentos() {
             horaFim={obterHorasMinutos(participa.meetings.reservations.reserve_end)}>
             <BtnDesmarcar />
           </Cards.BodyReuniao>
-        </Cards.Root>
+        </Cards.Root >
 
 
         )
