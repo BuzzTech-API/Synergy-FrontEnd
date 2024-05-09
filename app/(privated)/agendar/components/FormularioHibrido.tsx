@@ -18,6 +18,7 @@ import { createMeetingUsers } from "../service/createMeetingUsers";
 import { calcularMinutosTotal } from "../service/calculateEnd";
 import { cadastrarZoomMeeting } from "./Salas/services/ZoomService";
 import SalasVirtuais from "./Salas/SalasVirtuais";
+import { FormInputAgendarNumber } from "./FormInputAgendarNumber";
 
 type participanteDeFora = {
   participante_nome: string,
@@ -41,6 +42,7 @@ export default function FormularioHibrido() {
     reserve_date: formatData(new Date()),
     virtual_room_id: 0,
     physical_room_id: 0,
+    qntMinimaParticipantes: 0,
     participante_nome: '',
     participante_email: "",
     duracao: "", // Adicionado campo de duração
@@ -100,6 +102,26 @@ export default function FormularioHibrido() {
     }))
   }
 
+
+
+  const handleNumberInputChange = (e: number, setIsError: Dispatch<SetStateAction<boolean>>) => {
+
+    let isValid = true
+
+    // Validação genérica para outros campos (não vazios)
+    isValid = e !== 0
+    setIsError(!isValid)
+
+    // função para lidar com as alterações do formulário e quando o usuário fizer algo errado mostrar erro no campo
+    setIsError(!isValid)
+
+    setAgendamento(prevState => ({
+      ...prevState,
+      qntMinimaParticipantes: e
+    }))
+  }
+
+
   const handleCardChange = (id: number) => {
     setAgendamento((prevstate) => ({
       ...prevstate,
@@ -108,7 +130,6 @@ export default function FormularioHibrido() {
   }
 
   const handleCardVirtualChange = (id: number) => {
-    console.log(id);
 
     setAgendamento((prevstate) => ({
       ...prevstate,
@@ -218,8 +239,8 @@ export default function FormularioHibrido() {
       const emails = new Array<String>()
       emails.concat(selectedUser.map((user) => user.user_email))
       emails.concat(participantesFora.map((user) => user.participante_email))
-      
-      
+
+
 
       const zoomBody = {
         access_token: zoomAccessToken,
@@ -287,6 +308,7 @@ export default function FormularioHibrido() {
         reserve_date: formatData(new Date()),
         physical_room_id: 0,
         virtual_room_id: 0,
+        qntMinimaParticipantes: 0,
         participante_nome: '',
         participante_email: "",
         duracao: "", // Resetando a duração
@@ -324,7 +346,7 @@ export default function FormularioHibrido() {
       <Center flexDir={'column'} gap={'1rem'} p={'2rem'}>
         <Flex gap={'10rem'} width="100%">
           {/* Container para inputs de título, duração, data de realização e horário de início */}
-          <Flex flexDir={'column'} width="50%">
+          <Flex flexDir={'column'} gap={"1rem"} width="50%">
             {/* Input do titulo */}
             <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.meeting_title} campo="Título da Reunião" id="meeting_title" type="text" />
             {/* Input para duração da reunião */}
@@ -333,6 +355,8 @@ export default function FormularioHibrido() {
             <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.reserve_date} campo="Data de Realização" id="reserve_date" type="date" width="10rem" />
             {/* Input para horário de início */}
             <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.inicio} campo="Horário de Início" id="inicio" type="time" width="8rem" />
+            {/* Input para Quantidade Mínima */}
+            <FormInputAgendarNumber handleInputChange={handleNumberInputChange} input={agendamento.qntMinimaParticipantes} campo="Quantidade Mínima" id="inicio" width="12rem" />
           </Flex>
           {/* Input de Assunto da Reunião */}
           <Flex flexDir={'column'} width="50%">
@@ -370,7 +394,7 @@ export default function FormularioHibrido() {
         </Flex>
 
         {/* Cards das Salas */}
-        <Salas onclick={handleCardChange} tipo={"Presencial"} dataRealizacaoReuniao={agendamento.reserve_date} />
+        <Salas onclick={handleCardChange} tipo={"Presencial"} dataRealizacaoReuniao={agendamento.reserve_date} qntMinima={agendamento.qntMinimaParticipantes} />
 
         {/* Cards das Salas virtuais */}
         <SalasVirtuais onclick={handleCardVirtualChange} tipo={"Virtual"} dataRealizacaoReuniao={agendamento.reserve_date} />

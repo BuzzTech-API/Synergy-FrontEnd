@@ -27,6 +27,7 @@ const theme = extendTheme({
     Switch: SwitchStyle,
     Badge: BadgeStyle,
     Input: InputNewStyles,
+    NumberInput: InputNewStyles,
     Heading: HeadingStyle,
 
   }

@@ -9,9 +9,10 @@ interface SalasProps {
     tipo: string,
     dataRealizacaoReuniao: string,
     onclick: (id: number) => void,
+    qntMinima: number
 }
 
-export default function Salas({ tipo, dataRealizacaoReuniao, onclick }: SalasProps) {
+export default function Salas({ tipo, dataRealizacaoReuniao, onclick, qntMinima }: SalasProps) {
 
     const [salasPresenciais, setSalasPresenciais] = useState<PhysicalRooms[]>(new Array<PhysicalRooms>());
     const [selected, setSelected] = useState(-1)
@@ -21,7 +22,6 @@ export default function Salas({ tipo, dataRealizacaoReuniao, onclick }: SalasPro
 
         const fetchData = async () => {
             try {
-
                 const salas: PhysicalRooms[] = await GetSalasService();
                 setSalasPresenciais(salas);
             } catch (error) {
@@ -35,27 +35,36 @@ export default function Salas({ tipo, dataRealizacaoReuniao, onclick }: SalasPro
 
     const renderSalas = (salas: Array<PhysicalRooms>) => {
 
+
+
         if (!salas) {
             return null;
         }
-
+        salas.sort((sala1, sala2) => {
+            return sala1.physical_room_vacancies - sala2.physical_room_vacancies
+        })
         return salas.map((sala, index) => {
-            return (
-                <Cards.Root selected={index === selected ? true : false} onclick={() => {
-                    setSelected((prevState) => index)
-                    onclick(sala.physical_room_id)
-                }} variant='presencial' key={index}>
-
-                    {/*Ivan: Este é o Header do Card para salas Physicas*/}
-                    <Cards.HeaderPhysical room_name={sala.physical_room_name} />
-
-
-                    {sala.reservation && <Cards.BodySala onclick={() => {
+            if (sala.physical_room_vacancies >= qntMinima) {
+                return (
+                    <Cards.Root selected={index === selected ? true : false} onclick={() => {
                         setSelected((prevState) => index)
                         onclick(sala.physical_room_id)
-                    }} rooms={sala} data={dataRealizacaoReuniao} capacidade={sala.physical_room_vacancies} />}
-                </Cards.Root>
-            );
+                    }} variant='presencial' key={index}>
+
+                        {/*Ivan: Este é o Header do Card para salas Physicas*/}
+                        <Cards.HeaderPhysical room_name={sala.physical_room_name} />
+
+
+                        {sala.reservation && <Cards.BodySala onclick={() => {
+                            setSelected((prevState) => index)
+                            onclick(sala.physical_room_id)
+                        }} rooms={sala} data={dataRealizacaoReuniao} capacidade={sala.physical_room_vacancies} />}
+                    </Cards.Root>
+                );
+            }
+            else {
+                return <></>
+            }
         });
     }
 
