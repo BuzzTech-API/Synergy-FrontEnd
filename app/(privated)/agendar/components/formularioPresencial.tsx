@@ -16,6 +16,7 @@ import { createGuests } from "../service/createGuests";
 import { createMeetingGuest } from "../service/createMeetingGuest";
 import { createMeetingUsers } from "../service/createMeetingUsers";
 import { calcularReserveEnd } from "../service/calculateEnd";
+import { FormInputAgendarNumber } from "./FormInputAgendarNumber";
 
 type participanteDeFora = {
   participante_nome: string,
@@ -33,6 +34,7 @@ export default function FormularioPresencial() {
     meeting_title: '',
     reserve_date: formatData(new Date()),
     physical_room_id: 0,
+    qntMinimaParticipante: 0,
     participante_nome: '',
     participante_email: "",
     duracao: "", // Adicionado campo de duração
@@ -91,6 +93,26 @@ export default function FormularioPresencial() {
       [id]: value
     }))
   }
+
+
+  const handleNumberInputChange = (e: number, setIsError: Dispatch<SetStateAction<boolean>>) => {
+
+    let isValid = true
+
+    // Validação genérica para outros campos (não vazios)
+    isValid = e !== 0
+    setIsError(!isValid)
+
+    // função para lidar com as alterações do formulário e quando o usuário fizer algo errado mostrar erro no campo
+    setIsError(!isValid)
+
+    setAgendamento(prevState => ({
+      ...prevState,
+      qntMinimaParticipante: e
+    }))
+  }
+
+
 
   const handleCardChange = (id: number) => {
     setAgendamento((prevstate) => ({
@@ -223,6 +245,7 @@ export default function FormularioPresencial() {
         meeting_title: '',
         reserve_date: formatData(new Date()),
         physical_room_id: 0,
+        qntMinimaParticipante: 0,
         participante_nome: '',
         participante_email: "",
         duracao: "", // Resetando a duração
@@ -269,6 +292,8 @@ export default function FormularioPresencial() {
             <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.reserve_date} campo="Data de Realização" id="reserve_date" type="date" width="10rem" />
             {/* Input para horário de início */}
             <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.inicio} campo="Horário de Início" id="inicio" type="time" width="8rem" />
+            {/* Input para Quantidade Mínima */}
+            <FormInputAgendarNumber handleInputChange={handleNumberInputChange} input={agendamento.qntMinimaParticipante} campo="Quantidade Mínima" id="inicio" width="12rem" />
           </Flex>
           {/* Input de Assunto da Reunião */}
           <Flex flexDir={'column'} width="50%">
@@ -306,7 +331,7 @@ export default function FormularioPresencial() {
         </Flex>
 
         {/* Cards das Salas */}
-        <Salas onclick={handleCardChange} tipo={"Presencial"} dataRealizacaoReuniao={agendamento.reserve_date} />
+        <Salas onclick={handleCardChange} tipo={"Presencial"} dataRealizacaoReuniao={agendamento.reserve_date} qntMinima={agendamento.qntMinimaParticipante} />
 
         {/* Botão para enviar o agendamento */}
         <BtnAgendar type="submit" />

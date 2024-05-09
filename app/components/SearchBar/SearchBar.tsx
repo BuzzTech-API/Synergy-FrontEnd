@@ -3,20 +3,32 @@ import React, { SetStateAction, useEffect, useState } from "react"
 import { User } from "@/app/type/user"
 import { Search2Icon } from '@chakra-ui/icons'
 import { getAllUsers } from "@/app/(privated)/agendar/service/getUsers"
+import { useSession } from "next-auth/react"
 
 
 type SearchBarProps = {
     setSearchResults: React.Dispatch<SetStateAction<User[]>>
     input: string
     setInput: React.Dispatch<SetStateAction<string>>
+    setSelectedUser: React.Dispatch<SetStateAction<User[]>>
+    selectedUser: User[]
 }
 
-export const SearchBar = ({ setSearchResults, input, setInput }: SearchBarProps) => {
+export const SearchBar = ({ setSearchResults, input, setInput, setSelectedUser, selectedUser }: SearchBarProps) => {
 
+    const session = useSession()
     useEffect(() => {
 
         const getAllUsersEffect = async () => {
             const usersList: User[] = await getAllUsers();
+            usersList.forEach((user) => {
+
+                if (user.user_id === session.data?.user.user_id) {
+                    setSelectedUser([...selectedUser, user]) // Adiciona o usuário clicado à lista de usuários selecionados
+                }
+            })
+
+
             setUsers(usersList)
 
         }
