@@ -50,7 +50,7 @@ export default function Home() {
           {session.data?.user.user_permission_level === 10 && (
             <>
               <Link href={'/cadastrarSala'}> <BigBtnCadSalas /></Link>
-              <Link href={''}><BigBtnVisuSalas /></Link>
+              <Link href={'/visualizarSala'}><BigBtnVisuSalas /></Link>
             </>
           )}
 
