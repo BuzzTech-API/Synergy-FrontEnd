@@ -4,8 +4,10 @@ import FormularioLogin from "./Components/formulario";
 
 export default async function LoginPage() {
 
-	localStorage.removeItem("zoom_token")
-	localStorage.removeItem("zoom_refresh_token")
+	if (typeof window !== 'undefined') {
+		localStorage.removeItem("zoom_token");
+		localStorage.removeItem("zoom_refresh_token");
+	  }
 
 	return (
 		<main>

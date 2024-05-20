@@ -7,6 +7,7 @@ import { Navbar } from "../../components/Navbar/Navbar";
 import { useEffect, useState } from "react";
 import { User } from "@/app/type/user";
 import { getUserInTheSession } from "../agendar/service/getUsers";
+import { deleteMeeting } from "../agendar/service/deleteMeeting";
 
 
 export default function MeusAgendamentos() {
@@ -53,17 +54,25 @@ export default function MeusAgendamentos() {
             horaInicio={obterHorasMinutos(participa.meetings.reservations.reserve_start)}
             horaFim={obterHorasMinutos(participa.meetings.reservations.reserve_end)}>
             <BtnReagendar />
+            <BtnDesmarcar onClick={() => handleDesmarcar(participa.meeting_id)}/>
           </Cards.BodyReuniao>
         </Cards.Root>
-
-
         )
       }
       return
     }
     )
-
   }
+
+  const handleDesmarcar = async (meetingId: number) => {
+
+    try {
+      const response = await deleteMeeting(meetingId); 
+      console.log('Reunião excluída com sucesso:', response);
+    } catch (error) {
+      console.error('Erro ao excluir reunião:', error);
+    }
+  };
 
   const preencheReuniaoParticipante = () => {
     return user?.participate.map((participa, index) => {
@@ -90,9 +99,9 @@ export default function MeusAgendamentos() {
       return
     }
     )
-
-
   }
+
+
   return (
     <main>
       <Navbar.Root>
