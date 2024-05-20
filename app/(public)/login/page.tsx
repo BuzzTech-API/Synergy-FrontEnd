@@ -1,8 +1,9 @@
+"use client"
 import { Center } from "@chakra-ui/react";
 import FormularioLogin from "./Components/formulario";
 
 
-export default async function LoginPage() {
+export default function LoginPage() {
 
 	localStorage.removeItem("zoom_token")
 	localStorage.removeItem("zoom_refresh_token")
