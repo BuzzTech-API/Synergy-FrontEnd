@@ -5,9 +5,7 @@ import SalasVisual from "./components/SalasVisual";
 import SalasVisualVirtual from "./components/SalasVisualVirtual";
 
 export default function visualizarSalas() {
-
-    //Funções para Mostrar as Salas Criadas
-
+  
     return (
       <main>
         <Navbar.Root>

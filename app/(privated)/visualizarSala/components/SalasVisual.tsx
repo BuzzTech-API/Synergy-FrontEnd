@@ -1,5 +1,7 @@
 'use client'
+
 import { Box, Flex} from "@chakra-ui/react";
+
 import { useEffect, useState } from "react";
 import { GetSalasService } from "../../agendar/components/Salas/services/SalasService";
 import { Cards } from "@/app/components/cards";
@@ -12,7 +14,6 @@ interface SalasProps {
 export default function SalasVisual({ tipo}: SalasProps) {
 
     const [salasPresenciais, setSalasPresenciais] = useState<PhysicalRooms[]>(new Array<PhysicalRooms>());
-
 
     useEffect(() => {
 
