@@ -1,7 +1,7 @@
 'use client'
 import { Text, Flex, Heading} from "@chakra-ui/react";
 import { Navbar } from "../../components/Navbar/Navbar";
-
+import TabUsuarios from "@/app/components/tabela/TabUsuarios";
 
 export default function visualizarUsuarios() {
 
@@ -9,10 +9,18 @@ export default function visualizarUsuarios() {
 
     return (
       <main>
-        <Navbar.Root>
+
+            <Navbar.Root>
             <Navbar.Menu />
             <Navbar.Perfil />
-        </Navbar.Root>
+            </Navbar.Root>
+
+            <Flex alignItems="center" justifyContent="center" pt="7rem">
+
+                <TabUsuarios></TabUsuarios>
+
+            </Flex>
+
       </main>
     )
 }
