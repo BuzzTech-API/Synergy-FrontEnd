@@ -1,16 +1,37 @@
 'use client'
 
+import React, { useEffect, useState } from 'react';
 import { Box, Flex, Heading, IconButton, Input, InputGroup, InputRightElement, Grid, GridItem, HStack } from "@chakra-ui/react";
 import { ImSearch } from "react-icons/im";
 import TabBarUsuario from "./TabBarUsuario";
+import { getAllUsers } from '@/app/(privated)/agendar/service/getUsers';
+import { User } from '@/app/type/user';
+
 
 export default function TabUsuarios() {
+    const [users, setUsers] = useState <User[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [pesquisa, setPesquisa] = useState("");
+
+    useEffect(() => {
+        getAllUsers().then(data => {
+            setUsers(data);
+            setLoading(false);
+        }).catch(err => {
+            setError(err.message);
+            setLoading(false);
+        });
+    }, []);
+
+    if (loading) return <p>Carregando...</p>;
+    if (error) return <p>Erro ao carregar usuários: {error}</p>;
 
     return (
 
         <Box
-            w='100rem'
-            h='100rem'>
+            w='90%'
+            h='90%'>
             <Flex
                 h='10%'>
                 <HStack
@@ -22,9 +43,14 @@ export default function TabUsuarios() {
                     <Flex
                         w='35rem'>
                         <InputGroup size='lg'>
-                            <Input w='100%' />
+                            <Input onChange={(e:any) => {
+                                setPesquisa(e.target.value)
+                            }} w='100%' />
                             <InputRightElement>
                                 <IconButton
+                                    isDisabled
+                                    borderRadius={0}
+                                    boxShadow={'none'}
                                     bg='none'
                                     aria-label='search'
                                     icon={<ImSearch size='2rem' />} />
@@ -34,7 +60,7 @@ export default function TabUsuarios() {
                 </HStack>
             </Flex>
 
-            <Box
+            <Box pt={'1rem'}
                 h='90%'>
                 <Grid
                     bg='#13ACEE'
@@ -74,6 +100,7 @@ export default function TabUsuarios() {
                     </GridItem>
                     <GridItem colSpan={1}>
                         <Flex
+                            textAlign={'center'}
                             alignItems='center'
                             justifyContent='center'
                             h='100%'>
@@ -94,23 +121,22 @@ export default function TabUsuarios() {
                     </GridItem>
                 </Grid>
 
-                <Box
+                <Box padding={"1rem"}
                     h='95%'
                     overflowY='auto'>
-                    <TabBarUsuario nome="Marilene" cargo="Engenheiro" email="marilene@gmail.com" nivel={3} tipo="administrador" />
-                    <TabBarUsuario nome="Isadora Leite" cargo="RH" email="isadora@gmail.com" nivel={2} tipo="comum" />
-                    <TabBarUsuario nome="Isadora Leite" cargo="RH" email="isadora@gmail.com" nivel={2} tipo="comum" />
-                    <TabBarUsuario nome="Isadora Leite" cargo="RH" email="isadora@gmail.com" nivel={2} tipo="comum" />
-                    <TabBarUsuario nome="Isadora Leite" cargo="RH" email="isadora@gmail.com" nivel={2} tipo="comum" />
-                    <TabBarUsuario nome="Isadora Leite" cargo="RH" email="isadora@gmail.com" nivel={2} tipo="comum" />
-                    <TabBarUsuario nome="Isadora Leite" cargo="RH" email="isadora@gmail.com" nivel={2} tipo="comum" />
-                    <TabBarUsuario nome="Isadora Leite" cargo="RH" email="isadora@gmail.com" nivel={2} tipo="comum" />
-                    <TabBarUsuario nome="Isadora Leite" cargo="RH" email="isadora@gmail.com" nivel={2} tipo="comum" />
-                    <TabBarUsuario nome="Isadora Leite" cargo="RH" email="isadora@gmail.com" nivel={2} tipo="comum" />
-                    <TabBarUsuario nome="Isadora Leite" cargo="RH" email="isadora@gmail.com" nivel={2} tipo="comum" />
+                    {users.filter(user => user.user_name.toLowerCase().includes(pesquisa.toLowerCase())).
+                    map(user => (
+                        <TabBarUsuario
+                            key={user.user_id}
+                            nome={user.user_name}
+                            email={user.user_email}
+                            cargo={user.user_board}
+                            nivel={user.user_permission_level}
+                            tipo={user.user_permission_level === 10?"administrador":"comum"}
+                        />
+                    ))}
                 </Box>
             </Box>
-
 
         </Box>
 

@@ -6,7 +6,7 @@ interface TabBarUsuariosProps {
     nome: string,
     email: string,
     cargo: string,
-    nivel: number,
+    nivel?: number,
     tipo: string
 }
 
@@ -17,13 +17,13 @@ export default function TabBarUsuario({ nome, email, cargo, nivel, tipo }: TabBa
         if (tipo === 'administrador') {
             return (
                 <>
-                    <Button colorScheme='red'>Remover</Button>
                     <Button colorScheme='orange'>Editar</Button>
                 </>
             )
         } else if (tipo === 'comum') {
             return (
                 <>
+                    <Button colorScheme='red'>Remover</Button>
                     <Button colorScheme='orange'>Editar</Button>
                 </>
             )
@@ -33,7 +33,7 @@ export default function TabBarUsuario({ nome, email, cargo, nivel, tipo }: TabBa
 
     return (
 
-        <Grid
+        <Grid 
             bg='white'
             h='90px'
             borderRadius='22px'
@@ -77,7 +77,7 @@ export default function TabBarUsuario({ nome, email, cargo, nivel, tipo }: TabBa
                     justifyContent='center'
                     h='100%'>
                     <Text color='black' fontSize='1rem'>
-                        {nivel.toString()}
+                        {nivel != undefined && nivel.toString()}
                     </Text>
                 </Flex>
             </GridItem>

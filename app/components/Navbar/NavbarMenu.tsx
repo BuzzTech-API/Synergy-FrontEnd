@@ -23,8 +23,8 @@ export default function NavbarMenu() {
                     <Link href={'/meusAgendamentos'} > <NavbarOptionsMenu hasCorFundo={true} texto='Meus Agendamentos' /></Link>
                     <Link href={'/cadastrarSala'} > <NavbarOptionsMenu hasCorFundo={false} texto='Cadastrar Sala' /></Link>
                     <Link href={'/cadastrarUsuario'}><NavbarOptionsMenu hasCorFundo={true} texto='Cadastrar Usuário' /></Link>
-                    <Link href={''} ><NavbarOptionsMenu hasCorFundo={false} texto='Visualizar Salas' /></Link>
-                    <Link href={''} ><NavbarOptionsMenu hasCorFundo={true} texto='Visualizar Usuários' /></Link>
+                    <Link href={'/visualizarSala'} ><NavbarOptionsMenu hasCorFundo={false} texto='Visualizar Salas' /></Link>
+                    <Link href={'/visualizarUsuarios'} ><NavbarOptionsMenu hasCorFundo={true} texto='Visualizar Usuários' /></Link>
                     <Link href={''} > <NavbarOptionsMenu hasCorFundo={false} texto='Editar Perfil' /></Link>
                     <NavbarOptionsMenu onClick={() => deslogar()} hasCorFundo={true} texto='Sair' />
 

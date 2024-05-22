@@ -1,14 +1,11 @@
 'use client'
 import { Text, Flex, Heading} from "@chakra-ui/react";
 import { Navbar } from "../../components/Navbar/Navbar";
-import SalasVirtuais from "./Salas/SalasVirtuais";
 import SalasVisual from "./components/SalasVisual";
 import SalasVisualVirtual from "./components/SalasVisualVirtual";
 
 export default function visualizarSalas() {
-
-    //Funções para Mostrar as Salas Criadas
-
+  
     return (
       <main>
         <Navbar.Root>
@@ -27,4 +24,4 @@ export default function visualizarSalas() {
         </Flex>
       </main>
     )
-  }
+}

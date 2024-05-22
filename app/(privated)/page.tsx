@@ -43,7 +43,7 @@ export default function Home() {
           {session.data?.user.user_permission_level === 10 && (
             <>
               <Link href={'/cadastrarUsuario'}><BigBtnCadUsuario /></Link>
-              <Link href={''}><BigBtnVisuUsuarios /></Link>
+              <Link href={'/visualizarUsuarios'}><BigBtnVisuUsuarios /></Link>
             </>
           )}
           <Link href={'/meusAgendamentos'}><BigBtnAgendamentos /></Link>
