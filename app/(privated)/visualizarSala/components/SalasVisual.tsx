@@ -1,22 +1,18 @@
 'use client'
 
-import { Box, Flex} from "@chakra-ui/react";
-
+import { Box, Button, Flex} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { GetSalasService } from "../../agendar/components/Salas/services/SalasService";
 import { Cards } from "@/app/components/cards";
 import { PhysicalRooms } from "@/app/type/rooms";
+import { excluirSala } from "../service/excluirSala";
+import { BtnRemover } from "@/app/components/buttons/IconBtns/BtnRemover&Entrar";
+import { BtnEditar } from "@/app/components/buttons/IconBtns/BtnEditar&Salvar";
 
-interface SalasProps {
-    tipo: string,
-}
-
-export default function SalasVisual({ tipo}: SalasProps) {
-
+export default function SalasVisual() {
     const [salasPresenciais, setSalasPresenciais] = useState<PhysicalRooms[]>(new Array<PhysicalRooms>());
 
     useEffect(() => {
-
         const fetchData = async () => {
             try {
                 const salas: PhysicalRooms[] = await GetSalasService();
@@ -30,40 +26,39 @@ export default function SalasVisual({ tipo}: SalasProps) {
 
     }, []);
 
-    const renderSalas = (salas: Array<PhysicalRooms>) => {
-        if (!salas) {
-            return null;
-        }
-        salas.sort((sala1, sala2) => {
-            return sala1.physical_room_vacancies - sala2.physical_room_vacancies
-        })
-        return salas.map((sala, index) => {
-            {
-                return (
-                    <Cards.Root variant='presencial' key={index}>
-                        {/*Ivan: Este é o Header do Card para salas Physicas*/}
-                        <Cards.HeaderPhysical room_name={sala.physical_room_name} />
-                        {<Cards.BodySalaAdm nivelDePermissao={sala.physical_room_permission_level} capacidade={sala.physical_room_vacancies} />}
-                    </Cards.Root>
-                );
+    const handleClick = (sala: PhysicalRooms) => {
+        excluirSala(sala.physical_room_id)
+        console.log("Este é o id da sala: " + sala.physical_room_id)
+        setSalasPresenciais(salasPresenciais.map((salas, index)=>{
+            if(salas.physical_room_id === sala.physical_room_id ){
+                salas.is_active = false
+                return salas
+            } else{
+                return salas
             }
-        });
+            }))
     }
 
-
     return (
-
         <Box>
             <Flex
                 w='100%'
                 wrap='wrap'
                 gap='3rem'>
-
-                {renderSalas(salasPresenciais)}
-
+                {salasPresenciais.map((sala, index) => {
+                    return (<>{ sala.is_active &&
+                        <Cards.Root variant='presencial' key={index}>   
+                            {/*Ivan: Este é o Header do Card para salas Physicas*/}
+                            <Cards.HeaderPhysical room_name={sala.physical_room_name} />
+                            <Cards.BodySalaAdm nivelDePermissao={sala.physical_room_permission_level} capacidade={sala.physical_room_vacancies}>
+                                <BtnRemover onClick={() => handleClick(sala)} zIndex={2}>Excluir</BtnRemover>
+                                <BtnEditar zIndex={2}>Editar</BtnEditar>
+                            </Cards.BodySalaAdm>
+                        </Cards.Root>
+                        }</>
+                    )
+                })}
             </Flex>
-
         </Box>
-
     )
 }

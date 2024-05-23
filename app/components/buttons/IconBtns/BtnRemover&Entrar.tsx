@@ -9,7 +9,7 @@ export function BtnRemover(props: any) {
     const { variant, ...rest } = props
     const styles = useStyleConfig('Button', { variant })
     const styles3 = useStyleConfig('Box', { variant } )
-
+    
     return (
         <Button __css={styles}  {...rest} bg='#B91717' padding={"initial"}>
             <Box __css={styles3} {...rest}>
