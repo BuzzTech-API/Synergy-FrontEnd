@@ -1,14 +1,17 @@
 
 'use client'
+import { excluirSala, excluirSalaVirtual } from "@/app/(privated)/visualizarSala/service/excluirSala";
 import { Button, CardBody, Flex, Link, Text } from "@chakra-ui/react";
 import NextLink from 'next/link'
+import {ReactNode } from "react";
+
 type props = {
 	capacidade?: number,
-	nivelDePermissao: number
+	nivelDePermissao: number,
+	children: ReactNode
 }
 
-export function CardBodySalaAdm({ nivelDePermissao, capacidade = 0 }: props) {
-
+export function CardBodySalaAdm({ children, nivelDePermissao, capacidade = 0 }: props) {
 
 	return (
 		<CardBody
@@ -39,8 +42,7 @@ export function CardBodySalaAdm({ nivelDePermissao, capacidade = 0 }: props) {
 				<Text>{nivelDePermissao}</Text>
 			</Flex>
 			<Flex mt={'2rem'} gap={'1em'} flexDirection={'column'} >
-				<Button zIndex={1}>Alterar</Button>
-				<Button zIndex={1}>Remover</Button>
+				{children}
 			</Flex>
 		</CardBody>
 	)
