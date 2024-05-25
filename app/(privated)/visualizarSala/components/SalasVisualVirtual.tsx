@@ -7,7 +7,7 @@ import { Cards } from "@/app/components/cards";
 import { VirtualRoom } from "@/app/type/rooms";
 import { excluirSalaVirtual } from "../service/excluirSala";
 import { BtnRemover } from "@/app/components/buttons/IconBtns/BtnRemover&Entrar";
-import { BtnEditar } from "@/app/components/buttons/IconBtns/BtnEditar&Salvar";
+import EditarSalaVirtual from "../../editarSala/formEditVirtual";
 
 export default function SalasVisualVirtual() {
     const [SalasVirtuais, setSalasVirtuais] = useState<VirtualRoom[]>(new Array<VirtualRoom>());
@@ -52,7 +52,7 @@ export default function SalasVisualVirtual() {
                             <Cards.HeaderVirtual room_name={sala.virtual_room_name} />
                             <Cards.BodySalaAdm nivelDePermissao={sala.virtual_room_permission_level} capacidade={0}>
                                 <BtnRemover onClick={() => (handleClick(sala))} zIndex={2}>Excluir</BtnRemover>
-                                <BtnEditar zIndex={2}>Editar</BtnEditar>
+                                <EditarSalaVirtual/>
                             </Cards.BodySalaAdm>
                         </Cards.Root>
                         }</>

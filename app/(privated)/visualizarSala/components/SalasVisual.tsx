@@ -8,6 +8,7 @@ import { PhysicalRooms } from "@/app/type/rooms";
 import { excluirSala } from "../service/excluirSala";
 import { BtnRemover } from "@/app/components/buttons/IconBtns/BtnRemover&Entrar";
 import { BtnEditar } from "@/app/components/buttons/IconBtns/BtnEditar&Salvar";
+import EditarSalaPresencial from "../../editarSala/formEditPresencial";
 
 export default function SalasVisual() {
     const [salasPresenciais, setSalasPresenciais] = useState<PhysicalRooms[]>(new Array<PhysicalRooms>());
@@ -52,7 +53,7 @@ export default function SalasVisual() {
                             <Cards.HeaderPhysical room_name={sala.physical_room_name} />
                             <Cards.BodySalaAdm nivelDePermissao={sala.physical_room_permission_level} capacidade={sala.physical_room_vacancies}>
                                 <BtnRemover onClick={() => handleClick(sala)} zIndex={2}>Excluir</BtnRemover>
-                                <BtnEditar zIndex={2}>Editar</BtnEditar>
+                                <EditarSalaPresencial/>
                             </Cards.BodySalaAdm>
                         </Cards.Root>
                         }</>

@@ -5,6 +5,7 @@ import { ChangeEvent, Dispatch, SetStateAction, useState } from "react"
 import { cadastrarSalaVirtual } from "./services/cadastrarSalaVirtual"
 import { FormControlInput } from "@/app/components/FormControlInput/FormControlInput"
 import { BtnCriarSala } from "@/app/components/buttons/IconBtns/BtnCriarSala&Usuario"
+import EditarSalaVirtual from "../editarSala/formEditVirtual"
 
 export default function CadastrarSalaVirtual() {
   const [nameValid, setNameValid] = useState(false)
@@ -39,7 +40,7 @@ export default function CadastrarSalaVirtual() {
       isValid = value.trim() !== '' && !value.startsWith(' ') && value.length <= 20
       setIsError(!isValid)
     } else if (id === 'link') {
-      isValid = value.trim() !== '' && !value.startsWith(' ') && value.length <= 20
+      isValid = value.trim() !== '' && !value.startsWith(' ') && /^(ftp|http|https):\/\/[^ "]+$/.test(value)
       setIsError(!isValid)
     }
     setRoom(prevState => ({
@@ -55,7 +56,7 @@ export default function CadastrarSalaVirtual() {
     } else if (id === 'password') {
       setPasswordValid(isValid)
     } else if (id === 'link') {
-      setPasswordValid(isValid)
+      setLinkValid(isValid)
     }
   }
 
@@ -130,7 +131,7 @@ export default function CadastrarSalaVirtual() {
               </Select>
             </Flex>
             <Text color={'black'} textAlign={'center'}>By proceeding you agree with our <span>Terms of Service</span> & <span>Privacy Policy</span></Text>
-            <BtnCriarSala type={'submit'} isDisabled={!isFormValid} />
+            <BtnCriarSala type={'submit'} isDisabled={!isFormValid}/>
           </Center>
         </Center>
       </form>
