@@ -19,6 +19,8 @@ import SalasVirtuais from "./Salas/SalasVirtuais";
 import { cadastrarZoomMeeting } from "./Salas/services/ZoomService";
 import { EmailInfos, Receptores } from "@/app/type/templateEmail/emailInfos";
 import { sendConvidadosMails } from "@/app/utils/emailSender";
+import { AtaInfos } from "@/app/type/ataInfos";
+import { sendEmailAta } from "@/app/utils/emailATAsender";
 
 type participanteDeFora = {
   participante_nome: string,
@@ -270,10 +272,20 @@ export default function FormularioVirtual() {
         linkParaSala: zoomMeeting.join_url,
       }
 
-
-      console.log(emailInfos);
-
       const enviarEmails = await sendConvidadosMails(emailInfos)
+
+      const ataInfos: AtaInfos = {
+        assunto: agendamento.assuntoReuniao,
+        data: agendamento.reserve_date,
+        horario: agendamento.inicio,
+        local: "Zoom",
+        //ja to pegando la na função
+        relator: ""
+      }
+
+      const enviarATA = await sendEmailAta(emailInfos, ataInfos)
+
+
 
 
       toast({

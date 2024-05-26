@@ -4,10 +4,12 @@ import { BACKEND_URL } from "@/app/constants";
 import { authOptions } from "@/app/utils/authOptions";
 import { getServerSession } from "next-auth";
 import { EmailInfos } from "../type/templateEmail/emailInfos";
+import { AtaInfos } from "../type/ataInfos";
 
-export async function sendConvidadosMails(emailInfos: EmailInfos) {
+export async function sendEmailAta(emailInfos: EmailInfos, ataInfos: AtaInfos) {
 
 	const session = await getServerSession(authOptions)
+
 
 	let html = `
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -371,25 +373,34 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: none;
 
 	`
 
-	const options = {
+    const options = {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 			'Authorization': `Bearer ${session?.backendTokens.access_token}`,
 		},
 		body: JSON.stringify({
+            emailDetails:{
+                recipients:[{name: session?.user.user_name, address: session?.user.user_email}] ,
+                subject: emailInfos.titulo,
+                html: html,
+            },
+            ataDetails:{
+				assunto: ataInfos.assunto,
+				data: ataInfos.data,
+				horario: ataInfos.horario,
+				local: ataInfos.local,
+				relator: session?.user.user_name,
+				participantes: emailInfos.listaDePessoas
 
-			recipients: emailInfos.listaDePessoas,
-			subject: emailInfos.titulo,
-			html: html,
+            }
+
 		})
 	};
 
-	const request = await fetch(BACKEND_URL + '/mailer', options)
+	const request = await fetch(BACKEND_URL + '/docx', options)
 	if (!request.ok) {
 		throw console.error(await request.text())
 	}
-	return await request.json()
-
+	return 
 }
-

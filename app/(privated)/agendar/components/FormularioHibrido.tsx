@@ -23,6 +23,8 @@ import { EmailInfos, Receptores } from "@/app/type/templateEmail/emailInfos";
 import { GetReservationSalaService } from "./Salas/services/SalasService";
 import { PhysicalRooms } from "@/app/type/rooms";
 import { sendConvidadosMails } from "@/app/utils/emailSender";
+import { AtaInfos } from "@/app/type/ataInfos";
+import { sendEmailAta } from "@/app/utils/emailATAsender";
 
 type participanteDeFora = {
   participante_nome: string,
@@ -278,6 +280,17 @@ export default function FormularioHibrido() {
         localizacaoSalaPresencial: localizacao.physical_room_address
       }
       const enviarEmails = await sendConvidadosMails(emailInfos)
+
+      const ataInfos: AtaInfos = {
+        assunto: agendamento.assuntoReuniao,
+        data: agendamento.reserve_date,
+        horario: agendamento.inicio,
+        local:"Zoom / " + localizacao.physical_room_name,
+        //ja to pegando la na função
+        relator: ""
+      }
+
+      const enviarATA = await sendEmailAta(emailInfos, ataInfos)
 
 
       if (zoomMeeting) {
