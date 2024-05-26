@@ -21,6 +21,8 @@ import { EmailInfos, Receptores } from "@/app/type/templateEmail/emailInfos";
 import { PhysicalRooms } from "@/app/type/rooms";
 import { GetReservationSalaService } from "./Salas/services/SalasService";
 import { sendConvidadosMails } from "@/app/utils/emailSender";
+import { sendEmailAta } from "@/app/utils/emailATAsender";
+import { AtaInfos } from "@/app/type/ataInfos";
 
 type participanteDeFora = {
   participante_nome: string,
@@ -249,7 +251,6 @@ export default function FormularioPresencial() {
 
 
       const localizacao: PhysicalRooms = await GetReservationSalaService(agendamento.physical_room_id)
-      console.log(emails);
 
 
       const emailInfos: EmailInfos = {
@@ -259,8 +260,19 @@ export default function FormularioPresencial() {
         localizacaoSalaPresencial: localizacao.physical_room_address
       }
 
-      console.log(emailInfos);
       const enviarEmails = await sendConvidadosMails(emailInfos)
+
+
+      const ataInfos: AtaInfos = {
+        assunto: agendamento.assuntoReuniao,
+        data: agendamento.reserve_date,
+        horario: agendamento.inicio,
+        local: localizacao.physical_room_name,
+        //ja to pegando la na função
+        relator: ""
+      }
+
+      const enviarATA = await sendEmailAta(emailInfos, ataInfos)
 
 
 
