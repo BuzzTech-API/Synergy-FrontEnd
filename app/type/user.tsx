@@ -16,6 +16,7 @@ export type Reuniao = {
 
 export type Participacao = {
 	user_id: number;
+	user: User;
 	meeting_id: number;
 	user_status: string;
 	meetings: Reuniao;
