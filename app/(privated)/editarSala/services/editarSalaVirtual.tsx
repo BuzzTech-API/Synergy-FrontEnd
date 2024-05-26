@@ -9,8 +9,9 @@ import { getServerSession } from "next-auth"
 export async function editarSalaVirtual(body: {}) {
   const session = await getServerSession(authOptions)
 
+
   const request = await fetch(BACKEND_URL + '/virtualrooms', {
-    method: 'POST',
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ` + session?.backendTokens.access_token

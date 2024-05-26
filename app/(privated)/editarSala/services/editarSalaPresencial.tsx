@@ -10,7 +10,7 @@ export async function editarSalaPresencial(body: {}) {
   const session = await getServerSession(authOptions)
 
   const request = await fetch(BACKEND_URL + '/physicalrooms', {
-    method: 'POST',
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ` + session?.backendTokens.access_token

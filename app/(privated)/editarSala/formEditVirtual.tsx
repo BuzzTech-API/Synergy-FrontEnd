@@ -59,6 +59,8 @@ export default function EditarSalaVirtual(){
             "virtual_room_permission_level": room.permissionLevel
           }
 
+          
+
     const request = editarSalaVirtual(body)
 
     toast.promise(request, {
@@ -96,7 +98,7 @@ export default function EditarSalaVirtual(){
     }
     return (
         <main>
-          <form method="POST" onSubmit={submit}>
+          <form method="PUT" onSubmit={submit}>
       <BtnEditar onClick={onOpen}/>
 
       <Modal
@@ -130,5 +132,4 @@ export default function EditarSalaVirtual(){
           </form>
         </main>
       )
-
 }

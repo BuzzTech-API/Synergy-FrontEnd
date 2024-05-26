@@ -111,7 +111,7 @@ export default function EditarSalaPresencial(){
     }
     return (
         <main>
-          <form method="POST" onSubmit={submit}>
+          <form method="PUT" onSubmit={submit}>
       <BtnEditar onClick={onOpen}/>
 
       <Modal
