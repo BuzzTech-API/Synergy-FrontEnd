@@ -11,8 +11,9 @@ export function BtnDesmarcar(props: any) {
     const styles = useStyleConfig('Button', { variant })
     const styles3 = useStyleConfig('Box', { variant })
 
+
     return (
-        <Button __css={styles}  {...rest} bg='#A5004F' padding={"initial"}>
+        <Button __css={styles} {...rest} bg='#A5004F' padding={"initial"}>
             <Box __css={styles3} {...rest}>
                 <Icon as={CalendarMinus} h='100%' />
             </Box>
@@ -20,7 +21,7 @@ export function BtnDesmarcar(props: any) {
                 whiteSpace="nowrap"
                 fontSize='13'
                 width="75%"
-                paddingLeft='5px'>Recusar Reunião</Text>
+                paddingLeft='5px'>Desmarcar Reunião</Text>
         </Button>
 
     )
