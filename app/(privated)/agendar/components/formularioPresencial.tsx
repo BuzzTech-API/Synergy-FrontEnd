@@ -16,6 +16,10 @@ import { createGuests } from "../service/createGuests";
 import { createMeetingGuest } from "../service/createMeetingGuest";
 import { createMeetingUsers } from "../service/createMeetingUsers";
 import { calcularReserveEnd } from "../service/calculateEnd";
+import { EmailInfos, Receptores } from "@/app/type/templateEmail/emailInfos";
+import { PhysicalRooms } from "@/app/type/rooms";
+import { GetReservationSalaService } from "./Salas/services/SalasService";
+import { sendConvidadosMails } from "@/app/utils/emailSender";
 
 type participanteDeFora = {
   participante_nome: string,
@@ -207,6 +211,38 @@ export default function FormularioPresencial() {
         "meeting_type": "Presencial",
         "reserve_id": reserve.reserve_id,
       })
+
+      const userEmails = selectedUser.map((user: User) => {
+        const recept: Receptores = { name: user.user_name, address: user.user_email }
+        console.log(recept);
+
+        return recept
+      })
+
+      const participanteForaEmails = participantesFora.map((user: participanteDeFora) => {
+        const recept: Receptores = { name: user.participante_nome, address: user.participante_email }
+        return recept
+      })
+      const emails: Receptores[] = userEmails.concat(participanteForaEmails)
+
+
+      const localizacao: PhysicalRooms = await GetReservationSalaService(agendamento.physical_room_id)
+      console.log(emails);
+
+
+      const emailInfos: EmailInfos = {
+        assunto: agendamento.assuntoReuniao,
+        titulo: agendamento.meeting_title,
+        listaDePessoas: emails,
+        localizacaoSalaPresencial: localizacao.physical_room_address
+      }
+
+      console.log(emailInfos);
+      const enviarEmails = await sendConvidadosMails(emailInfos)
+
+
+
+
       const participantes = await createGuests(participantesFora)
       const meetGuests = await createMeetingGuest({
         "meeting_id": meeting.meeting_id,
