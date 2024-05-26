@@ -17,6 +17,8 @@ import { createMeetingUsers } from "../service/createMeetingUsers";
 import { calcularMinutosTotal, calcularReserveEnd } from "../service/calculateEnd";
 import SalasVirtuais from "./Salas/SalasVirtuais";
 import { cadastrarZoomMeeting } from "./Salas/services/ZoomService";
+import { EmailInfos, Receptores } from "@/app/type/templateEmail/emailInfos";
+import { sendConvidadosMails } from "@/app/utils/emailSender";
 
 type participanteDeFora = {
   participante_nome: string,
@@ -233,9 +235,20 @@ export default function FormularioVirtual() {
         "users_list": selectedUser.map((participante) => { return participante.user_id })
       })
 
-      const emails = new Array<String>()
-      emails.concat(selectedUser.map((user) => user.user_email))
-      emails.concat(participantesFora.map((user) => user.participante_email))
+      const userEmails = selectedUser.map((user: User) => {
+        const recept: Receptores = { name: user.user_name, address: user.user_email }
+        console.log(recept);
+
+        return recept
+      })
+
+      const participanteForaEmails = participantesFora.map((user: participanteDeFora) => {
+        const recept: Receptores = { name: user.participante_nome, address: user.participante_email }
+        return recept
+      })
+      const emails: Receptores[] = userEmails.concat(participanteForaEmails)
+
+
 
       const zoomBody = {
         access_token: zoomAccessToken,
@@ -244,10 +257,24 @@ export default function FormularioVirtual() {
         start_time: agendamento.reserve_date + "T" + agendamento.inicio + ":00",
         duration: calcularMinutosTotal(agendamento.duracao),
         agenda: agendamento.assuntoReuniao,
-        meeting_invites: emails
+        meeting_invites: emails.map((receptor) => receptor.address)
       }
 
       const zoomMeeting = await cadastrarZoomMeeting(zoomBody)
+
+
+      const emailInfos: EmailInfos = {
+        assunto: agendamento.assuntoReuniao,
+        titulo: agendamento.meeting_title,
+        listaDePessoas: emails,
+        linkParaSala: zoomMeeting.join_url,
+      }
+
+
+      console.log(emailInfos);
+
+      const enviarEmails = await sendConvidadosMails(emailInfos)
+
 
       toast({
         title: "Link da sala virtual",
