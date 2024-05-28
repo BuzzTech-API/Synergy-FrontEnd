@@ -1,38 +1,35 @@
 'use client'
 
+import { User } from "@/app/type/user"
 import { Button, Flex, Grid, GridItem, Text } from "@chakra-ui/react"
+import { BtnRemover } from "../buttons/IconBtns/BtnRemover&Entrar"
 
 interface TabBarUsuariosProps {
-    nome: string,
-    email: string,
-    cargo: string,
-    nivel?: number,
-    tipo: string
+    user: User
+    deleteUser: (user: User) => void
 }
 
-export default function TabBarUsuario({ nome, email, cargo, nivel, tipo }: TabBarUsuariosProps) {
+export default function TabBarUsuario({ user, deleteUser }: TabBarUsuariosProps) {
 
     const renderBarUsuario = () => {
         //Lógica e botão provisórios
-        if (tipo === 'administrador') {
+        if (user.user_permission_level === 10) {
             return (
                 <>
                     <Button colorScheme='orange'>Editar</Button>
                 </>
             )
-        } else if (tipo === 'comum') {
+        } else 
             return (
                 <>
-                    <Button colorScheme='red'>Remover</Button>
+                    <BtnRemover colorScheme='red' onClick={() => deleteUser(user)} >Remover</BtnRemover>
                     <Button colorScheme='orange'>Editar</Button>
                 </>
             )
-
-        }
     }
 
     return (
-
+    <>{ user.is_active &&
         <Grid 
             bg='white'
             h='90px'
@@ -47,7 +44,7 @@ export default function TabBarUsuario({ nome, email, cargo, nivel, tipo }: TabBa
                     justifyContent='center'
                     h='100%'>
                     <Text color='black' fontSize='1rem'>
-                        {nome}
+                        {user.user_name}
                     </Text>
                 </Flex>
             </GridItem>
@@ -57,7 +54,7 @@ export default function TabBarUsuario({ nome, email, cargo, nivel, tipo }: TabBa
                     justifyContent='center'
                     h='100%'>
                     <Text color='black' fontSize='1rem'>
-                        {email}
+                        {user.user_email}
                     </Text>
                 </Flex>
             </GridItem>
@@ -67,7 +64,7 @@ export default function TabBarUsuario({ nome, email, cargo, nivel, tipo }: TabBa
                     justifyContent='center'
                     h='100%'>
                     <Text color='black' fontSize='1rem'>
-                        {cargo}
+                        {user.user_board}
                     </Text>
                 </Flex>
             </GridItem>
@@ -77,7 +74,7 @@ export default function TabBarUsuario({ nome, email, cargo, nivel, tipo }: TabBa
                     justifyContent='center'
                     h='100%'>
                     <Text color='black' fontSize='1rem'>
-                        {nivel != undefined && nivel.toString()}
+                        {user.user_permission_level != undefined && user.user_permission_level.toString()}
                     </Text>
                 </Flex>
             </GridItem>
@@ -93,5 +90,6 @@ export default function TabBarUsuario({ nome, email, cargo, nivel, tipo }: TabBa
             </GridItem>
         </Grid>
 
-    )
+    }
+    </>)
 }
