@@ -8,7 +8,7 @@ import { PhysicalRooms } from "@/app/type/rooms";
 import { excluirSala } from "../service/excluirSala";
 import { BtnRemover } from "@/app/components/buttons/IconBtns/BtnRemover&Entrar";
 import { BtnEditar } from "@/app/components/buttons/IconBtns/BtnEditar&Salvar";
-import EditarSalaPresencial from "../../editarSala/formEditPresencial";
+import EditarSalaPresencial from "./editarSala/formEditPresencial";
 
 export default function SalasVisual() {
     const [salasPresenciais, setSalasPresenciais] = useState<PhysicalRooms[]>(new Array<PhysicalRooms>());
@@ -41,19 +41,21 @@ export default function SalasVisual() {
     }
 
     return (
-        <Box>
+        <Box >
             <Flex
                 w='100%'
                 wrap='wrap'
                 gap='3rem'>
                 {salasPresenciais.map((sala, index) => {
                     return (<>{ sala.is_active &&
-                        <Cards.Root variant='presencial' key={index}>   
+                        <Cards.Root variant='presencial' key={index} >   
                             {/*Ivan: Este é o Header do Card para salas Physicas*/}
                             <Cards.HeaderPhysical room_name={sala.physical_room_name} />
                             <Cards.BodySalaAdm nivelDePermissao={sala.physical_room_permission_level} capacidade={sala.physical_room_vacancies}>
-                                <BtnRemover onClick={() => handleClick(sala)} zIndex={2}>Excluir</BtnRemover>
-                                <EditarSalaPresencial/>
+                            <Box zIndex={2} gap='1rem' display={"grid"}>
+                                <BtnRemover onClick={() => handleClick(sala)}>Excluir</BtnRemover>
+                                <EditarSalaPresencial sala={sala} setSalasPresenciais={setSalasPresenciais} salas={salasPresenciais}/>
+                            </Box>
                             </Cards.BodySalaAdm>
                         </Cards.Root>
                         }</>

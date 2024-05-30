@@ -5,7 +5,7 @@ import { ChangeEvent, Dispatch, SetStateAction, useState } from "react"
 import { cadastrarSalaVirtual } from "./services/cadastrarSalaVirtual"
 import { FormControlInput } from "@/app/components/FormControlInput/FormControlInput"
 import { BtnCriarSala } from "@/app/components/buttons/IconBtns/BtnCriarSala&Usuario"
-import EditarSalaVirtual from "../editarSala/formEditVirtual"
+import EditarSalaVirtual from "../visualizarSala/components/editarSala/formEditVirtual"
 
 export default function CadastrarSalaVirtual() {
   const [nameValid, setNameValid] = useState(false)

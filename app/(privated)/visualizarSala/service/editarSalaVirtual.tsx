@@ -6,10 +6,11 @@ import { getServerSession } from "next-auth"
  * envia o body para edição da sala no backend
  *
  * */
-export async function editarSalaPresencial(body: {}) {
+export async function editarSalaVirtual(body: {}) {
   const session = await getServerSession(authOptions)
 
-  const request = await fetch(BACKEND_URL + '/physicalrooms', {
+try{
+  const request = await fetch(BACKEND_URL + '/virtualrooms', {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -18,8 +19,14 @@ export async function editarSalaPresencial(body: {}) {
     body: JSON.stringify(body)
   })
 
-
-  const response = request
-  if (!response.ok) throw new Error(await response.text())
-  return response.json()
+  if (!request.ok) {
+    const errorText = await request.text();
+    console.error("Request failed:", request.status, errorText);
+    throw new Error(errorText);
+  }
+  return await request.json();
+  } catch (error) {
+    console.error("Error in editarSalaPresencial:", error);
+    throw error;
+  }
 }
