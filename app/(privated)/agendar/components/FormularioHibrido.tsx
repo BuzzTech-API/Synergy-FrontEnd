@@ -19,6 +19,12 @@ import { calcularMinutosTotal } from "../service/calculateEnd";
 import { cadastrarZoomMeeting } from "./Salas/services/ZoomService";
 import SalasVirtuais from "./Salas/SalasVirtuais";
 import { FormInputAgendarNumber } from "./FormInputAgendarNumber";
+import { EmailInfos, Receptores } from "@/app/type/templateEmail/emailInfos";
+import { GetReservationSalaService } from "./Salas/services/SalasService";
+import { PhysicalRooms } from "@/app/type/rooms";
+import { sendConvidadosMails } from "@/app/utils/emailSender";
+import { AtaInfos } from "@/app/type/ataInfos";
+import { sendEmailAta } from "@/app/utils/emailATAsender";
 
 type participanteDeFora = {
   participante_nome: string,
@@ -236,9 +242,19 @@ export default function FormularioHibrido() {
         return
       }
 
-      const emails = new Array<String>()
-      emails.concat(selectedUser.map((user) => user.user_email))
-      emails.concat(participantesFora.map((user) => user.participante_email))
+      const userEmails = selectedUser.map((user: User) => {
+        const recept: Receptores = { name: user.user_name, address: user.user_email }
+        console.log(recept);
+
+        return recept
+      })
+
+      const participanteForaEmails = participantesFora.map((user: participanteDeFora) => {
+        const recept: Receptores = { name: user.participante_nome, address: user.participante_email }
+        return recept
+      })
+      const emails: Receptores[] = userEmails.concat(participanteForaEmails)
+
 
 
 
@@ -249,10 +265,34 @@ export default function FormularioHibrido() {
         start_time: agendamento.reserve_date + "T" + agendamento.inicio + ":00",
         duration: calcularMinutosTotal(agendamento.duracao),
         agenda: agendamento.assuntoReuniao,
-        meeting_invites: emails
+        meeting_invites: emails.map((receptor) => receptor.address)
       }
 
       const zoomMeeting = await cadastrarZoomMeeting(zoomBody)
+
+      const localizacao: PhysicalRooms = await GetReservationSalaService(agendamento.physical_room_id)
+
+      const emailInfos: EmailInfos = {
+        assunto: agendamento.assuntoReuniao,
+        titulo: agendamento.meeting_title,
+        listaDePessoas: emails,
+        linkParaSala: zoomMeeting.join_url,
+        localizacaoSalaPresencial: localizacao.physical_room_address
+      }
+      const enviarEmails = await sendConvidadosMails(emailInfos)
+
+      const ataInfos: AtaInfos = {
+        assunto: agendamento.assuntoReuniao,
+        data: agendamento.reserve_date,
+        horario: agendamento.inicio,
+        local:"Zoom / " + localizacao.physical_room_name,
+        //ja to pegando la na função
+        relator: ""
+      }
+
+      const enviarATA = await sendEmailAta(emailInfos, ataInfos)
+
+
       if (zoomMeeting) {
         toast({
           title: "Link da sala virtual",

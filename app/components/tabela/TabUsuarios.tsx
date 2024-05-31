@@ -6,10 +6,11 @@ import { ImSearch } from "react-icons/im";
 import TabBarUsuario from "./TabBarUsuario";
 import { getAllUsers } from '@/app/(privated)/agendar/service/getUsers';
 import { User } from '@/app/type/user';
+import { excluirUsuario } from '@/app/(privated)/visualizarUsuarios/service/excluirUsuario';
 
 
 export default function TabUsuarios() {
-    const [users, setUsers] = useState <User[]>([]);
+    const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [pesquisa, setPesquisa] = useState("");
@@ -27,6 +28,21 @@ export default function TabUsuarios() {
     if (loading) return <p>Carregando...</p>;
     if (error) return <p>Erro ao carregar usuários: {error}</p>;
 
+    const deleteUser = (user: User) => {
+        if (user) {
+            excluirUsuario(user.user_id)
+
+            setUsers(users.map((users, index) => {
+                if (user.user_id === users.user_id) {
+                    user.is_active = false
+                    return users
+                } else {
+                    return users
+                }
+            }))
+        }
+    }
+
     return (
 
         <Box
@@ -43,7 +59,7 @@ export default function TabUsuarios() {
                     <Flex
                         w='35rem'>
                         <InputGroup size='lg'>
-                            <Input onChange={(e:any) => {
+                            <Input onChange={(e: any) => {
                                 setPesquisa(e.target.value)
                             }} w='100%' />
                             <InputRightElement>
@@ -125,16 +141,13 @@ export default function TabUsuarios() {
                     h='95%'
                     overflowY='auto'>
                     {users.filter(user => user.user_name.toLowerCase().includes(pesquisa.toLowerCase())).
-                    map(user => (
-                        <TabBarUsuario
-                            key={user.user_id}
-                            nome={user.user_name}
-                            email={user.user_email}
-                            cargo={user.user_board}
-                            nivel={user.user_permission_level}
-                            tipo={user.user_permission_level === 10?"administrador":"comum"}
-                        />
-                    ))}
+                        map(user => (
+                            <TabBarUsuario
+                                key={user.user_id}
+                                user={user}
+                                deleteUser={deleteUser}
+                            />
+                        ))}
                 </Box>
             </Box>
 
