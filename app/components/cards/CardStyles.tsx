@@ -60,19 +60,46 @@ const sizes = {
 
 const variants = {
 	// Aqui você define as variações bases de css dele
-	reuniao: definePartsStyle({
+	reuniao_Presencial: definePartsStyle({
 		container: {
-			height: '23rem',
 			gap: "1rem",
-			minHeight: '23rem',
-			maxHeight: '23rem',
+			minH: '25rem',
+			minW: '32%',
 		},
 		header: {
+			bgColor: "#ffa800",
 			maxH: "3.9625rem",
 			minH: "3.9625rem",
 			padding: "0.5rem"
 		}
 	}),
+	reuniao_Virtual: definePartsStyle({
+		container: {
+			gap: "1rem",
+			minH: '25rem',
+			minW: '32%',
+		},
+		header: {
+			bgColor: "#13ACEE",
+			maxH: "3.9625rem",
+			minH: "3.9625rem",
+			padding: "0.5rem"
+		}
+	}),
+	"reuniao_Híbrida": definePartsStyle({
+		container: {
+			gap: "1rem",
+			minH: '25rem',
+			minW: '32%',
+		},
+		header: {
+			bgColor: '#9151FA',
+			maxH: "3.9625rem",
+			minH: "3.9625rem",
+			padding: "0.5rem"
+		}
+	}),
+
 	virtual: definePartsStyle({
 		header: {
 			bgColor: "#13ACEE"

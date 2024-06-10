@@ -260,8 +260,19 @@ export default function FormularioPresencial() {
         localizacaoSalaPresencial: localizacao.physical_room_address
       }
 
-      const enviarEmails = await sendConvidadosMails(emailInfos)
+      const participantes = await createGuests(participantesFora)
+      const meetGuests = await createMeetingGuest({
+        "meeting_id": meeting.meeting_id,
+        "guests_list": participantes.map((participante) => { return participante.guest_id })
+      })
+      const meetUsers = await createMeetingUsers({
+        "meeting_id": meeting.meeting_id,
+        "users_list": selectedUser.map((participante) => { return participante.user_id })
+      })
 
+
+      // Retirar este comentário antes do Commit
+      //const enviarEmails = await sendConvidadosMails(emailInfos)
 
       const ataInfos: AtaInfos = {
         assunto: agendamento.assuntoReuniao,
@@ -272,20 +283,10 @@ export default function FormularioPresencial() {
         relator: ""
       }
 
-      const enviarATA = await sendEmailAta(emailInfos, ataInfos)
 
+      // Retirar este comentário antes do Commit
+      //const enviarATA = await sendEmailAta(emailInfos, ataInfos)
 
-
-
-      const participantes = await createGuests(participantesFora)
-      const meetGuests = await createMeetingGuest({
-        "meeting_id": meeting.meeting_id,
-        "guests_list": participantes.map((participante) => { return participante.guest_id })
-      })
-      const meetUsers = await createMeetingUsers({
-        "meeting_id": meeting.meeting_id,
-        "users_list": selectedUser.map((participante) => { return participante.user_id })
-      })
       toast.close(loadingToast)
 
       setDataParaCard(new Date())
@@ -334,12 +335,12 @@ export default function FormularioPresencial() {
           <Flex flexDir={'column'} width="50%">
             {/* Input do titulo */}
             <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.meeting_title} campo="Título da Reunião" id="meeting_title" type="text" />
-            {/* Input para duração da reunião */}
-            <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.duracao} campo="Duração" id="duracao" type="time" width="8rem" />
             {/* Input da Data de Realização */}
             <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.reserve_date} campo="Data de Realização" id="reserve_date" type="date" width="10rem" />
             {/* Input para horário de início */}
             <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.inicio} campo="Horário de Início" id="inicio" type="time" width="8rem" />
+            {/* Input para duração da reunião */}
+            <FormInputAgendar handleInputChange={handleInputChange} input={agendamento.duracao} campo="Duração" id="duracao" type="time" width="8rem" />
             {/* Input para Quantidade Mínima */}
             <FormInputAgendarNumber handleInputChange={handleNumberInputChange} input={agendamento.qntMinimaParticipante} campo="Quantidade Mínima" id="inicio" width="12rem" />
           </Flex>

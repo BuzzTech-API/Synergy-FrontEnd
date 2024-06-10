@@ -16,10 +16,10 @@ export default function visualizarSalas() {
         <Flex flexDir={'column'} pl={'1rem'} pt={'6rem'} gap={'1rem'}>
           
             <Heading>Salas Presenciais</Heading>
-            <SalasVisual tipo={"Presencial"}/> 
+            <SalasVisual/> 
 
             <Heading>Salas Virtuais</Heading>
-            <SalasVisualVirtual tipo={"Virtual"}/> 
+            <SalasVisualVirtual/> 
 
         </Flex>
       </main>
