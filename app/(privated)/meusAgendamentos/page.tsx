@@ -51,13 +51,19 @@ export default function MeusAgendamentos() {
       };
 
       if (reservaCriadoPeloUsuario.length !== 0) {
+
+        console.log(participa)
+        let variante = "reuniao_" + participa.meetings.meeting_type
+
         return (
           <Cards.Root
-            variant="reuniao"
+            variant= {variante}
             key={participa.meeting_id}
           >
-            <Cards.HeaderReunion />
+            <Cards.HeaderReunion tipo={participa.meetings.meeting_type}/>
             <Cards.BodyReuniao
+              tipo={participa.meetings.meeting_type}
+              descricao={participa.meetings.meeting_subject}
               tituloReuniao={participa.meetings.meeting_title}
               data={formatarData(participa.meetings.reservations.reserve_date)}
               horaInicio={obterHorasMinutos(participa.meetings.reservations.reserve_start)}
@@ -132,13 +138,16 @@ export default function MeusAgendamentos() {
     return user?.participate.map((participa, index) => {
       const reservaCriadoPeloUsuario = user.reservations.filter((reservatio) => reservatio.reserve_id === participa.meetings.reservations.reserve_id)
       if (reservaCriadoPeloUsuario.length === 0) {
+        let variante = "reuniao_" + participa.meetings.meeting_type
         return (
           <Cards.Root
-            variant="reuniao"
+            variant={variante}
             key={participa.meeting_id}
           >
             <Cards.HeaderReunion />
             <Cards.BodyReuniao
+              tipo={participa.meetings.meeting_type}
+              descricao={participa.meetings.meeting_subject}
               tituloReuniao={participa.meetings.meeting_title}
               data={formatarData(participa.meetings.reservations.reserve_date)}
               horaInicio={obterHorasMinutos(participa.meetings.reservations.reserve_start)}

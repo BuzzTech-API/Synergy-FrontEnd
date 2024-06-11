@@ -12,14 +12,30 @@ type props = {
 
 export default function CardRoot({ variant, children, onclick, selected }: props) {
 	let color = 'rgba(54, 250, 37, 47%)'
+	let width = '18.8125rem'
+	let height= '16.6875rem'
 	if (variant === 'presencial') {
 		color = 'rgba(255, 203, 102, 76%)'
+		width='18.8125rem'
+		height= '16.6875rem'
 	} else if (variant === 'virtual') {
 		color = 'rgba(58,141,233, 56%)'
-	} else if (variant === 'deitado') {
-		color = 'transparent'
+		width='18.8125rem'
+		height= '16.6875rem'
+	} else if (variant === 'reuniao_Presencial') {
+		color = '#ffa80050'
+		width='25rem'
+		height= '25rem'
+	} else if (variant === 'reuniao_Virtual') {
+		color = '#13ACEE50'
+		width='25rem'
+		height= '25rem'
 	}
-
+	else if (variant === 'reuniao_Híbrida') {
+		color = '#9151FA50'
+		width='25rem'
+		height= '25rem'
+	}
 	return (
 		<Card variant={variant}
 			boxShadow={selected ? '0.3rem 0.3rem 0.3rem 0.3rem rgba(7, 142,5, 30%)' : "0.1rem 0.1rem 0.1rem 0.1rem rgba(0 ,0 ,0, 25%)"}
@@ -27,8 +43,8 @@ export default function CardRoot({ variant, children, onclick, selected }: props
 			{children}
 			<Icon
 				color={color}
-				minWidth={'18.8125rem'}
-				minH={'16.6875rem'}
+				minWidth={width}
+				minH={height}
 				position={'absolute'}
 				left={-91}
 				bottom={-10}
