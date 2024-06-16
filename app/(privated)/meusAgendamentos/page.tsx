@@ -144,7 +144,7 @@ export default function MeusAgendamentos() {
             variant={variante}
             key={participa.meeting_id}
           >
-            <Cards.HeaderReunion />
+            <Cards.HeaderReunion tipo={participa.meetings.meeting_type} />
             <Cards.BodyReuniao
               tipo={participa.meetings.meeting_type}
               descricao={participa.meetings.meeting_subject}

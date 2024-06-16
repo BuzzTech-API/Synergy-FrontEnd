@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Button, Icon, Text, useStyleConfig } from "@chakra-ui/react"
+import { Box, Button, ButtonProps, Icon, Text, useStyleConfig } from "@chakra-ui/react"
 import CalendarMinus from "../icons/CalendarMinus"
 import Cancel from "../icons/Cancel"
 
@@ -28,7 +28,7 @@ export function BtnDesmarcar(props: any) {
 }
 
 
-export function BtnCancelar(props: any) {
+export function BtnCancelar(props: ButtonProps) {
     const { variant, ...rest } = props
     const styles = useStyleConfig('Button', { variant })
     const styles3 = useStyleConfig('Box', { variant })
