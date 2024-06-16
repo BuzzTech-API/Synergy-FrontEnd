@@ -13,14 +13,28 @@ export default function ZoomAuthHandle() {
       try {
         const token = await getZoomToken(code)
 
+        if (typeof window !== "undefined") {
 
-        if (token.access_token !== undefined) {
-          localStorage.setItem("zoom_token", token.access_token)
-        }
-        if (token.refresh_token !== undefined) {
-          localStorage.setItem("zoom_refresh_token", token.refresh_token)
-        }
+          if (token.access_token !== undefined) {
+            localStorage.setItem("zoom_access_token", token.access_token)
+          }
+          if (token.refresh_token !== undefined) {
+            localStorage.setItem("zoom_refresh_token", token.refresh_token)
+          }
 
+          // Obter a data atual
+          const currentDate = new Date();
+          // Calcular a data de expiração
+          const expirationDate = new Date(currentDate.getTime() + token.expires_in * 1000);
+
+          // Converter a data de expiração para timestamp em segundos
+          const expirationTimestamp = Math.floor(expirationDate.getTime() / 1000);
+
+
+
+          // Salvar o timestamp de expiração no localStorage
+          localStorage.setItem('expirationTimestamp', expirationTimestamp.toString());
+        }
       } catch (error) {
 
       } finally {
@@ -30,8 +44,6 @@ export default function ZoomAuthHandle() {
   }
 
   handleCode()
-
-
 
   return (
     <>
