@@ -23,6 +23,9 @@ import { GetReservationSalaService } from "./Salas/services/SalasService";
 import { sendConvidadosMails } from "@/app/utils/emailSender";
 import { sendEmailAta } from "@/app/utils/emailATAsender";
 import { AtaInfos } from "@/app/type/ataInfos";
+import { sendEmailScheduled } from "@/app/utils/emailScheduler";
+import { sendEmailProps } from "@/app/type/emailTypes";
+import { gerarHtmlReuniãoProxima } from "../../templates/templateReuniaoProxima/htmlString";
 
 type participanteDeFora = {
   participante_nome: string,
@@ -238,7 +241,7 @@ export default function FormularioPresencial() {
 
       const userEmails = selectedUser.map((user: User) => {
         const recept: Receptores = { name: user.user_name, address: user.user_email }
-        console.log(recept);
+
 
         return recept
       })
@@ -270,10 +273,6 @@ export default function FormularioPresencial() {
         "users_list": selectedUser.map((participante) => { return participante.user_id })
       })
 
-
-      // Retirar este comentário antes do Commit
-      //const enviarEmails = await sendConvidadosMails(emailInfos)
-
       const ataInfos: AtaInfos = {
         assunto: agendamento.assuntoReuniao,
         data: agendamento.reserve_date,
@@ -285,7 +284,81 @@ export default function FormularioPresencial() {
 
 
       // Retirar este comentário antes do Commit
-      //const enviarATA = await sendEmailAta(emailInfos, ataInfos)
+      const enviarATA = await sendEmailAta(emailInfos, ataInfos)
+
+      //Email Agendado para 1 hora antes, se precisar de ajuda para mudar só pedir >:) 
+      const formatarData = (dataString: string): string => {
+        const dataUTC = new Date(dataString);
+        const dia = dataUTC.getDate().toString().padStart(2, '0');
+        const mes = (dataUTC.getMonth() + 1).toString().padStart(2, '0');
+        const ano = dataUTC.getFullYear();
+        return `${dia}/${mes}/${ano}`;
+      }
+
+      const obterHorasMinutos = (dataString: string): string => {
+        const dataUTC = new Date(dataString);
+        const horas = dataUTC.getHours().toString().padStart(2, '0');
+        const minutos = dataUTC.getMinutes().toString().padStart(2, '0');
+        return `${horas}:${minutos}`;
+      }
+
+      const htmlAviso = `A reunião "${agendamento.meeting_title}" está agendada para começar em 1 hora!`;
+      const htmlInformacoesReuniao = `
+                          <h3 class="v-text-align" style="margin: 0px; color: #ffffff; line-height: 140%; text-align: left; word-wrap: break-word; font-size: 13px; font-weight: 400;"><span><strong>Título da reunião: </strong></span></h3>
+                          <p style="margin: 0px; color: #ffffff; line-height: 140%; text-align: left; word-wrap: break-word; font-size: 11px;">${agendamento.meeting_title}</p>
+                          <h3 class="v-text-align" style="margin: 0px; color: #ffffff; line-height: 140%; text-align: left; word-wrap: break-word; font-size: 13px; font-weight: 400;"><span><strong>Tipo da reunião: </strong></span></h3>
+                          <p style="margin: 0px; color: #ffffff; line-height: 140%; text-align: left; word-wrap: break-word; font-size: 11px;">${'Presencial'}</p>
+                          <h3 class="v-text-align" style="margin: 0px; color: #ffffff; line-height: 140%; text-align: left; word-wrap: break-word; font-size: 13px; font-weight: 400;"><span><strong>Assunto da reunião: </strong></span></h3>
+                          <p style="margin: 0px; color: #ffffff; line-height: 140%; text-align: left; word-wrap: break-word; font-size: 11px;">${agendamento.assuntoReuniao}</p>
+                          <h3 class="v-text-align" style="margin: 0px; color: #ffffff; line-height: 140%; text-align: left; word-wrap: break-word; font-size: 13px; font-weight: 400;"><span><strong>Data da reunião: </strong></span></h3>
+                          <p style="margin: 0px; color: #ffffff; line-height: 140%; text-align: left; word-wrap: break-word; font-size: 11px;">${formatarData(agendamento.reserve_date)}</p>
+                          <h3 class="v-text-align" style="margin: 0px; color: #ffffff; line-height: 140%; text-align: left; word-wrap: break-word; font-size: 13px; font-weight: 400;"><span><strong>Horário de início: </strong></span></h3>
+                          <p style="margin: 0px; color: #ffffff; line-height: 140%; text-align: left; word-wrap: break-word; font-size: 11px;">${obterHorasMinutos(agendamento.inicio)}</p>`;
+      const html = gerarHtmlReuniãoProxima(htmlAviso, htmlInformacoesReuniao);
+
+      const argumentosSendEmail: sendEmailProps = {
+        recipients: emails,
+        subject: agendamento.assuntoReuniao,
+        html: html,
+      };
+
+      //O scheduler usa 'Cron' que é uma notação de tempo muito massa. ai um conversor top a la-gpt
+      const convertToCron = (date: string, time: string, hoursToSubtract: number): string => {
+
+        // Split the date string into day, month, and year
+        const [day, month, year] = date.split('/').map(Number);
+        console.log(date)
+        // Split the time string into hours and minutes
+        const [hours, minutes] = time.split(':').map(Number);
+        console.log(time)
+
+        // Create a Date object from the provided date and time
+        const originalDate = new Date(year, month - 1, day, hours, minutes);
+
+        // Subtract the specified number of hours (including fractional hours)
+        const millisecondsToSubtract = hoursToSubtract * 60 * 60 * 1000;
+        const adjustedDate = new Date(originalDate.getTime() - millisecondsToSubtract);
+
+        // Extract the new day, month, year, hours, and minutes
+        const newDay = adjustedDate.getDate();
+        const newMonth = adjustedDate.getMonth() + 1; // getMonth() returns 0-11, so add 1
+        const newYear = adjustedDate.getFullYear();
+        const newHours = adjustedDate.getHours();
+        const newMinutes = adjustedDate.getMinutes();
+
+        // Construct the cron expression
+        // Cron format: "minute hour day month weekday"
+        // We set the weekday field to "*" to match any day of the week
+        const cronExpression = `${newMinutes} ${newHours} ${newDay} ${newMonth} *`;
+
+        return cronExpression;
+      }
+
+      const date = convertToCron(formatarData(agendamento.reserve_date), obterHorasMinutos(agendamento.inicio), .15)
+
+      
+      // const enviarEmailAgendado = await sendEmailScheduled(argumentosSendEmail, date);
+
 
       toast.close(loadingToast)
 

@@ -20,5 +20,5 @@ export async function deleteReserve(reserve_id: number) {
       throw new Error(await request.text());
     }
   
-    return await request.json();
+    return request.json();
   }
