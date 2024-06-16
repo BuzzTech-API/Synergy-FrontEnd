@@ -1,8 +1,8 @@
 
-import { Flex, FormControl, FormErrorMessage, FormLabel, Heading, Input } from "@chakra-ui/react";
+import { Flex, FormControl, FormErrorMessage, FormLabel, Heading, Input, InputProps } from "@chakra-ui/react";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 
-type props = {
+type props = InputProps & {
 	handleInputChange: (e: ChangeEvent<HTMLInputElement>, setIsError: Dispatch<SetStateAction<boolean>>) => void,
 	input: string,
 	id: string

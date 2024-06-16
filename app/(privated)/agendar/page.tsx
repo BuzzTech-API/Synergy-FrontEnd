@@ -20,6 +20,21 @@ export default function AgendarPage() {
 
     zoom_access_token = localStorage.getItem("zoom_access_token")
     zoom_refresh_token = localStorage.getItem("zoom_refresh_token")
+
+    const expirationTimestampString = localStorage.getItem('expirationTimestamp');
+
+    if (expirationTimestampString) {
+      const expirationTimestamp = parseInt(expirationTimestampString, 10);
+
+      // Obter o timestamp atual em segundos
+      const currentTimestamp = Math.floor(Date.now() / 1000);
+
+      // Verificar se o token expirou
+      if (currentTimestamp > expirationTimestamp) {
+        console.log('O token expirou.');
+        zoom_access_token = null
+      }
+    }
   }
 
   const handleRadioTipo = (nextValue: string) => {

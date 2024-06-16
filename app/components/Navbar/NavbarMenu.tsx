@@ -4,6 +4,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import NavbarOptionsMenu from "./NavbarOptionsMenu";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
+import { DrawerUserUpdate } from "../DrawerUserUpdate";
 
 
 export default function NavbarMenu() {
@@ -11,6 +12,8 @@ export default function NavbarMenu() {
     async function deslogar() {
         await signOut()
     }
+
+
     const { data: session } = useSession();
 
 
@@ -25,7 +28,7 @@ export default function NavbarMenu() {
                     <Link href={'/cadastrarUsuario'}><NavbarOptionsMenu hasCorFundo={true} texto='Cadastrar Usuário' /></Link>
                     <Link href={'/visualizarSala'} ><NavbarOptionsMenu hasCorFundo={false} texto='Visualizar Salas' /></Link>
                     <Link href={'/visualizarUsuarios'} ><NavbarOptionsMenu hasCorFundo={true} texto='Visualizar Usuários' /></Link>
-                    <Link href={''} > <NavbarOptionsMenu hasCorFundo={false} texto='Editar Perfil' /></Link>
+                    <DrawerUserUpdate />
                     <NavbarOptionsMenu onClick={() => deslogar()} hasCorFundo={true} texto='Sair' />
 
                 </>

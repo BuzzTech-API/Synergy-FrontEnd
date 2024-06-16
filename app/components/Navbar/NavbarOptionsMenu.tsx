@@ -1,6 +1,6 @@
-import { MenuItem } from "@chakra-ui/react";
+import { MenuItem, MenuItemProps } from "@chakra-ui/react";
 
-interface NavbarOptionsMenuProps {
+type NavbarOptionsMenuProps  = MenuItemProps & {
     hasCorFundo: boolean,
     onClick?: () => void,
     texto: string
