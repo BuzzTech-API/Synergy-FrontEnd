@@ -35,7 +35,7 @@ export default function FormularioHibrido() {
 
   const session = useSession()
 
-  const zoomAccessToken = localStorage.getItem("zoom_token")
+  const zoomAccessToken = localStorage.getItem("zoom_access_token")
   const zoomRefreshToken = localStorage.getItem("zoom_refresh_token")
 
 

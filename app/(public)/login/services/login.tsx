@@ -1,6 +1,8 @@
+import { BACKEND_URL } from "@/app/constants"
+
 export default async function logar(body: { user_email: string, user_password: string }) {
 
-	const requisition = fetch('http://localhost:5000/auth/login', {
+	const requisition = fetch(BACKEND_URL + '/auth/login', {
 		method: 'POST',
 		headers: {
 			'Accept': 'application/json',
@@ -9,7 +11,7 @@ export default async function logar(body: { user_email: string, user_password: s
 		body: JSON.stringify(body)
 	})
 	const response = await requisition
-	if(!response.ok){
+	if (!response.ok) {
 		throw new Error
 	}
 	return { status: response.status, resposta: await response.json() }
